@@ -1,0 +1,11580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Nexora — Smart Digital Workspace</title>
+
+<style>
+:root{
+  --p:#635bff;
+  --p2:#8b5cf6;
+  --bg:#f5f7fb;
+  --card:#fff;
+  --text:#111827;
+  --muted:#667085;
+  --line:#e5e7eb;
+  --good:#16a34a;
+  --bad:#ef4444;
+  --warn:#f59e0b;
+  --shadow:0 14px 45px #11182712;
+}
+
+body.dark{
+  --bg:#0b1020;
+  --card:#12182a;
+  --text:#f3f4f6;
+  --muted:#9ca3af;
+  --line:#26304a;
+  --shadow:0 14px 45px #0008;
+}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0
+}
+
+body{
+  font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,
+  "Segoe UI",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:1.5;
+}
+
+button,input,select,textarea{
+  font:inherit
+}
+
+button{
+  cursor:pointer
+}
+
+button:disabled{
+  opacity:.5;
+  cursor:not-allowed
+}
+
+.app{
+  display:flex;
+  min-height:100vh
+}
+
+.sidebar{
+  width:250px;
+  background:var(--card);
+  border-right:1px solid var(--line);
+  padding:22px 15px;
+  position:fixed;
+  inset:0 auto 0 0;
+  z-index:30;
+  overflow:auto;
+}
+
+.brand{
+  font-size:25px;
+  font-weight:900;
+  padding:8px 12px 25px;
+}
+
+.brand b{
+  color:var(--p)
+}
+
+.navtitle{
+  font-size:11px;
+  text-transform:uppercase;
+  color:var(--muted);
+  font-weight:800;
+  padding:12px;
+}
+
+.nav button{
+  width:100%;
+  border:0;
+  background:transparent;
+  color:var(--muted);
+  text-align:left;
+  padding:11px 12px;
+  border-radius:11px;
+  margin:2px 0;
+  font-weight:650;
+}
+
+.nav button:hover,
+.nav button.active{
+  background:#635bff12;
+  color:var(--p);
+}
+
+.nav button span{
+  display:inline-block;
+  width:28px;
+}
+
+.main{
+  margin-left:250px;
+  width:calc(100% - 250px);
+}
+
+.top{
+  height:70px;
+  background:var(--card);
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:0 25px;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
+
+.topsearch{
+  flex:1;
+  max-width:700px
+}
+
+.topsearch input{
+  width:100%;
+  padding:11px 15px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--bg);
+  color:var(--text);
+  outline:none;
+}
+
+.icon{
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--text);
+  border-radius:11px;
+  width:42px;
+  height:42px;
+}
+
+.profile{
+  margin-left:auto;
+  font-weight:750;
+}
+
+.content{
+  padding:30px;
+  max-width:1550px;
+  margin:auto;
+}
+
+.view{
+  display:none
+}
+
+.view.active{
+  display:block
+}
+
+.hero{
+  padding:40px;
+  border-radius:25px;
+  background:linear-gradient(135deg,#635bff,#8b5cf6);
+  color:#fff;
+  box-shadow:var(--shadow);
+}
+
+.hero h1{
+  font-size:clamp(30px,4vw,52px);
+  line-height:1.05;
+}
+
+.hero p{
+  opacity:.88;
+  margin:12px 0 24px;
+  max-width:700px;
+}
+
+.heroSearch{
+  display:flex;
+  background:#ffffff18;
+  border:1px solid #ffffff35;
+  border-radius:14px;
+  padding:7px;
+  max-width:800px;
+}
+
+.heroSearch input{
+  flex:1;
+  border:0;
+  background:transparent;
+  color:#fff;
+  outline:0;
+  padding:12px;
+}
+
+.heroSearch input::placeholder{
+  color:#ffffffaa
+}
+
+.heroSearch button{
+  border:0;
+  background:#fff;
+  color:var(--p);
+  padding:11px 18px;
+  border-radius:10px;
+  font-weight:800;
+}
+
+.grid4{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-top:20px;
+}
+
+.grid3{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:18px;
+}
+
+.grid2{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:18px;
+}
+
+.stat,
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:var(--shadow);
+}
+
+.stat .num{
+  font-size:28px;
+  font-weight:900;
+}
+
+.muted{
+  color:var(--muted);
+  font-size:13px;
+}
+
+.sectionHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  margin:28px 0 15px;
+}
+
+.sectionHead h2{
+  font-size:24px
+}
+
+.toolCard{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:20px;
+  transition:.2s;
+}
+
+.toolCard:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
+  border-color:#635bff55;
+}
+
+.toolIcon{
+  font-size:28px
+}
+
+.toolCard h3{
+  margin-top:12px
+}
+
+.toolCard p{
+  color:var(--muted);
+  font-size:13px;
+  margin:5px 0 15px;
+}
+
+.btn{
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  font-weight:750;
+}
+
+.primary{
+  background:var(--p);
+  color:#fff;
+}
+
+.secondary{
+  background:var(--card);
+  color:var(--text);
+  border:1px solid var(--line);
+}
+
+.danger{
+  background:#ef444415;
+  color:var(--bad);
+  border:1px solid #ef444430;
+}
+
+.success{
+  background:#16a34a15;
+  color:var(--good);
+  border:1px solid #16a34a30;
+}
+
+.form{
+  display:grid;
+  gap:12px;
+}
+
+.form label{
+  font-size:13px;
+  font-weight:700;
+}
+
+.form input,
+.form select,
+.form textarea,
+.input{
+  width:100%;
+  padding:11px;
+  border:1px solid var(--line);
+  border-radius:10px;
+  background:var(--bg);
+  color:var(--text);
+  outline:0;
+}
+
+.form textarea{
+  min-height:130px
+}
+
+.actions{
+  display:flex;
+  gap:9px;
+  flex-wrap:wrap;
+}
+
+.result{
+  padding:14px;
+  border-radius:12px;
+  background:#635bff10;
+  border:1px solid #635bff25;
+  margin-top:14px;
+}
+
+.hidden{
+  display:none!important
+}
+
+.tabs{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-bottom:16px;
+}
+
+.tabs button{
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--text);
+  padding:9px 13px;
+  border-radius:9px;
+}
+
+.tabs button.active{
+  background:var(--p);
+  color:#fff;
+}
+
+.tableWrap{
+  overflow:auto
+}
+
+.table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.table th,
+.table td{
+  text-align:left;
+  padding:12px;
+  border-bottom:1px solid var(--line);
+  font-size:13px;
+}
+
+.check{
+  display:flex;
+  gap:9px;
+  align-items:center;
+  padding:11px 0;
+  border-bottom:1px solid var(--line);
+}
+
+.check.done span{
+  text-decoration:line-through;
+  color:var(--muted);
+}
+
+.progress{
+  height:9px;
+  background:var(--line);
+  border-radius:10px;
+  overflow:hidden;
+}
+
+.progress i{
+  display:block;
+  height:100%;
+  background:linear-gradient(90deg,var(--p),var(--p2));
+  border-radius:10px;
+}
+
+.tag{
+  display:inline-block;
+  padding:5px 8px;
+  background:var(--bg);
+  border-radius:7px;
+  color:var(--muted);
+  font-size:11px;
+  margin:2px;
+}
+
+.timer{
+  font-size:58px;
+  font-weight:900;
+  text-align:center;
+  margin:20px;
+}
+
+.calc{
+  max-width:440px
+}
+
+.calcDisplay{
+  width:100%;
+  padding:20px;
+  background:#111827;
+  color:#fff;
+  border:0;
+  border-radius:12px;
+  text-align:right;
+  font-size:28px;
+  margin-bottom:10px;
+}
+
+.calcGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:7px;
+}
+
+.calcGrid button{
+  height:55px;
+  border:0;
+  border-radius:10px;
+  background:var(--bg);
+  color:var(--text);
+  font-weight:750;
+}
+
+.calcGrid .op{
+  color:var(--p);
+  background:#635bff12;
+}
+
+.toast{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  background:#111827;
+  color:#fff;
+  padding:13px 17px;
+  border-radius:11px;
+  transform:translateY(120px);
+  opacity:0;
+  transition:.25s;
+  z-index:100;
+}
+
+.toast.show{
+  transform:none;
+  opacity:1;
+}
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:#0008;
+  display:none;
+  place-items:center;
+  z-index:50;
+  padding:20px;
+}
+
+.modal.open{
+  display:grid
+}
+
+.modalBox{
+  width:min(1000px,100%);
+  max-height:92vh;
+  overflow:auto;
+  background:var(--card);
+  border-radius:20px;
+  padding:24px;
+}
+
+.close{
+  float:right;
+  border:0;
+  background:transparent;
+  font-size:22px;
+  color:var(--muted);
+}
+
+.resume{
+  background:#fff;
+  color:#111;
+  padding:35px;
+  border-radius:8px;
+  min-height:900px;
+}
+
+.resume h1{
+  font-size:32px;
+  color:#111;
+}
+
+.resume h2{
+  margin-top:22px;
+  border-bottom:2px solid #635bff;
+  padding-bottom:5px;
+  color:#111;
+}
+
+.resume p,
+.resume li{
+  color:#333;
+}
+
+.resumeHeader{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+}
+
+.resumePhoto{
+  width:100px;
+  height:120px;
+  object-fit:cover;
+  border-radius:6px;
+  border:1px solid #ddd;
+}
+
+/* ================= ADVANCED TEXT EDITOR ================= */
+
+.editorToolbar{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  padding:10px;
+  border:1px solid var(--line);
+  border-radius:12px 12px 0 0;
+  background:var(--bg);
+}
+
+.editorToolbar button,
+.editorToolbar select,
+.editorToolbar input{
+  min-height:38px;
+  border:1px solid var(--line);
+  background:var(--card);
+  color:var(--text);
+  border-radius:8px;
+  padding:6px 9px;
+}
+
+.editorToolbar button:hover{
+  border-color:var(--p);
+  color:var(--p);
+}
+
+.textEditor{
+  min-height:420px;
+  padding:20px;
+  border:1px solid var(--line);
+  border-top:0;
+  border-radius:0 0 12px 12px;
+  background:var(--card);
+  color:var(--text);
+  outline:none;
+  overflow:auto;
+}
+
+.textEditor:focus{
+  box-shadow:0 0 0 3px #635bff18;
+}
+
+.textEditor blockquote{
+  border-left:4px solid var(--p);
+  padding:10px 15px;
+  margin:10px 0;
+  background:#635bff10;
+}
+
+.textEditor pre{
+  background:#111827;
+  color:#fff;
+  padding:15px;
+  border-radius:8px;
+  overflow:auto;
+}
+
+.textEditor table{
+  border-collapse:collapse;
+  width:100%;
+}
+
+.textEditor td,
+.textEditor th{
+  border:1px solid #ccc;
+  padding:8px;
+}
+
+.editorStats{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:10px;
+  margin-top:15px;
+}
+
+.editorStat{
+  padding:13px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:var(--bg);
+}
+
+.findReplace{
+  display:grid;
+  grid-template-columns:1fr 1fr auto auto;
+  gap:8px;
+  margin-top:15px;
+}
+
+/* ================================
+   NEXORA PHOTO STUDIO PRO MAX
+================================ */
+
+.photoStudio{
+  display:grid;
+  grid-template-columns:190px 310px 1fr;
+  gap:15px;
+  min-height:720px;
+}
+
+.photoToolbar,
+.photoControls{
+  padding:15px;
+}
+
+.toolTitle{
+  font-size:17px;
+  font-weight:900;
+  margin-bottom:12px;
+}
+
+.photoTool{
+  width:100%;
+  padding:11px;
+  margin:4px 0;
+  border:1px solid var(--line);
+  background:var(--bg);
+  color:var(--text);
+  border-radius:10px;
+  text-align:left;
+  cursor:pointer;
+  font-weight:700;
+  transition:.2s;
+}
+
+.photoTool:hover{
+  transform:translateX(3px);
+}
+
+.photoTool.active{
+  background:var(--p);
+  color:white;
+  border-color:var(--p);
+}
+
+.uploadBox{
+  border:2px dashed var(--line);
+  border-radius:14px;
+  padding:18px 10px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+  cursor:pointer;
+  gap:5px;
+}
+
+.uploadBox span{
+  font-size:30px;
+}
+
+.uploadBox small{
+  color:var(--muted);
+}
+
+.uploadBox input{
+  display:none;
+}
+
+.photoPanel h3{
+  margin-top:0;
+  margin-bottom:15px;
+}
+
+.photoFormGrid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.quickSizes,
+.photoActionGrid,
+.filterGrid,
+.bgPresets{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:7px;
+  margin-top:10px;
+}
+
+.quickSizes button,
+.photoActionGrid button,
+.filterGrid button,
+.bgPresets button{
+  border:1px solid var(--line);
+  background:var(--bg);
+  color:var(--text);
+  padding:9px 5px;
+  border-radius:8px;
+  cursor:pointer;
+}
+
+.quickSizes button:hover,
+.photoActionGrid button:hover,
+.filterGrid button:hover{
+  border-color:var(--p);
+}
+
+.full{
+  width:100%;
+  margin-bottom:8px;
+}
+
+.rangeValue{
+  text-align:right;
+  font-size:12px;
+  color:var(--muted);
+}
+
+.checkRow{
+  display:flex!important;
+  flex-direction:row!important;
+  align-items:center;
+  gap:8px;
+  margin:12px 0;
+}
+
+.notice{
+  background:var(--bg);
+  border:1px solid var(--line);
+  padding:10px;
+  border-radius:10px;
+  font-size:12px;
+  margin-top:15px;
+  line-height:1.5;
+}
+
+.photoWorkspace{
+  background:#e5e7eb;
+  border-radius:16px;
+  overflow:hidden;
+  min-height:700px;
+  display:flex;
+  flex-direction:column;
+}
+
+.workspaceTop{
+  height:55px;
+  background:var(--card);
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 15px;
+}
+
+.workspaceTop strong{
+  margin-right:10px;
+}
+
+#photoDimension{
+  color:var(--muted);
+  font-size:12px;
+}
+
+.workspaceActions{
+  display:flex;
+  align-items:center;
+  gap:7px;
+}
+
+.workspaceActions button{
+  width:32px;
+  height:32px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  background:var(--bg);
+  cursor:pointer;
+}
+
+#canvasZoom{
+  min-width:45px;
+  text-align:center;
+  font-size:12px;
+}
+
+.photoCanvasArea{
+  flex:1;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:auto;
+  padding:55px;
+  background-color:#d9dde5;
+
+  background-image:
+    linear-gradient(45deg,#ffffff55 25%,transparent 25%),
+    linear-gradient(-45deg,#ffffff55 25%,transparent 25%),
+    linear-gradient(45deg,transparent 75%,#ffffff55 75%),
+    linear-gradient(-45deg,transparent 75%,#ffffff55 75%);
+
+  background-size:20px 20px;
+  background-position:0 0,0 10px,10px -10px,-10px 0;
+}
+
+#photoCanvas{
+  width:354px;
+  height:472px;
+  background:white;
+  box-shadow:0 20px 50px #0004;
+  transition:width .2s,height .2s;
+  max-width:none;
+}
+
+.canvasRuler{
+  position:absolute;
+  pointer-events:none;
+  opacity:.4;
+}
+
+.topRuler{
+  left:40px;
+  right:20px;
+  top:15px;
+  height:25px;
+  border-bottom:1px solid #777;
+  background:repeating-linear-gradient(
+    90deg,
+    transparent 0,
+    transparent 9px,
+    #777 9px,
+    #777 10px
+  );
+}
+
+.leftRuler{
+  top:40px;
+  bottom:20px;
+  left:15px;
+  width:25px;
+  border-right:1px solid #777;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent 0,
+    transparent 9px,
+    #777 9px,
+    #777 10px
+  );
+}
+
+.workspaceBottom{
+  height:38px;
+  padding:0 15px;
+  background:var(--card);
+  border-top:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:11px;
+  color:var(--muted);
+}
+
+.photoResult{
+  margin-top:15px;
+  padding:18px;
+}
+
+.resultHeader{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:15px;
+}
+
+.resultHeader h3{
+  margin:0;
+}
+
+#passportSheet{
+  background:#f1f3f5;
+  border-radius:12px;
+  padding:20px;
+  overflow:auto;
+  min-height:100px;
+}
+
+#passportSheet canvas{
+  display:block;
+  max-width:100%;
+  height:auto;
+  margin:auto;
+  box-shadow:0 15px 40px #0002;
+}
+
+.photoTopActions{
+  display:flex;
+  gap:7px;
+}
+
+@media(max-width:1200px){
+
+  .photoStudio{
+    grid-template-columns:160px 280px 1fr;
+  }
+
+}
+
+@media(max-width:900px){
+
+  .photoStudio{
+    grid-template-columns:1fr;
+  }
+
+  .photoWorkspace{
+    min-height:600px;
+  }
+
+  .photoToolbar{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:5px;
+  }
+
+  .toolTitle,
+  .uploadBox,
+  .photoToolbar hr{
+    grid-column:1/-1;
+  }
+
+}
+
+@media(max-width:600px){
+
+  .photoTopActions{
+    display:none;
+  }
+
+  .photoToolbar{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .photoCanvasArea{
+    padding:35px;
+  }
+
+  #photoCanvas{
+    width:280px;
+    height:374px;
+  }
+
+}
+
+/* ================= ID CARD ================= */
+/* =========================================================
+   NEXORA ULTRA PRO MAX — ID CARD STUDIO
+========================================================= */
+
+.idStudio{
+    display:grid;
+    grid-template-columns:390px minmax(0,1fr);
+    gap:22px;
+    align-items:start;
+}
+
+.idControls{
+    position:sticky;
+    top:90px;
+    max-height:calc(100vh - 110px);
+    overflow:auto;
+}
+
+.idControls::-webkit-scrollbar{
+    width:7px;
+}
+
+.idControls::-webkit-scrollbar-thumb{
+    background:var(--p);
+    border-radius:20px;
+}
+
+.idStudioPanel{
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 12px 35px rgba(0,0,0,.06);
+}
+
+.idStudioTitle{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:18px;
+}
+
+.idStudioTitle h3{
+    font-size:19px;
+    font-weight:900;
+}
+
+.idStudioBadge{
+    padding:6px 10px;
+    border-radius:30px;
+    background:linear-gradient(135deg,var(--p),var(--p2));
+    color:white;
+    font-size:10px;
+    font-weight:900;
+    letter-spacing:.5px;
+}
+
+.idSection{
+    margin-top:20px;
+    padding-top:18px;
+    border-top:1px solid var(--line);
+}
+
+.idSectionTitle{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:13px;
+    font-size:13px;
+    font-weight:900;
+}
+
+/* TEMPLATE GRID */
+
+.idTemplates{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:9px;
+}
+
+.idTemplateBtn{
+    min-height:72px;
+    padding:10px;
+    border-radius:13px;
+    border:1px solid var(--line);
+    background:var(--bg);
+    color:var(--text);
+    text-align:left;
+    transition:.2s;
+}
+
+.idTemplateBtn:hover{
+    transform:translateY(-2px);
+    border-color:var(--p);
+}
+
+.idTemplateBtn.active{
+    border:2px solid var(--p);
+    background:rgba(99,91,255,.09);
+}
+
+.idTemplateIcon{
+    font-size:22px;
+    display:block;
+    margin-bottom:4px;
+}
+
+.idTemplateName{
+    font-size:11px;
+    font-weight:900;
+}
+
+/* FORM */
+
+.idFormGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+}
+
+.idFormGrid.three{
+    grid-template-columns:repeat(3,1fr);
+}
+
+.idField{
+    margin-bottom:11px;
+}
+
+.idField.full{
+    grid-column:1/-1;
+}
+
+.idField label{
+    display:block;
+    margin-bottom:6px;
+    font-size:11px;
+    color:var(--muted);
+    font-weight:800;
+}
+
+.idField input,
+.idField textarea,
+.idField select{
+    width:100%;
+    padding:10px 11px;
+    border-radius:10px;
+    border:1px solid var(--line);
+    background:var(--bg);
+    color:var(--text);
+    outline:none;
+}
+
+.idField textarea{
+    min-height:75px;
+    resize:vertical;
+}
+
+.idField input:focus,
+.idField textarea:focus,
+.idField select:focus{
+    border-color:var(--p);
+    box-shadow:0 0 0 3px rgba(99,91,255,.10);
+}
+
+.idColor{
+    width:100%;
+    height:43px;
+    padding:3px!important;
+    cursor:pointer;
+}
+
+/* PREVIEW AREA */
+
+.idPreviewWorkspace{
+    min-height:720px;
+    border-radius:22px;
+    background:
+        radial-gradient(circle at 20% 20%,rgba(99,91,255,.09),transparent 30%),
+        radial-gradient(circle at 80% 80%,rgba(139,92,246,.09),transparent 30%),
+        var(--bg);
+    border:1px solid var(--line);
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+}
+
+.idPreviewToolbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    flex-wrap:wrap;
+    margin-bottom:25px;
+}
+
+.idSideSwitch{
+    display:flex;
+    gap:6px;
+    padding:5px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:12px;
+}
+
+.idSideBtn{
+    border:0;
+    background:transparent;
+    color:var(--text);
+    padding:8px 14px;
+    border-radius:8px;
+    font-weight:800;
+    font-size:12px;
+}
+
+.idSideBtn.active{
+    background:var(--p);
+    color:#fff;
+}
+
+.idZoom{
+    display:flex;
+    gap:5px;
+    align-items:center;
+}
+
+.idZoom button{
+    width:35px;
+    height:35px;
+    border:1px solid var(--line);
+    background:var(--card);
+    color:var(--text);
+    border-radius:9px;
+}
+
+.idZoomValue{
+    min-width:52px;
+    text-align:center;
+    font-size:11px;
+    font-weight:800;
+}
+
+/* CARD STAGE */
+
+.idCardStage{
+    flex:1;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:auto;
+    padding:30px;
+}
+
+.idCardScale{
+    transform-origin:center;
+    transition:transform .2s ease;
+}
+
+/* MAIN CARD */
+
+.nxIdCard{
+    width:700px;
+    height:440px;
+    position:relative;
+    overflow:hidden;
+    border-radius:22px;
+    background:#fff;
+    color:#111827;
+    box-shadow:0 25px 70px rgba(0,0,0,.22);
+    border:2px solid #635bff;
+    isolation:isolate;
+}
+
+.nxIdCard.vertical{
+    width:440px;
+    height:700px;
+}
+
+/* BACK */
+
+.nxIdCardBack{
+    width:700px;
+    height:440px;
+}
+
+.nxIdCardBack.vertical{
+    width:440px;
+    height:700px;
+}
+
+/* PATTERN */
+
+.nxPattern{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    opacity:.10;
+    pointer-events:none;
+}
+
+.nxPattern.none{
+    background:none;
+}
+
+.nxPattern.dots{
+    background-image:
+        radial-gradient(currentColor 1px,transparent 1px);
+    background-size:15px 15px;
+}
+
+.nxPattern.lines{
+    background-image:
+        repeating-linear-gradient(
+            45deg,
+            transparent 0,
+            transparent 13px,
+            currentColor 13px,
+            currentColor 14px
+        );
+}
+
+.nxPattern.grid{
+    background-image:
+        linear-gradient(currentColor 1px,transparent 1px),
+        linear-gradient(90deg,currentColor 1px,transparent 1px);
+    background-size:22px 22px;
+}
+
+.nxPattern.diagonal{
+    background-image:
+        repeating-linear-gradient(
+            -45deg,
+            transparent 0,
+            transparent 17px,
+            currentColor 17px,
+            currentColor 18px
+        );
+}
+
+.nxPattern.hex{
+    background-image:
+        radial-gradient(
+            circle at 50% 50%,
+            currentColor 1px,
+            transparent 1.5px
+        );
+    background-size:30px 30px;
+}
+
+/* HEADER */
+
+.nxIdHeader{
+    position:relative;
+    z-index:3;
+    height:120px;
+    padding:22px 28px;
+    color:#fff;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    overflow:hidden;
+}
+
+.nxIdHeader::after{
+    content:"";
+    position:absolute;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    background:#fff2;
+    right:-70px;
+    top:-130px;
+}
+
+.nxOrg{
+    font-size:27px;
+    line-height:1.1;
+    font-weight:950;
+    max-width:570px;
+    padding-right:70px;
+}
+
+.nxType{
+    margin-top:8px;
+    font-size:12px;
+    font-weight:800;
+    letter-spacing:1.4px;
+    opacity:.92;
+}
+
+/* LOGO */
+
+.nxLogo{
+    position:absolute;
+    z-index:6;
+    right:22px;
+    top:22px;
+    width:68px;
+    height:68px;
+    border-radius:14px;
+    padding:6px;
+    background:#fff;
+    object-fit:contain;
+    box-shadow:0 6px 20px #0003;
+}
+
+/* BODY */
+
+.nxIdBody{
+    position:relative;
+    z-index:3;
+    display:flex;
+    gap:22px;
+    padding:25px 28px;
+}
+
+.nxPhotoWrap{
+    flex:none;
+    position:relative;
+}
+
+.nxPhoto{
+    width:145px;
+    height:175px;
+    object-fit:cover;
+    background:#e5e7eb;
+    border-radius:13px;
+    border:4px solid #fff;
+    box-shadow:0 8px 22px #0003;
+}
+
+.nxPhotoBadge{
+    position:absolute;
+    left:50%;
+    bottom:-9px;
+    transform:translateX(-50%);
+    white-space:nowrap;
+    background:#111827;
+    color:#fff;
+    padding:5px 9px;
+    border-radius:20px;
+    font-size:9px;
+    font-weight:900;
+}
+
+.nxInfo{
+    flex:1;
+    min-width:0;
+}
+
+.nxName{
+    font-size:27px;
+    font-weight:950;
+    line-height:1.05;
+    margin-bottom:5px;
+}
+
+.nxRole{
+    font-size:13px;
+    font-weight:800;
+    margin-bottom:15px;
+    opacity:.75;
+}
+
+.nxInfoGrid{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px 15px;
+}
+
+.nxInfoItem{
+    min-width:0;
+}
+
+.nxInfoLabel{
+    font-size:8px;
+    text-transform:uppercase;
+    letter-spacing:.7px;
+    font-weight:900;
+    opacity:.55;
+}
+
+.nxInfoValue{
+    margin-top:2px;
+    font-size:11px;
+    font-weight:800;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space:nowrap;
+}
+
+/* QR */
+
+.nxQR{
+    position:absolute;
+    right:26px;
+    bottom:52px;
+    z-index:5;
+    width:72px;
+    height:72px;
+    object-fit:contain;
+    background:#fff;
+    padding:4px;
+    border-radius:8px;
+    box-shadow:0 4px 15px #0002;
+}
+
+/* FOOTER */
+
+.nxFooter{
+    position:absolute;
+    z-index:4;
+    left:0;
+    right:0;
+    bottom:0;
+    height:38px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 25px;
+    font-size:9px;
+    font-weight:800;
+    background:#ffffffdd;
+    backdrop-filter:blur(8px);
+    border-top:1px solid #0001;
+}
+
+/* WATERMARK */
+
+.nxWatermark{
+    position:absolute;
+    z-index:1;
+    right:35px;
+    top:185px;
+    font-size:55px;
+    font-weight:950;
+    opacity:.035;
+    transform:rotate(-25deg);
+    pointer-events:none;
+}
+
+/* BACK */
+
+.nxBackContent{
+    position:relative;
+    z-index:3;
+    padding:30px;
+}
+
+.nxBackTitle{
+    font-size:25px;
+    font-weight:950;
+    margin-bottom:16px;
+}
+
+.nxBackText{
+    font-size:12px;
+    line-height:1.65;
+    max-width:600px;
+}
+
+.nxBackGrid{
+    display:grid;
+    grid-template-columns:1fr 150px;
+    gap:25px;
+    margin-top:20px;
+}
+
+.nxBackInfo{
+    font-size:11px;
+    line-height:1.8;
+}
+
+.nxBackQR{
+    width:120px;
+    height:120px;
+    padding:5px;
+    background:#fff;
+    border-radius:10px;
+    box-shadow:0 5px 18px #0002;
+}
+
+.nxSignatureArea{
+    display:flex;
+    justify-content:space-between;
+    margin-top:40px;
+    gap:30px;
+}
+
+.nxSignature{
+    width:180px;
+    text-align:center;
+    border-top:1px solid #333;
+    padding-top:7px;
+    font-size:9px;
+    font-weight:800;
+}
+
+/* STAMP */
+
+.nxStamp{
+    position:absolute;
+    right:30px;
+    bottom:40px;
+    width:82px;
+    height:82px;
+    border:3px dashed currentColor;
+    border-radius:50%;
+    display:grid;
+    place-items:center;
+    text-align:center;
+    font-size:9px;
+    font-weight:950;
+    transform:rotate(-15deg);
+    opacity:.6;
+}
+
+/* CONTROLS */
+
+.idActions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+}
+
+.idAction{
+    border:0;
+    padding:11px;
+    border-radius:10px;
+    font-weight:850;
+    color:#fff;
+}
+
+.idAction.primary{
+    background:linear-gradient(135deg,var(--p),var(--p2));
+}
+
+.idAction.success{
+    background:#16a34a;
+}
+
+.idAction.secondary{
+    color:var(--text);
+    background:var(--bg);
+    border:1px solid var(--line);
+}
+
+.idAction.danger{
+    background:#dc2626;
+}
+
+/* CHECKBOX */
+
+.idToggle{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:9px 0;
+    font-size:11px;
+    font-weight:800;
+}
+
+.idToggle input{
+    accent-color:var(--p);
+    width:17px;
+    height:17px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:1100px){
+
+    .idStudio{
+        grid-template-columns:1fr;
+    }
+
+    .idControls{
+        position:static;
+        max-height:none;
+    }
+}
+
+@media(max-width:700px){
+
+    .idPreviewWorkspace{
+        padding:12px;
+    }
+
+    .idCardStage{
+        padding:20px 5px;
+        min-height:520px;
+    }
+
+    .idFormGrid,
+    .idFormGrid.three{
+        grid-template-columns:1fr;
+    }
+
+    .idField.full{
+        grid-column:auto;
+    }
+
+    .idTemplates{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+<!-- ================= SIDEBAR ================= -->
+
+<aside class="sidebar">
+
+<div class="brand">Nex<b>ora</b></div>
+
+<div class="navtitle">Workspace</div>
+
+<nav class="nav">
+
+<button class="active" data-view="home">
+<span>⌂</span> Dashboard
+</button>
+
+<button data-view="tools">
+<span>🧰</span> All Tools
+</button>
+
+<button data-view="calculator">
+<span>🧮</span> Calculator
+</button>
+
+<button data-view="student">
+<span>🎓</span> Student
+</button>
+
+<button data-view="career">
+<span>💼</span> Career
+</button>
+
+<button data-view="developer">
+<span>💻</span> Developer
+</button>
+
+<button data-view="text">
+<span>📝</span> Advanced Text
+</button>
+
+<button data-view="designer">
+<span>🎨</span> Page Designer
+</button>
+
+<button data-view="idcard">
+<span>🪪</span> ID Card Generator
+</button>
+
+<button data-view="photo">
+<span>📷</span> Passport Photo
+</button>
+
+<button data-view="utilities">
+<span>🛠️</span> Utilities
+</button>
+
+<button data-view="tasks">
+<span>✅</span> Tasks
+</button>
+
+<button data-view="notes">
+<span>📒</span> Notes
+</button>
+
+<button data-view="settings">
+<span>⚙️</span> Settings
+</button>
+
+</nav>
+</aside>
+
+
+<main class="main">
+
+<header class="top">
+
+<div class="topsearch">
+
+<input
+id="globalSearch"
+placeholder="Search Nexora tools... e.g. resume, ID card, text, salary"
+onkeydown="if(event.key==='Enter')globalSearch(this.value)"
+>
+
+</div>
+
+<button
+class="icon"
+onclick="cycleTheme()"
+id="themeBtn"
+title="Change theme"
+>🌙</button>
+
+<div class="profile">Shubham 👋</div>
+
+</header>
+
+
+<div class="content">
+
+
+<!-- ================= HOME ================= -->
+
+<section id="home" class="view active">
+
+<div class="hero">
+
+<h1>Your smart digital workspace.</h1>
+
+<p>
+Calculate, study, build resumes, manage jobs,
+design webpages, create ID cards, format documents,
+create passport photos and manage daily work.
+</p>
+
+<div class="heroSearch">
+
+<input
+id="heroSearch"
+placeholder="What do you want to do? e.g. create employee ID card"
+onkeydown="if(event.key==='Enter')routeSearch(this.value)"
+>
+
+<button onclick="routeSearch($('heroSearch').value)">
+Find Tool
+</button>
+
+</div>
+
+</div>
+
+
+<div class="grid4">
+
+<div class="stat">
+<div class="num" id="taskStat">0</div>
+<div class="muted">Open Tasks</div>
+</div>
+
+<div class="stat">
+<div class="num" id="noteStat">0</div>
+<div class="muted">Saved Notes</div>
+</div>
+
+<div class="stat">
+<div class="num" id="jobStat">0</div>
+<div class="muted">Applications</div>
+</div>
+
+<div class="stat">
+<div class="num">40+</div>
+<div class="muted">Built-in Tools</div>
+</div>
+
+</div>
+
+
+<div class="sectionHead">
+
+<div>
+<h2>Popular Tools</h2>
+<div class="muted">Frequently used Nexora utilities</div>
+</div>
+
+</div>
+
+
+<div class="grid3">
+
+
+<div class="toolCard">
+
+<div class="toolIcon">🪪</div>
+
+<h3>ID Card Generator</h3>
+
+<p>
+Create student, employee, school, college,
+visitor, membership and event cards.
+</p>
+
+<button
+class="btn primary"
+onclick="showView('idcard')"
+>
+Open
+</button>
+
+</div>
+
+
+<div class="toolCard">
+
+<div class="toolIcon">📝</div>
+
+<h3>Advanced Text Formatter</h3>
+
+<p>
+Format documents with headings, bold,
+lists, colors, links, find/replace and more.
+</p>
+
+<button
+class="btn primary"
+onclick="showView('text')"
+>
+Open
+</button>
+
+</div>
+
+
+<div class="toolCard">
+
+<div class="toolIcon">📄</div>
+
+<h3>Resume Builder</h3>
+
+<p>Create a professional resume.</p>
+
+<button
+class="btn primary"
+onclick="showView('career')"
+>
+Open
+</button>
+
+</div>
+
+
+<div class="toolCard">
+
+<div class="toolIcon">💰</div>
+
+<h3>Salary Estimator</h3>
+
+<p>Estimate monthly take-home salary.</p>
+
+<button
+class="btn primary"
+onclick="showView('career')"
+>
+Open
+</button>
+
+</div>
+
+
+<div class="toolCard">
+
+<div class="toolIcon">🎨</div>
+
+<h3>Page Designer</h3>
+
+<p>Design a webpage and generate HTML.</p>
+
+<button
+class="btn primary"
+onclick="showView('designer')"
+>
+Open
+</button>
+
+</div>
+
+
+<div class="toolCard">
+
+<div class="toolIcon">📷</div>
+
+<h3>Passport Photo</h3>
+
+<p>Create printable photo sheets.</p>
+
+<button
+class="btn primary"
+onclick="showView('photo')"
+>
+Open
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ALL TOOLS ================= -->
+
+<section id="tools" class="view">
+
+<div class="sectionHead">
+
+<div>
+<h2>🧰 All Tools</h2>
+<div class="muted">Everything inside Nexora</div>
+</div>
+
+</div>
+
+<div class="grid3" id="toolCatalog"></div>
+
+</section>
+
+
+<!-- ================= CALCULATOR ================= -->
+
+<section id="calculator" class="view">
+
+<div class="sectionHead">
+<div>
+<h2>🧮 Calculator Suite</h2>
+<div class="muted">
+Basic, percentage, EMI, interest and date calculations
+</div>
+</div>
+</div>
+
+<div class="tabs">
+
+<button class="active"
+onclick="calcTab('basic',this)">
+Basic
+</button>
+
+<button onclick="calcTab('percent',this)">
+Percentage
+</button>
+
+<button onclick="calcTab('emi',this)">
+EMI
+</button>
+
+<button onclick="calcTab('interest',this)">
+Interest
+</button>
+
+<button onclick="calcTab('date',this)">
+Date Difference
+</button>
+
+</div>
+
+
+<div id="calcBasic" class="card calc">
+
+<input
+id="calcDisplay"
+class="calcDisplay"
+value="0"
+readonly
+>
+
+<div class="calcGrid">
+
+<button onclick="calcClear()">AC</button>
+<button onclick="calcBack()">⌫</button>
+<button onclick="calcPut('%')">%</button>
+<button class="op" onclick="calcPut('/')">÷</button>
+
+<button onclick="calcPut('7')">7</button>
+<button onclick="calcPut('8')">8</button>
+<button onclick="calcPut('9')">9</button>
+<button class="op" onclick="calcPut('*')">×</button>
+
+<button onclick="calcPut('4')">4</button>
+<button onclick="calcPut('5')">5</button>
+<button onclick="calcPut('6')">6</button>
+<button class="op" onclick="calcPut('-')">−</button>
+
+<button onclick="calcPut('1')">1</button>
+<button onclick="calcPut('2')">2</button>
+<button onclick="calcPut('3')">3</button>
+<button class="op" onclick="calcPut('+')">+</button>
+
+<button onclick="calcPut('0')">0</button>
+<button onclick="calcPut('.')">.</button>
+<button onclick="calcEqual()">=</button>
+<button class="op" onclick="calcPut('**2')">x²</button>
+
+</div>
+</div>
+
+
+<div id="calcPercent" class="card hidden">
+
+<div class="form">
+
+<label>Value</label>
+<input id="pv" type="number">
+
+<label>Total</label>
+<input id="pt" type="number">
+
+<button class="btn primary" onclick="percentage()">
+Calculate
+</button>
+
+<div id="presult" class="result">
+Result
+</div>
+
+</div>
+
+</div>
+
+
+<div id="calcEmi" class="card hidden">
+
+<div class="form">
+
+<label>Loan Amount ₹</label>
+<input id="loan" type="number">
+
+<label>Annual Interest %</label>
+<input id="rate" type="number">
+
+<label>Years</label>
+<input id="loanYears" type="number">
+
+<button class="btn primary" onclick="emi()">
+Calculate EMI
+</button>
+
+<div id="emiResult" class="result">
+Result
+</div>
+
+</div>
+
+</div>
+
+
+<div id="calcInterest" class="card hidden">
+
+<div class="form">
+
+<label>Principal ₹</label>
+<input id="ip" type="number">
+
+<label>Rate %</label>
+<input id="ir" type="number">
+
+<label>Time Years</label>
+<input id="it" type="number">
+
+<button class="btn primary" onclick="interest()">
+Calculate
+</button>
+
+<div id="interestResult" class="result">
+Result
+</div>
+
+</div>
+
+</div>
+
+
+<div id="calcDate" class="card hidden">
+
+<div class="form">
+
+<label>Start Date</label>
+<input id="d1" type="date">
+
+<label>End Date</label>
+<input id="d2" type="date">
+
+<button class="btn primary" onclick="dateDiff()">
+Calculate
+</button>
+
+<div id="dateResult" class="result">
+Result
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= STUDENT ================= -->
+
+<section id="student" class="view">
+
+<div class="sectionHead">
+
+<div>
+<h2>🎓 Student Workspace</h2>
+<div class="muted">Academic tools</div>
+</div>
+
+</div>
+
+
+<div class="grid2">
+
+
+<div class="card">
+
+<h3>CGPA Calculator</h3>
+
+<div class="form" style="margin-top:15px">
+
+<input class="gpa" type="number" step=".01" placeholder="Semester 1">
+<input class="gpa" type="number" step=".01" placeholder="Semester 2">
+<input class="gpa" type="number" step=".01" placeholder="Semester 3">
+<input class="gpa" type="number" step=".01" placeholder="Semester 4">
+<input class="gpa" type="number" step=".01" placeholder="Semester 5">
+<input class="gpa" type="number" step=".01" placeholder="Semester 6">
+
+<button class="btn primary" onclick="cgpa()">
+Calculate CGPA
+</button>
+
+<div id="cgpaResult" class="result">
+Result
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Attendance Calculator</h3>
+
+<div class="form" style="margin-top:15px">
+
+<input id="attended" type="number" placeholder="Classes attended">
+
+<input id="total" type="number" placeholder="Total classes">
+
+<input id="target" type="number" value="75">
+
+<button class="btn primary" onclick="attendance()">
+Calculate
+</button>
+
+<div id="attendanceResult" class="result">
+Result
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Pomodoro Focus Timer</h3>
+
+<div id="timer" class="timer">
+25:00
+</div>
+
+<div class="actions">
+
+<button class="btn primary" onclick="timerStart()">Start</button>
+<button class="btn secondary" onclick="timerPause()">Pause</button>
+<button class="btn secondary" onclick="timerReset()">Reset</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Exam Countdown</h3>
+
+<div class="form">
+
+<label>Exam Date</label>
+
+<input id="examDate" type="date">
+
+<button class="btn primary" onclick="countdown()">
+Calculate
+</button>
+
+<div id="countResult" class="result">
+Enter date
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= CAREER ================= -->
+
+<section id="career" class="view">
+
+<div class="sectionHead">
+
+<div>
+<h2>💼 Career Toolkit</h2>
+<div class="muted">
+Resume, salary, job tracker and interview preparation
+</div>
+</div>
+
+</div>
+
+
+<div class="grid2">
+
+
+<!-- RESUME -->
+
+<div class="card">
+
+<h3>📄 Professional Resume Builder</h3>
+
+<p class="muted">
+Fill the information you want.
+Empty sections are hidden automatically.
+</p>
+
+<div class="form" style="margin-top:15px">
+
+<input id="rName" placeholder="Full name">
+
+<input id="rRole" placeholder="Target role">
+
+<input id="rEmail" placeholder="Email">
+
+<input id="rPhone" placeholder="Phone">
+
+<input id="rLocation" placeholder="City, State">
+
+<input id="rLinkedin" placeholder="LinkedIn URL">
+
+<input id="rGithub" placeholder="GitHub URL">
+
+<input id="rPortfolio" placeholder="Portfolio URL">
+
+<input id="rSkills" placeholder="Technical skills">
+
+<input id="rSoftSkills" placeholder="Soft skills">
+
+<textarea id="rSummary" placeholder="Professional summary"></textarea>
+
+<textarea id="rEducation" placeholder="Education"></textarea>
+
+<textarea id="rExperience" placeholder="Experience"></textarea>
+
+<textarea id="rProjects" placeholder="Projects"></textarea>
+
+<textarea id="rCertifications" placeholder="Certifications"></textarea>
+
+<textarea id="rAchievements" placeholder="Achievements"></textarea>
+
+<textarea id="rLanguages" placeholder="Languages"></textarea>
+
+<textarea id="rInterests" placeholder="Interests"></textarea>
+
+<label>Resume Photo</label>
+
+<input id="resumePhoto" type="file" accept="image/*">
+
+<select id="resumeTemplate">
+
+<option value="modern">Modern Purple</option>
+<option value="classic">Classic</option>
+<option value="minimal">Minimal</option>
+
+</select>
+
+<button class="btn primary" onclick="previewResume()">
+Generate Resume
+</button>
+
+</div>
+
+</div>
+
+
+<!-- JOB TRACKER -->
+
+<div class="card">
+
+<h3>💼 Job Application Tracker</h3>
+
+<p class="muted">
+Track companies, roles and application stages.
+</p>
+
+<div class="grid3" style="margin-top:15px">
+
+<div class="statCard">
+<b id="jobTotal">0</b>
+<div class="muted">Applications</div>
+</div>
+
+<div class="statCard">
+<b id="jobInterview">0</b>
+<div class="muted">Interviews</div>
+</div>
+
+<div class="statCard">
+<b id="jobOffer">0</b>
+<div class="muted">Offers</div>
+</div>
+
+</div>
+
+<div class="form" style="margin-top:15px">
+
+<input id="company" placeholder="Company">
+
+<input id="jobRole" placeholder="Job role">
+
+<input id="jobLocation" placeholder="Location">
+
+<input id="jobLink" placeholder="Job link">
+
+<select id="jobStatus">
+
+<option>Wishlist</option>
+<option>Applied</option>
+<option>Assessment</option>
+<option>Interview</option>
+<option>HR Round</option>
+<option>Offer</option>
+<option>Joined</option>
+<option>Rejected</option>
+
+</select>
+
+<button class="btn primary" onclick="addJob()">
+Add Application
+</button>
+
+</div>
+
+<div id="jobs" style="margin-top:15px"></div>
+
+</div>
+
+
+<!-- INTERVIEW -->
+
+<div class="card">
+
+<h3>🎤 Interview Prep</h3>
+
+<p class="muted">
+25+ job roles with 100 generated practice questions per role.
+</p>
+
+<div class="form" style="margin-top:15px">
+
+<select id="interviewRole"></select>
+
+<select id="questionCategory">
+
+<option value="all">All Questions</option>
+<option value="hr">HR</option>
+<option value="technical">Technical</option>
+<option value="scenario">Scenario</option>
+
+</select>
+
+<button class="btn primary" onclick="startInterview()">
+Start Practice
+</button>
+
+</div>
+
+<div id="interviewBox" style="margin-top:18px"></div>
+
+</div>
+
+
+<!-- SALARY -->
+
+<div class="card">
+
+<h3>💰 Salary Estimator</h3>
+
+<p class="muted">
+Approximate salary calculation.
+</p>
+
+<div class="form" style="margin-top:15px">
+
+<label>Annual CTC ₹</label>
+<input id="salary" type="number" placeholder="600000">
+
+<label>Basic %</label>
+<input id="basicPercent" type="number" value="40">
+
+<label>HRA % of Basic</label>
+<input id="hraPercent" type="number" value="50">
+
+<label>Bonus ₹</label>
+<input id="bonus" type="number" value="0">
+
+<label>PF %</label>
+<input id="pfPercent" type="number" value="12">
+
+<label>Professional Tax / Month</label>
+<input id="professionalTax" type="number" value="200">
+
+<label>Other Deduction</label>
+<input id="otherDeduction" type="number" value="0">
+
+<button class="btn primary" onclick="salaryCalc()">
+Estimate Salary
+</button>
+
+<div id="salaryResult" class="result">
+Result
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= DEVELOPER ================= -->
+
+<section id="developer" class="view">
+
+<div class="sectionHead">
+
+<div>
+<h2>💻 Developer Tools</h2>
+<div class="muted">
+Coding and data utilities
+</div>
+</div>
+
+</div>
+
+
+<div class="grid2">
+
+
+<div class="card">
+
+<h3>JSON Formatter & Validator</h3>
+
+<div class="form">
+
+<textarea
+id="jsonInput"
+placeholder='{"name":"Nexora"}'
+></textarea>
+
+<button class="btn primary" onclick="formatJSON()">
+Format JSON
+</button>
+
+<pre id="jsonOutput" class="result"
+style="white-space:pre-wrap"></pre>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Base64 Encoder / Decoder</h3>
+
+<div class="form">
+
+<textarea id="baseInput"></textarea>
+
+<div class="actions">
+
+<button class="btn primary"
+onclick="base64('encode')">
+Encode
+</button>
+
+<button class="btn secondary"
+onclick="base64('decode')">
+Decode
+</button>
+
+</div>
+
+<div id="baseResult" class="result"></div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>🔐 Password Generator</h3>
+
+<div class="form">
+
+<input
+id="passLen"
+type="number"
+value="16"
+min="6"
+max="64"
+>
+
+<button class="btn primary"
+onclick="password()">
+Generate Password
+</button>
+
+<input id="passResult" readonly>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>🔢 Number to Words</h3>
+
+<div class="form">
+
+<input
+id="numberWords"
+type="number"
+placeholder="125000"
+>
+
+<button class="btn primary"
+onclick="numberToWordsUI()">
+Convert
+</button>
+
+<div id="numberWordsResult" class="result"></div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ADVANCED TEXT FORMATTER ================= -->
+
+<section id="text" class="view">
+
+<div class="sectionHead">
+
+<div>
+
+<h2>📝 Advanced Text Formatter</h2>
+
+<div class="muted">
+Professional document editor + text cleaning toolkit
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="editorToolbar">
+
+<button onclick="editorCmd('undo')" title="Undo">↶</button>
+
+<button onclick="editorCmd('redo')" title="Redo">↷</button>
+
+<button onclick="editorCmd('bold')" title="Bold">
+<b>B</b>
+</button>
+
+<button onclick="editorCmd('italic')" title="Italic">
+<i>I</i>
+</button>
+
+<button onclick="editorCmd('underline')" title="Underline">
+<u>U</u>
+</button>
+
+<button onclick="editorCmd('strikeThrough')" title="Strike">
+<s>S</s>
+</button>
+
+<select onchange="formatBlock(this.value);this.selectedIndex=0">
+
+<option>Format</option>
+<option value="H1">Heading 1</option>
+<option value="H2">Heading 2</option>
+<option value="H3">Heading 3</option>
+<option value="P">Paragraph</option>
+</select>
+
+<select onchange="changeFontSize(this.value);this.selectedIndex=0">
+
+<option>Font Size</option>
+<option value="1">Small</option>
+<option value="3">Normal</option>
+<option value="5">Large</option>
+<option value="7">Huge</option>
+
+</select>
+
+<input
+type="color"
+title="Text color"
+oninput="editorForeColor(this.value)"
+>
+
+<input
+type="color"
+title="Highlight color"
+oninput="editorBackColor(this.value)"
+>
+
+<button onclick="editorCmd('justifyLeft')">⬅</button>
+<button onclick="editorCmd('justifyCenter')">↔</button>
+<button onclick="editorCmd('justifyRight')">➡</button>
+<button onclick="editorCmd('justifyFull')">☰</button>
+
+<button onclick="editorCmd('insertUnorderedList')">• List</button>
+
+<button onclick="editorCmd('insertOrderedList')">1. List</button>
+
+<button onclick="addLink()">🔗 Link</button>
+
+<button onclick="insertQuote()">❝ Quote</button>
+
+<button onclick="insertCode()">{"</button>
+
+<button onclick="editorCmd('removeFormat')">Clear Format</button>
+
+</div>
+
+
+<div
+id="textEditor"
+class="textEditor"
+contenteditable="true"
+spellcheck="true"
+>
+<h2>Start writing with Nexora</h2>
+<p>Type your document here...</p>
+</div>
+
+
+<div class="actions" style="margin-top:15px">
+
+<button
+class="btn primary"
+onclick="textTransform('upper')"
+>
+UPPERCASE
+</button>
+
+<button
+class="btn primary"
+onclick="textTransform('lower')"
+>
+lowercase
+</button>
+
+<button
+class="btn primary"
+onclick="textTransform('title')"
+>
+Title Case
+</button>
+
+<button
+class="btn secondary"
+onclick="textTransform('sentence')"
+>
+Sentence Case
+</button>
+
+<button
+class="btn secondary"
+onclick="cleanText()"
+>
+Clean Spaces
+</button>
+
+<button
+class="btn secondary"
+onclick="removeDuplicateLines()"
+>
+Remove Duplicate Lines
+</button>
+
+<button
+class="btn secondary"
+onclick="sortTextLines()"
+>
+Sort Lines
+</button>
+
+<button
+class="btn secondary"
+onclick="removeBlankLines()"
+>
+Remove Blank Lines
+</button>
+
+<button
+class="btn secondary"
+onclick="copyFormattedText()"
+>
+📋 Copy
+</button>
+
+<button
+class="btn secondary"
+onclick="downloadTextTXT()"
+>
+⬇ TXT
+</button>
+
+<button
+class="btn secondary"
+onclick="downloadFormattedHTML()"
+>
+⬇ HTML
+</button>
+
+<button
+class="btn secondary"
+onclick="previewFormattedHTML()"
+>
+👁 Preview
+</button>
+
+<button
+class="btn danger"
+onclick="clearEditor()"
+>
+Clear
+</button>
+
+</div>
+
+
+<div class="findReplace">
+
+<input
+id="findText"
+placeholder="Find text"
+>
+
+<input
+id="replaceText"
+placeholder="Replace with"
+>
+
+<button
+class="btn primary"
+onclick="findReplaceText()"
+>
+Find & Replace
+</button>
+
+<button
+class="btn secondary"
+onclick="highlightFind()"
+>
+Find
+</button>
+
+</div>
+
+
+<div class="editorStats">
+
+<div class="editorStat">
+<b id="textWords">0</b>
+<div class="muted">Words</div>
+</div>
+
+<div class="editorStat">
+<b id="textChars">0</b>
+<div class="muted">Characters</div>
+</div>
+
+<div class="editorStat">
+<b id="textCharsNoSpace">0</b>
+<div class="muted">Without Spaces</div>
+</div>
+
+<div class="editorStat">
+<b id="textLines">0</b>
+<div class="muted">Lines</div>
+</div>
+
+<div class="editorStat">
+<b id="readingTime">0 min</b>
+<div class="muted">Reading Time</div>
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= PAGE DESIGNER ================= -->
+
+<section id="designer" class="view">
+
+<div class="sectionHead">
+
+<div>
+<h2>🎨 Web Page Designer</h2>
+<div class="muted">
+Design a simple page and generate HTML.
+</div>
+</div>
+
+</div>
+
+
+<div class="designer">
+
+<div class="card">
+
+<h3>Design Controls</h3>
+
+<div class="form" style="margin-top:15px">
+
+<label>Page title</label>
+<input id="designTitle"
+value="My Awesome Website"
+oninput="updateDesigner()">
+
+<label>Heading</label>
+<input id="designHeading"
+value="Welcome to my website"
+oninput="updateDesigner()">
+
+<label>Description</label>
+
+<textarea
+id="designText"
+oninput="updateDesigner()"
+>This is my beautiful website created with Nexora.</textarea>
+
+<label>Button text</label>
+
+<input
+id="designButton"
+value="Get Started"
+oninput="updateDesigner()">
+
+<label>Background</label>
+
+<input
+id="designBg"
+class="colorInput"
+type="color"
+value="#ffffff"
+onchange="updateDesigner()">
+
+<label>Primary color</label>
+
+<input
+id="designPrimary"
+class="colorInput"
+type="color"
+value="#635bff"
+onchange="updateDesigner()">
+
+<label>Text color</label>
+
+<input
+id="designTextColor"
+class="colorInput"
+type="color"
+value="#111827"
+onchange="updateDesigner()">
+
+<label>Border radius</label>
+
+<input
+id="designRadius"
+type="range"
+min="0"
+max="50"
+value="18"
+oninput="updateDesigner()">
+
+<button
+class="btn primary"
+onclick="copyDesignerHTML()">
+Copy HTML
+</button>
+
+<button
+class="btn secondary"
+onclick="downloadDesignerHTML()">
+Download HTML
+</button>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>Live Preview</h3>
+
+<div
+id="designPreview"
+class="designPreview"
+style="margin-top:15px">
+</div>
+
+<details style="margin-top:15px">
+
+<summary>Generated HTML</summary>
+
+<pre
+id="generatedHTML"
+class="result"
+style="white-space:pre-wrap;overflow:auto">
+</pre>
+
+</details>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= ID CARD GENERATOR ================= -->
+<section id="idcard" class="view">
+
+<div class="sectionHead">
+
+<div>
+<h2>🪪 Nexora ID Card Studio</h2>
+
+<div class="muted">
+Ultra professional ID card, employee card, student card,
+visitor pass, membership card and event pass designer.
+</div>
+
+</div>
+
+<div class="idStudioBadge">
+PRO MAX STUDIO
+</div>
+
+</div>
+
+
+<div class="idStudio">
+
+
+<!-- =====================================================
+     LEFT CONTROLS
+===================================================== -->
+
+<div class="idControls">
+
+<div class="idStudioPanel">
+
+<div class="idStudioTitle">
+<h3>⚙️ Card Designer</h3>
+<span class="idStudioBadge">LIVE</span>
+</div>
+
+
+<!-- TEMPLATES -->
+
+<div class="idSection" style="margin-top:0;padding-top:0;border:0">
+
+<div class="idSectionTitle">
+🎨 Choose Template
+</div>
+
+<div class="idTemplates">
+
+<button class="idTemplateBtn active"
+onclick="nxIdTemplate('student',this)">
+<span class="idTemplateIcon">🎓</span>
+<span class="idTemplateName">Student</span>
+</button>
+
+<button class="idTemplateBtn"
+onclick="nxIdTemplate('employee',this)">
+<span class="idTemplateIcon">💼</span>
+<span class="idTemplateName">Employee</span>
+</button>
+
+<button class="idTemplateBtn"
+onclick="nxIdTemplate('school',this)">
+<span class="idTemplateIcon">🏫</span>
+<span class="idTemplateName">School</span>
+</button>
+
+<button class="idTemplateBtn"
+onclick="nxIdTemplate('visitor',this)">
+<span class="idTemplateIcon">👤</span>
+<span class="idTemplateName">Visitor</span>
+</button>
+
+<button class="idTemplateBtn"
+onclick="nxIdTemplate('library',this)">
+<span class="idTemplateIcon">📚</span>
+<span class="idTemplateName">Library</span>
+</button>
+
+<button class="idTemplateBtn"
+onclick="nxIdTemplate('membership',this)">
+<span class="idTemplateIcon">⭐</span>
+<span class="idTemplateName">Membership</span>
+</button>
+
+<button class="idTemplateBtn"
+onclick="nxIdTemplate('event',this)">
+<span class="idTemplateIcon">🎫</span>
+<span class="idTemplateName">Event Pass</span>
+</button>
+
+<button class="idTemplateBtn"
+onclick="nxIdTemplate('custom',this)">
+<span class="idTemplateIcon">⚙️</span>
+<span class="idTemplateName">Custom</span>
+</button>
+
+</div>
+
+</div>
+
+
+<!-- BASIC INFORMATION -->
+
+<div class="idSection">
+
+<div class="idSectionTitle">
+🏢 Organization Details
+</div>
+
+<div class="idFormGrid">
+
+<div class="idField full">
+<label>Organization / Institution</label>
+<input id="nxIdOrg"
+value="Nexora University"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField full">
+<label>Card Type</label>
+<input id="nxIdType"
+value="STUDENT ID CARD"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField">
+<label>Full Name</label>
+<input id="nxIdName"
+value="Shubham Kumar Verma"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField">
+<label>ID Number</label>
+<input id="nxIdNumber"
+value="NX-2026-001"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField">
+<label>Role / Course</label>
+<input id="nxIdRole"
+value="MCA Data Science"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField">
+<label>Department</label>
+<input id="nxIdDepartment"
+value="Computer Science"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField">
+<label>Phone</label>
+<input id="nxIdPhone"
+value="+91 9876543210"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField">
+<label>Email</label>
+<input id="nxIdEmail"
+value="student@example.com"
+oninput="nxUpdateID()">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- EXTRA INFORMATION -->
+
+<div class="idSection">
+
+<div class="idSectionTitle">
+📋 Additional Information
+</div>
+
+<div class="idFormGrid">
+
+<div class="idField">
+<label>Date of Birth</label>
+<input id="nxIdDOB"
+type="date"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField">
+<label>Blood Group</label>
+<input id="nxIdBlood"
+value="O+"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField">
+<label>Valid From</label>
+<input id="nxIdFrom"
+type="date"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField">
+<label>Valid Until</label>
+<input id="nxIdUntil"
+type="date"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField full">
+<label>Address</label>
+<textarea id="nxIdAddress"
+oninput="nxUpdateID()">Lucknow, Uttar Pradesh, India</textarea>
+</div>
+
+<div class="idField full">
+<label>Emergency Contact</label>
+<input id="nxIdEmergency"
+value="+91 9000000000"
+oninput="nxUpdateID()">
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MEDIA -->
+
+<div class="idSection">
+
+<div class="idSectionTitle">
+🖼️ Photos & Branding
+</div>
+
+<div class="idField">
+<label>Profile Photo</label>
+<input
+id="nxIdPhotoInput"
+type="file"
+accept="image/*"
+onchange="nxLoadPhoto(event)">
+</div>
+
+<div class="idField">
+<label>Organization Logo</label>
+<input
+id="nxIdLogoInput"
+type="file"
+accept="image/*"
+onchange="nxLoadLogo(event)">
+</div>
+
+</div>
+
+
+<!-- QR -->
+
+<div class="idSection">
+
+<div class="idSectionTitle">
+🔳 QR / Verification
+</div>
+
+<div class="idField">
+<label>QR Content</label>
+<input
+id="nxIdQR"
+value="https://nexora.local/verify/NX-2026-001"
+oninput="nxUpdateID()">
+</div>
+
+<div class="idField">
+<label>QR Position</label>
+
+<select id="nxIdQRPosition"
+onchange="nxUpdateID()">
+
+<option value="bottom-right">
+Bottom Right
+</option>
+
+<option value="bottom-left">
+Bottom Left
+</option>
+
+<option value="top-right">
+Top Right
+</option>
+
+<option value="top-left">
+Top Left
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<!-- APPEARANCE -->
+
+<div class="idSection">
+
+<div class="idSectionTitle">
+✨ Appearance
+</div>
+
+<div class="idFormGrid">
+
+<div class="idField">
+<label>Primary Color</label>
+
+<input
+id="nxIdPrimary"
+class="idColor"
+type="color"
+value="#635bff"
+oninput="nxUpdateID()">
+
+</div>
+
+<div class="idField">
+<label>Secondary Color</label>
+
+<input
+id="nxIdSecondary"
+class="idColor"
+type="color"
+value="#8b5cf6"
+oninput="nxUpdateID()">
+
+</div>
+
+<div class="idField">
+<label>Card Background</label>
+
+<input
+id="nxIdBackground"
+class="idColor"
+type="color"
+value="#ffffff"
+oninput="nxUpdateID()">
+
+</div>
+
+<div class="idField">
+<label>Text Color</label>
+
+<input
+id="nxIdText"
+class="idColor"
+type="color"
+value="#111827"
+oninput="nxUpdateID()">
+
+</div>
+
+<div class="idField">
+<label>Border Color</label>
+
+<input
+id="nxIdBorder"
+class="idColor"
+type="color"
+value="#635bff"
+oninput="nxUpdateID()">
+
+</div>
+
+<div class="idField">
+<label>Accent Color</label>
+
+<input
+id="nxIdAccent"
+class="idColor"
+type="color"
+value="#f59e0b"
+oninput="nxUpdateID()">
+
+</div>
+
+</div>
+
+
+<div class="idField">
+<label>Pattern</label>
+
+<select id="nxIdPattern"
+onchange="nxUpdateID()">
+
+<option value="none">None</option>
+<option value="dots">Dots</option>
+<option value="lines">Lines</option>
+<option value="grid">Grid</option>
+<option value="diagonal">Diagonal</option>
+<option value="hex">Modern Dots</option>
+
+</select>
+
+</div>
+
+
+<div class="idField">
+<label>Orientation</label>
+
+<select id="nxIdOrientation"
+onchange="nxUpdateID()">
+
+<option value="horizontal">
+Horizontal — 700 × 440
+</option>
+
+<option value="vertical">
+Vertical — 440 × 700
+</option>
+
+</select>
+
+</div>
+
+
+<div class="idField">
+<label>Border Radius</label>
+
+<input
+id="nxIdRadius"
+type="range"
+min="0"
+max="40"
+value="22"
+oninput="nxUpdateID()">
+
+</div>
+
+
+<div class="idField">
+<label>Shadow</label>
+
+<select id="nxIdShadow"
+onchange="nxUpdateID()">
+
+<option value="strong">Strong</option>
+<option value="medium">Medium</option>
+<option value="none">None</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<!-- OPTIONS -->
+
+<div class="idSection">
+
+<div class="idSectionTitle">
+🧩 Smart Options
+</div>
+
+<label class="idToggle">
+Show QR Code
+<input
+type="checkbox"
+id="nxShowQR"
+checked
+onchange="nxUpdateID()">
+</label>
+
+<label class="idToggle">
+Show Watermark
+<input
+type="checkbox"
+id="nxShowWatermark"
+checked
+onchange="nxUpdateID()">
+</label>
+
+<label class="idToggle">
+Show Photo Badge
+<input
+type="checkbox"
+id="nxShowPhotoBadge"
+checked
+onchange="nxUpdateID()">
+</label>
+
+<label class="idToggle">
+Show Verification Stamp
+<input
+type="checkbox"
+id="nxShowStamp"
+checked
+onchange="nxUpdateID()">
+</label>
+
+<label class="idToggle">
+Show Email
+<input
+type="checkbox"
+id="nxShowEmail"
+checked
+onchange="nxUpdateID()">
+</label>
+
+<label class="idToggle">
+Show Department
+<input
+type="checkbox"
+id="nxShowDepartment"
+checked
+onchange="nxUpdateID()">
+</label>
+
+</div>
+
+
+<!-- ACTIONS -->
+
+<div class="idSection">
+
+<div class="idSectionTitle">
+🚀 Export & Actions
+</div>
+
+<div class="idActions">
+
+<button
+class="idAction primary"
+onclick="nxDownloadPNG()">
+⬇ PNG
+</button>
+
+<button
+class="idAction secondary"
+onclick="nxPrintCard()">
+🖨 Print
+</button>
+
+<button
+class="idAction secondary"
+onclick="nxDownloadHTML()">
+🌐 HTML
+</button>
+
+<button
+class="idAction success"
+onclick="nxSaveDesign()">
+💾 Save
+</button>
+
+<button
+class="idAction secondary"
+onclick="nxLoadSaved()">
+📂 Load
+</button>
+
+<button
+class="idAction danger"
+onclick="nxResetID()">
+↻ Reset
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- =====================================================
+     RIGHT PREVIEW
+===================================================== -->
+
+<div class="idStudioPanel">
+
+<div class="idPreviewWorkspace">
+
+
+<div class="idPreviewToolbar">
+
+<div class="idSideSwitch">
+
+<button
+class="idSideBtn active"
+id="nxFrontBtn"
+onclick="nxShowSide('front',this)">
+Front
+</button>
+
+<button
+class="idSideBtn"
+id="nxBackBtn"
+onclick="nxShowSide('back',this)">
+Back
+</button>
+
+</div>
+
+
+<div class="idZoom">
+
+<button onclick="nxZoom(-.1)">−</button>
+
+<div
+class="idZoomValue"
+id="nxZoomValue">
+100%
+</div>
+
+<button onclick="nxZoom(.1)">+</button>
+
+<button onclick="nxZoom(0)">Reset</button>
+
+</div>
+
+</div>
+
+
+<div class="idCardStage">
+
+
+<div
+class="idCardScale"
+id="nxCardScale">
+
+
+<!-- FRONT -->
+
+<div
+id="nxFrontCard"
+class="nxIdCard">
+
+<div
+id="nxFrontPattern"
+class="nxPattern none">
+</div>
+
+
+<img
+id="nxIdLogo"
+class="nxLogo"
+style="display:none">
+
+
+<div
+class="nxIdHeader"
+id="nxIdHeader">
+
+<div
+class="nxOrg"
+id="nxPreviewOrg">
+Nexora University
+</div>
+
+<div
+class="nxType"
+id="nxPreviewType">
+STUDENT ID CARD
+</div>
+
+</div>
+
+
+<div class="nxIdBody">
+
+
+<div class="nxPhotoWrap">
+
+<img
+id="nxPreviewPhoto"
+class="nxPhoto"
+alt="Profile Photo">
+
+<div
+id="nxPhotoBadge"
+class="nxPhotoBadge">
+VERIFIED ID
+</div>
+
+</div>
+
+
+<div class="nxInfo">
+
+<div
+class="nxName"
+id="nxPreviewName">
+Shubham Kumar Verma
+</div>
+
+<div
+class="nxRole"
+id="nxPreviewRole">
+MCA Data Science
+</div>
+
+
+<div class="nxInfoGrid">
+
+
+<div class="nxInfoItem">
+
+<div class="nxInfoLabel">
+ID Number
+</div>
+
+<div
+class="nxInfoValue"
+id="nxPreviewID">
+NX-2026-001
+</div>
+
+</div>
+
+
+<div class="nxInfoItem">
+
+<div class="nxInfoLabel">
+Department
+</div>
+
+<div
+class="nxInfoValue"
+id="nxPreviewDept">
+Computer Science
+</div>
+
+</div>
+
+
+<div class="nxInfoItem">
+
+<div class="nxInfoLabel">
+Phone
+</div>
+
+<div
+class="nxInfoValue"
+id="nxPreviewPhone">
++91 9876543210
+</div>
+
+</div>
+
+
+<div class="nxInfoItem">
+
+<div class="nxInfoLabel">
+Blood Group
+</div>
+
+<div
+class="nxInfoValue"
+id="nxPreviewBlood">
+O+
+</div>
+
+</div>
+
+
+<div
+class="nxInfoItem"
+id="nxEmailItem">
+
+<div class="nxInfoLabel">
+Email
+</div>
+
+<div
+class="nxInfoValue"
+id="nxPreviewEmail">
+student@example.com
+</div>
+
+</div>
+
+
+<div class="nxInfoItem">
+
+<div class="nxInfoLabel">
+Date of Birth
+</div>
+
+<div
+class="nxInfoValue"
+id="nxPreviewDOB">
+—
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+<img
+id="nxFrontQR"
+class="nxQR"
+style="display:none"
+alt="QR Code">
+
+
+<div
+id="nxWatermark"
+class="nxWatermark">
+NEXORA
+</div>
+
+
+<div
+id="nxStamp"
+class="nxStamp">
+NEXORA<br>
+VERIFIED
+</div>
+
+
+<div class="nxFooter">
+
+<span>
+Valid:
+<strong id="nxPreviewValidity">
+Current Session
+</strong>
+</span>
+
+<span>
+ID • <strong id="nxFooterID">
+NX-2026-001
+</strong>
+</span>
+
+</div>
+
+</div>
+
+
+<!-- BACK -->
+
+<div
+id="nxBackCard"
+class="nxIdCard nxIdCardBack"
+style="display:none">
+
+<div
+id="nxBackPattern"
+class="nxPattern none">
+</div>
+
+
+<div class="nxBackContent">
+
+<div class="nxBackTitle">
+Important Information
+</div>
+
+
+<div class="nxBackText">
+
+This identity card is the property of the
+issuing organization. If found, please return
+it to the authorized office.
+
+</div>
+
+
+<div class="nxBackGrid">
+
+<div class="nxBackInfo">
+
+<div>
+<strong>Address:</strong><br>
+<span id="nxBackAddress"></span>
+</div>
+
+<div>
+<strong>Emergency Contact:</strong><br>
+<span id="nxBackEmergency"></span>
+</div>
+
+<div>
+<strong>Email:</strong><br>
+<span id="nxBackEmail"></span>
+</div>
+
+<div>
+<strong>Card Number:</strong>
+<span id="nxBackID"></span>
+</div>
+
+</div>
+
+
+<div>
+
+<img
+id="nxBackQR"
+class="nxBackQR"
+alt="QR">
+
+</div>
+
+</div>
+
+
+<div class="nxSignatureArea">
+
+<div class="nxSignature">
+Card Holder
+</div>
+
+<div class="nxSignature">
+Authorized Signatory
+</div>
+
+</div>
+
+
+<div
+id="nxBackStamp"
+class="nxStamp">
+OFFICIAL<br>
+CARD
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+<div class="result" style="margin-top:18px">
+
+<b>💡 Pro Tip:</b>
+
+You can create separate designs for
+students, employees, schools, visitors,
+libraries, memberships and events.
+Use <b>Save Design</b> to keep your current
+configuration in the browser.
+
+</div>
+
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- ================= PASSPORT PHOTO ================= -->
+
+<section id="photo" class="view">
+
+  <div class="sectionHead">
+    <div>
+      <h2>📸 Nexora Photo Studio Pro Max</h2>
+      <div class="muted">
+        Canva-style passport, visa, ID photo designer & printable sheet maker.
+      </div>
+    </div>
+
+    <div class="photoTopActions">
+      <button class="btn secondary" onclick="photoUndo()">↩ Undo</button>
+      <button class="btn secondary" onclick="photoRedo()">↪ Redo</button>
+      <button class="btn success" onclick="photoSave()">💾 Save</button>
+      <button class="btn danger" onclick="photoReset()">Reset</button>
+    </div>
+  </div>
+
+  <div class="photoStudio">
+
+    <!-- LEFT TOOLBAR -->
+    <aside class="photoToolbar card">
+
+      <div class="toolTitle">🛠 Tools</div>
+
+      <button class="photoTool active" onclick="photoTool('select',this)">
+        🖱️ Select
+      </button>
+
+      <button class="photoTool" onclick="photoTool('crop',this)">
+        ✂️ Crop
+      </button>
+
+      <button class="photoTool" onclick="photoTool('adjust',this)">
+        🎚️ Adjust
+      </button>
+
+      <button class="photoTool" onclick="photoTool('background',this)">
+        🎨 Background
+      </button>
+
+      <button class="photoTool" onclick="photoTool('border',this)">
+        🖼️ Border
+      </button>
+
+      <button class="photoTool" onclick="photoTool('sheet',this)">
+        📄 Sheet
+      </button>
+
+      <button class="photoTool" onclick="photoTool('export',this)">
+        ⬇️ Export
+      </button>
+
+      <hr>
+
+      <label class="uploadBox">
+        <span>📷</span>
+        <strong>Upload Photo</strong>
+        <small>JPG / PNG / WEBP</small>
+
+        <input
+          id="photoInput"
+          type="file"
+          accept="image/*"
+          onchange="loadPhoto(event)"
+        >
+      </label>
+
+    </aside>
+
+
+    <!-- SETTINGS -->
+    <aside class="photoControls card">
+
+      <!-- BASIC -->
+      <div class="photoPanel" data-panel="select">
+
+        <h3>📐 Photo Presets</h3>
+
+        <label>Photo Type</label>
+
+        <select id="photoPreset" onchange="applyPhotoPreset()">
+
+          <option value="india">🇮🇳 Indian Passport</option>
+          <option value="visa">✈️ Visa Photo</option>
+          <option value="us">🇺🇸 US Passport</option>
+          <option value="uk">🇬🇧 UK Passport</option>
+          <option value="student">🎓 Student ID</option>
+          <option value="employee">💼 Employee ID</option>
+          <option value="aadhaar">🪪 ID Photo</option>
+          <option value="custom">⚙️ Custom</option>
+
+        </select>
+
+        <div class="photoFormGrid">
+
+          <div>
+            <label>Width</label>
+            <input
+              id="photoWidth"
+              type="number"
+              value="35"
+              min="10"
+              onchange="updatePhotoEditor()"
+            >
+          </div>
+
+          <div>
+            <label>Height</label>
+            <input
+              id="photoHeight"
+              type="number"
+              value="45"
+              min="10"
+              onchange="updatePhotoEditor()"
+            >
+          </div>
+
+        </div>
+
+        <label>Unit</label>
+
+        <select id="photoUnit" onchange="updatePhotoEditor()">
+          <option value="mm">Millimeter</option>
+          <option value="inch">Inch</option>
+          <option value="px">Pixels</option>
+        </select>
+
+        <div class="quickSizes">
+
+          <button onclick="quickPhotoSize(35,45,'mm')">
+            35×45 mm
+          </button>
+
+          <button onclick="quickPhotoSize(2,2,'inch')">
+            2×2 inch
+          </button>
+
+          <button onclick="quickPhotoSize(25,35,'mm')">
+            25×35 mm
+          </button>
+
+          <button onclick="quickPhotoSize(40,50,'mm')">
+            40×50 mm
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- CROP -->
+      <div class="photoPanel hidden" data-panel="crop">
+
+        <h3>✂️ Crop & Position</h3>
+
+        <button
+          class="btn secondary full"
+          onclick="centerPhoto()">
+          🎯 Center
+        </button>
+
+        <label>Zoom</label>
+
+        <input
+          id="photoZoom"
+          type="range"
+          min="50"
+          max="250"
+          value="100"
+          oninput="updatePhotoEditor()"
+        >
+
+        <div class="rangeValue">
+          <span id="photoZoomValue">100%</span>
+        </div>
+
+        <label>Horizontal Position</label>
+
+        <input
+          id="photoX"
+          type="range"
+          min="-100"
+          max="100"
+          value="0"
+          oninput="updatePhotoEditor()"
+        >
+
+        <label>Vertical Position</label>
+
+        <input
+          id="photoY"
+          type="range"
+          min="-100"
+          max="100"
+          value="0"
+          oninput="updatePhotoEditor()"
+        >
+
+        <div class="photoActionGrid">
+
+          <button onclick="rotatePhoto(-90)">↶ Rotate</button>
+          <button onclick="rotatePhoto(90)">↷ Rotate</button>
+
+          <button onclick="flipPhoto('x')">↔ Flip X</button>
+          <button onclick="flipPhoto('y')">↕ Flip Y</button>
+
+        </div>
+
+        <label>Fit Mode</label>
+
+        <select id="photoFit" onchange="updatePhotoEditor()">
+          <option value="cover">Fill / Cover</option>
+          <option value="contain">Fit</option>
+        </select>
+
+      </div>
+
+
+      <!-- ADJUST -->
+      <div class="photoPanel hidden" data-panel="adjust">
+
+        <h3>🎚️ Image Adjustments</h3>
+
+        <label>Brightness</label>
+
+        <input
+          id="photoBrightness"
+          type="range"
+          min="50"
+          max="150"
+          value="100"
+          oninput="updatePhotoEditor()"
+        >
+
+        <label>Contrast</label>
+
+        <input
+          id="photoContrast"
+          type="range"
+          min="50"
+          max="150"
+          value="100"
+          oninput="updatePhotoEditor()"
+        >
+
+        <label>Saturation</label>
+
+        <input
+          id="photoSaturation"
+          type="range"
+          min="0"
+          max="200"
+          value="100"
+          oninput="updatePhotoEditor()"
+        >
+
+        <label>Blur</label>
+
+        <input
+          id="photoBlur"
+          type="range"
+          min="0"
+          max="10"
+          value="0"
+          oninput="updatePhotoEditor()"
+        >
+
+        <div class="filterGrid">
+
+          <button onclick="photoFilter('normal')">
+            Normal
+          </button>
+
+          <button onclick="photoFilter('gray')">
+            B&W
+          </button>
+
+          <button onclick="photoFilter('soft')">
+            Soft
+          </button>
+
+          <button onclick="photoFilter('vivid')">
+            Vivid
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- BACKGROUND -->
+      <div class="photoPanel hidden" data-panel="background">
+
+        <h3>🎨 Background</h3>
+
+        <div class="bgPresets">
+
+          <button
+            style="background:#fff"
+            onclick="setPhotoBackground('#ffffff')">
+            White
+          </button>
+
+          <button
+            style="background:#eaf4ff"
+            onclick="setPhotoBackground('#eaf4ff')">
+            Light Blue
+          </button>
+
+          <button
+            style="background:#0057b8;color:#fff"
+            onclick="setPhotoBackground('#0057b8')">
+            Blue
+          </button>
+
+          <button
+            style="background:#e8f5e9"
+            onclick="setPhotoBackground('#e8f5e9')">
+            Green
+          </button>
+
+          <button
+            style="background:#eee"
+            onclick="setPhotoBackground('#eeeeee')">
+            Gray
+          </button>
+
+        </div>
+
+        <label>Custom Background</label>
+
+        <input
+          id="photoBg"
+          class="colorInput"
+          type="color"
+          value="#ffffff"
+          onchange="drawPhoto()"
+        >
+
+        <div class="notice">
+          💡 Background color replacement works best with
+          clean/plain original backgrounds.
+        </div>
+
+      </div>
+
+
+      <!-- BORDER -->
+      <div class="photoPanel hidden" data-panel="border">
+
+        <h3>🖼️ Border & Style</h3>
+
+        <label>Border Color</label>
+
+        <input
+          id="photoBorderColor"
+          class="colorInput"
+          type="color"
+          value="#ffffff"
+          onchange="drawPhoto()"
+        >
+
+        <label>Border Width</label>
+
+        <input
+          id="photoBorder"
+          type="range"
+          min="0"
+          max="20"
+          value="2"
+          oninput="drawPhoto()"
+        >
+
+        <label>Corner Radius</label>
+
+        <input
+          id="photoRadius"
+          type="range"
+          min="0"
+          max="40"
+          value="0"
+          oninput="drawPhoto()"
+        >
+
+        <label>Shadow</label>
+
+        <select id="photoShadow" onchange="drawPhoto()">
+          <option value="none">None</option>
+          <option value="soft">Soft</option>
+          <option value="strong">Strong</option>
+        </select>
+
+      </div>
+
+
+      <!-- SHEET -->
+      <div class="photoPanel hidden" data-panel="sheet">
+
+        <h3>📄 Print Sheet</h3>
+
+        <label>Paper</label>
+
+        <select id="photoPaper">
+          <option value="a4">A4</option>
+          <option value="a5">A5</option>
+          <option value="letter">Letter</option>
+          <option value="legal">Legal</option>
+        </select>
+
+        <label>Copies</label>
+
+        <select id="photoCopies">
+
+          <option value="2">2</option>
+          <option value="4">4</option>
+          <option value="6">6</option>
+          <option value="8">8</option>
+          <option value="12">12</option>
+          <option value="16">16</option>
+          <option value="20">20</option>
+          <option value="24">24</option>
+          <option value="30">30</option>
+
+        </select>
+
+        <label>Gap</label>
+
+        <input
+          id="photoGap"
+          type="range"
+          min="0"
+          max="50"
+          value="12"
+        >
+
+        <label class="checkRow">
+          <input
+            id="photoCutLines"
+            type="checkbox"
+            checked
+          >
+          Cut lines
+        </label>
+
+        <label class="checkRow">
+          <input
+            id="photoGrid"
+            type="checkbox"
+          >
+          Grid
+        </label>
+
+        <button
+          class="btn primary full"
+          onclick="createPassportSheet()">
+          ✨ Generate Sheet
+        </button>
+
+      </div>
+
+
+      <!-- EXPORT -->
+      <div class="photoPanel hidden" data-panel="export">
+
+        <h3>⬇️ Export</h3>
+
+        <button
+          class="btn primary full"
+          onclick="downloadPhoto()">
+          📸 Download Photo PNG
+        </button>
+
+        <button
+          class="btn secondary full"
+          onclick="downloadPhotoJPG()">
+          🖼️ Download JPG
+        </button>
+
+        <button
+          class="btn success full"
+          onclick="downloadPhotoSheet()">
+          📄 Download Print Sheet
+        </button>
+
+        <button
+          class="btn secondary full"
+          onclick="printPhotoSheet()">
+          🖨️ Print / Save PDF
+        </button>
+
+        <label>Export Quality</label>
+
+        <select id="photoQuality">
+          <option value="1">Standard</option>
+          <option value="2">High</option>
+          <option value="3">Ultra HD</option>
+        </select>
+
+      </div>
+
+    </aside>
+
+
+    <!-- CANVAS -->
+    <main class="photoWorkspace">
+
+      <div class="workspaceTop">
+
+        <div>
+          <strong>Canvas</strong>
+          <span id="photoDimension">
+            35 × 45 mm
+          </span>
+        </div>
+
+        <div class="workspaceActions">
+
+          <button onclick="photoZoomCanvas(-1)">
+            −
+          </button>
+
+          <span id="canvasZoom">
+            100%
+          </span>
+
+          <button onclick="photoZoomCanvas(1)">
+            +
+          </button>
+
+          <button onclick="togglePhotoFullscreen()">
+            ⛶
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <div class="photoCanvasArea">
+
+        <div class="canvasRuler topRuler"></div>
+        <div class="canvasRuler leftRuler"></div>
+
+        <canvas
+          id="photoCanvas"
+          width="354"
+          height="472">
+        </canvas>
+
+      </div>
+
+
+      <div class="workspaceBottom">
+
+        <span>
+          📏 300 DPI Print Ready
+        </span>
+
+        <span id="photoStatus">
+          Ready
+        </span>
+
+      </div>
+
+    </main>
+
+  </div>
+
+
+  <!-- GENERATED SHEET -->
+  <div class="card photoResult">
+
+    <div class="resultHeader">
+
+      <div>
+        <h3>📄 Print Sheet Preview</h3>
+        <small class="muted">
+          Generated photos will appear here.
+        </small>
+      </div>
+
+      <button
+        class="btn secondary"
+        onclick="downloadPhotoSheet()">
+        ⬇ Download
+      </button>
+
+    </div>
+
+    <div id="passportSheet"></div>
+
+  </div>
+
+</section>
+<!-- ================= UTILITIES ================= -->
+
+<section id="utilities" class="view">
+
+<div class="sectionHead">
+
+<div>
+<h2>🛠️ Everyday Utilities</h2>
+<div class="muted">Small useful tools</div>
+</div>
+
+</div>
+
+
+<div class="grid2">
+
+
+<div class="card">
+
+<h3>🎂 Age Calculator</h3>
+
+<div class="form">
+
+<label>Date of birth</label>
+
+<input id="dob" type="date">
+
+<button
+class="btn primary"
+onclick="ageCalc()">
+Calculate Age
+</button>
+
+<div id="ageResult" class="result"></div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>🧾 GST Calculator</h3>
+
+<div class="form">
+
+<input
+id="gstAmount"
+type="number"
+placeholder="Amount">
+
+<select id="gstRate">
+
+<option value="5">5%</option>
+<option value="12">12%</option>
+<option value="18" selected>18%</option>
+<option value="28">28%</option>
+
+</select>
+
+<button
+class="btn primary"
+onclick="gstCalc()">
+Calculate GST
+</button>
+
+<div id="gstResult" class="result"></div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>📐 Unit Converter</h3>
+
+<div class="form">
+
+<input
+id="unitValue"
+type="number"
+placeholder="Value">
+
+<select id="unitType">
+
+<option value="km-mi">Kilometre → Mile</option>
+<option value="mi-km">Mile → Kilometre</option>
+<option value="kg-lb">Kilogram → Pound</option>
+<option value="lb-kg">Pound → Kilogram</option>
+<option value="m-ft">Meter → Feet</option>
+<option value="ft-m">Feet → Meter</option>
+<option value="c-f">Celsius → Fahrenheit</option>
+<option value="f-c">Fahrenheit → Celsius</option>
+<option value="l-gal">Liter → US Gallon</option>
+<option value="gal-l">US Gallon → Liter</option>
+
+</select>
+
+<button
+class="btn primary"
+onclick="unitConvert()">
+Convert
+</button>
+
+<div id="unitResult" class="result"></div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>🔤 Case Converter</h3>
+
+<div class="form">
+
+<textarea
+id="caseInput"
+placeholder="Enter text">
+</textarea>
+
+<div class="actions">
+
+<button
+class="btn primary"
+onclick="caseConvert('upper')">
+UPPER
+</button>
+
+<button
+class="btn primary"
+onclick="caseConvert('lower')">
+lower
+</button>
+
+<button
+class="btn primary"
+onclick="caseConvert('title')">
+Title
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>📱 QR Generator</h3>
+
+<div class="form">
+
+<input
+id="qrText"
+placeholder="Text / URL">
+
+<button
+class="btn primary"
+onclick="generateQR()">
+Generate QR
+</button>
+
+<div
+id="qrResult"
+style="margin-top:15px;text-align:center">
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>⏱️ Stopwatch</h3>
+
+<div
+id="stopwatch"
+class="timer">
+00:00:00
+</div>
+
+<div class="actions">
+
+<button
+class="btn primary"
+onclick="stopwatchStart()">
+Start
+</button>
+
+<button
+class="btn secondary"
+onclick="stopwatchPause()">
+Pause
+</button>
+
+<button
+class="btn secondary"
+onclick="stopwatchReset()">
+Reset
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= TASKS ================= -->
+
+<section id="tasks" class="view">
+
+<div class="sectionHead">
+
+<div>
+<h2>✅ Task Manager</h2>
+<div class="muted">
+Tasks are saved in your browser.
+</div>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="actions">
+
+<input
+id="taskInput"
+placeholder="Add a task..."
+style="
+flex:1;
+padding:11px;
+border:1px solid var(--line);
+border-radius:10px;
+background:var(--bg);
+color:var(--text)
+">
+
+<button
+class="btn primary"
+onclick="addTask()">
+Add Task
+</button>
+
+</div>
+
+<div
+id="taskList"
+style="margin-top:15px">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= NOTES ================= -->
+
+<section id="notes" class="view">
+
+<div class="sectionHead">
+
+<div>
+<h2>📒 Notes</h2>
+<div class="muted">
+Persistent browser notes
+</div>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="form">
+
+<input
+id="noteTitle"
+placeholder="Note title">
+
+<textarea
+id="noteText"
+placeholder="Write your note...">
+</textarea>
+
+<button
+class="btn primary"
+onclick="saveNote()">
+Save Note
+</button>
+
+</div>
+
+<div
+id="noteList"
+class="grid2"
+style="margin-top:20px">
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= SETTINGS ================= -->
+
+<section id="settings" class="view">
+
+<div class="sectionHead">
+
+<div>
+<h2>⚙️ Settings</h2>
+<div class="muted">
+Customize Nexora.
+</div>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div class="check">
+
+<input
+type="checkbox"
+id="compact">
+
+<span>Compact dashboard cards</span>
+
+</div>
+
+
+<div class="check">
+
+<input
+type="checkbox"
+id="notifications"
+checked>
+
+<span>Enable notifications</span>
+
+</div>
+
+
+<div style="margin-top:15px">
+
+<button
+class="btn danger"
+onclick="clearData()">
+Clear All Local Data
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+</div>
+</main>
+</div>
+
+
+<!-- ================= MODAL ================= -->
+
+<div
+class="modal"
+id="modal">
+
+<div class="modalBox">
+
+<button
+class="close"
+onclick="closeModal()">
+×
+</button>
+
+<div id="modalContent"></div>
+
+</div>
+
+</div>
+
+
+<div
+class="toast"
+id="toast">
+</div>
+
+
+<script>
+
+const $ = id => document.getElementById(id);
+
+const get = (k,d) => {
+  try{
+    const v = localStorage.getItem(k);
+    return v===null ? d : JSON.parse(v);
+  }catch(e){
+    return d;
+  }
+};
+
+const set = (k,v) => {
+  localStorage.setItem(k,JSON.stringify(v));
+};
+
+
+function toast(m){
+
+  $('toast').textContent=m;
+
+  $('toast').classList.add('show');
+
+  setTimeout(()=>{
+    $('toast').classList.remove('show');
+  },2500);
+
+}
+
+
+/* ================= NAVIGATION ================= */
+
+function showView(id){
+
+  document.querySelectorAll('.view')
+  .forEach(x=>x.classList.remove('active'));
+
+  $(id)?.classList.add('active');
+
+  document.querySelectorAll('.nav button')
+  .forEach(b=>{
+    b.classList.toggle(
+      'active',
+      b.dataset.view===id
+    );
+  });
+
+  window.scrollTo({
+    top:0,
+    behavior:'smooth'
+  });
+
+  updateStats();
+}
+
+
+document.querySelectorAll('.nav button')
+.forEach(b=>{
+  b.onclick=()=>showView(b.dataset.view);
+});
+
+
+/* ================= THEME ================= */
+
+function applyTheme(){
+
+  const mode =
+    localStorage.getItem('themeMode') || 'light';
+
+  let dark=false;
+
+  if(mode==='dark') dark=true;
+
+  if(mode==='system'){
+    dark=window.matchMedia(
+      '(prefers-color-scheme: dark)'
+    ).matches;
+  }
+
+  document.body.classList.toggle(
+    'dark',
+    dark
+  );
+
+  $('themeBtn').textContent =
+    mode==='light'
+    ?'☀️'
+    :mode==='system'
+    ?'🌓'
+    :'🌙';
+}
+
+
+function cycleTheme(){
+
+  const current =
+    localStorage.getItem('themeMode') || 'light';
+
+  const next =
+    current==='light'
+    ?'dark'
+    :current==='dark'
+    ?'system'
+    :'light';
+
+  localStorage.setItem(
+    'themeMode',
+    next
+  );
+
+  applyTheme();
+
+  toast('Theme: '+next);
+}
+
+applyTheme();
+
+
+/* ================= CATALOG ================= */
+
+const catalog=[
+
+['🧮','Calculator',
+'Basic, percentage, EMI and interest',
+'calculator'],
+
+['🎓','CGPA Calculator',
+'Academic performance',
+'student'],
+
+['🏫','Attendance',
+'Attendance planning',
+'student'],
+
+['📄','Resume Builder',
+'Professional resume',
+'career'],
+
+['💼','Job Tracker',
+'Track applications',
+'career'],
+
+['🎤','Interview Prep',
+'100 questions per role',
+'career'],
+
+['💵','Salary Estimator',
+'Take-home estimation',
+'career'],
+
+['💻','JSON Formatter',
+'Validate JSON',
+'developer'],
+
+['🔐','Password Generator',
+'Secure passwords',
+'developer'],
+
+['📝','Advanced Text Formatter',
+'Professional text editor',
+'text'],
+
+['🎨','Page Designer',
+'Generate HTML pages',
+'designer'],
+
+['🪪','ID Card Generator',
+'Student, employee, visitor and more',
+'idcard'],
+
+['📷','Passport Photo',
+'Printable photo sheet',
+'photo'],
+
+['🎂','Age Calculator',
+'Calculate exact age',
+'utilities'],
+
+['🧾','GST Calculator',
+'Calculate GST',
+'utilities'],
+
+['📐','Unit Converter',
+'Convert units',
+'utilities'],
+
+['📱','QR Generator',
+'Generate QR codes',
+'utilities'],
+
+['⏱️','Stopwatch',
+'Simple stopwatch',
+'utilities'],
+
+['🔤','Case Converter',
+'Change text case',
+'utilities'],
+
+['🔢','Number to Words',
+'Convert numbers',
+'developer'],
+
+['⏱️','Pomodoro',
+'Focus timer',
+'student'],
+
+['📅','Exam Countdown',
+'Days until exam',
+'student']
+
+];
+
+
+$('toolCatalog').innerHTML =
+catalog.map(t=>`
+
+<div class="toolCard">
+
+<div class="toolIcon">${t[0]}</div>
+
+<h3>${t[1]}</h3>
+
+<p>${t[2]}</p>
+
+<button
+class="btn primary"
+onclick="showView('${t[3]}')">
+Open
+</button>
+
+</div>
+
+`).join('');
+
+
+function globalSearch(q){
+
+  q=q.toLowerCase().trim();
+
+  if(!q)return;
+
+  const found =
+    catalog.find(x=>
+      (x[1]+' '+x[2])
+      .toLowerCase()
+      .includes(q)
+    );
+
+  if(found){
+
+    showView(found[3]);
+
+    toast('Opening '+found[1]);
+
+  }else{
+
+    routeSearch(q);
+
+  }
+
+}
+
+
+function routeSearch(q){
+
+  q=q.toLowerCase();
+
+  let view='tools';
+
+  if(
+    q.includes('emi')||
+    q.includes('loan')||
+    q.includes('calculator')
+  ){
+    view='calculator';
+
+  }else if(
+    q.includes('cgpa')||
+    q.includes('attendance')||
+    q.includes('study')||
+    q.includes('pomodoro')
+  ){
+    view='student';
+
+  }else if(
+    q.includes('resume')||
+    q.includes('salary')||
+    q.includes('job')||
+    q.includes('interview')||
+    q.includes('career')
+  ){
+    view='career';
+
+  }else if(
+    q.includes('json')||
+    q.includes('password')||
+    q.includes('base64')
+  ){
+    view='developer';
+
+  }else if(
+    q.includes('text')||
+    q.includes('format')||
+    q.includes('document')||
+    q.includes('editor')
+  ){
+    view='text';
+
+  }else if(
+    q.includes('id card')||
+    q.includes('idcard')||
+    q.includes('employee card')||
+    q.includes('student card')||
+    q.includes('visitor card')||
+    q.includes('membership card')
+  ){
+    view='idcard';
+
+  }else if(
+    q.includes('page')||
+    q.includes('website')||
+    q.includes('design')||
+    q.includes('html')
+  ){
+    view='designer';
+
+  }else if(
+    q.includes('passport')||
+    q.includes('photo')
+  ){
+    view='photo';
+
+  }else if(
+    q.includes('age')||
+    q.includes('gst')||
+    q.includes('unit')||
+    q.includes('qr')||
+    q.includes('stopwatch')
+  ){
+    view='utilities';
+  }
+
+  showView(view);
+
+  toast('Nexora found the right workspace');
+
+}
+
+
+/* ================= CALCULATOR ================= */
+
+let expr='';
+
+function calcPut(v){
+
+  expr+=v;
+
+  $('calcDisplay').value=expr;
+
+}
+
+function calcClear(){
+
+  expr='';
+
+  $('calcDisplay').value='0';
+
+}
+
+function calcBack(){
+
+  expr=expr.slice(0,-1);
+
+  $('calcDisplay').value=expr||'0';
+
+}
+
+function calcEqual(){
+
+  try{
+
+    if(
+      !expr.trim() ||
+      !/^[0-9+\-*/().% *]+$/.test(expr)
+    ){
+      throw new Error();
+    }
+
+    const value =
+      Function(
+        '"use strict";return ('+
+        expr+
+        ')'
+      )();
+
+    if(!Number.isFinite(value))
+      throw new Error();
+
+    expr=String(value);
+
+    $('calcDisplay').value=expr;
+
+  }catch{
+
+    expr='';
+
+    $('calcDisplay').value='Error';
+
+    toast('Invalid calculation');
+
+  }
+
+}
+
+
+function calcTab(tab,btn){
+
+  document
+  .querySelectorAll('#calculator .card')
+  .forEach(x=>x.classList.add('hidden'));
+
+  $('calc'+
+    tab[0].toUpperCase()+
+    tab.slice(1))
+    .classList.remove('hidden');
+
+  document
+  .querySelectorAll('#calculator .tabs button')
+  .forEach(x=>x.classList.remove('active'));
+
+  btn.classList.add('active');
+
+}
+
+
+/* ================= CALCULATIONS ================= */
+
+function percentage(){
+
+  let v=+$('pv').value;
+  let t=+$('pt').value;
+
+  if(!t)
+    return toast('Enter valid values');
+
+  $('presult').textContent =
+    `${v} is ${(v/t*100).toFixed(2)}% of ${t}`;
+
+}
+
+
+function emi(){
+
+  let P=+$('loan').value;
+  let annual=+$('rate').value;
+  let years=+$('loanYears').value;
+
+  if(!(P>0)||annual<0||!(years>0))
+    return toast('Enter valid EMI details');
+
+  let r=annual/1200;
+  let n=years*12;
+
+  let e =
+    r===0
+    ?P/n
+    :P*r*Math.pow(1+r,n)/
+     (Math.pow(1+r,n)-1);
+
+  $('emiResult').innerHTML=`
+
+  Monthly EMI:
+  <b>₹${e.toFixed(2)}</b>
+  <br>
+
+  Total Payment:
+  ₹${(e*n).toFixed(2)}
+
+  <br>
+
+  Total Interest:
+  ₹${Math.max(0,e*n-P).toFixed(2)}
+
+  `;
+
+}
+
+
+function interest(){
+
+  let p=+$('ip').value;
+  let r=+$('ir').value;
+  let t=+$('it').value;
+
+  if(!(p>0)||r<0||!(t>0))
+    return toast('Enter valid details');
+
+  let s=p*r*t/100;
+
+  $('interestResult').innerHTML=`
+
+  Simple Interest:
+  ₹${s.toFixed(2)}
+
+  <br>
+
+  Amount:
+  ₹${(p+s).toFixed(2)}
+
+  `;
+
+}
+
+
+function dateDiff(){
+
+  let a=$('d1').value;
+  let b=$('d2').value;
+
+  if(!a||!b)
+    return toast('Select both dates');
+
+  let d=Math.round(
+    Math.abs(
+      Date.parse(a+'T00:00:00')-
+      Date.parse(b+'T00:00:00')
+    )/86400000
+  );
+
+  $('dateResult').textContent =
+    `${d} days (${(d/7).toFixed(1)} weeks)`;
+
+}
+
+
+/* ================= STUDENT ================= */
+
+function cgpa(){
+
+  let a=[
+    ...document.querySelectorAll('.gpa')
+  ]
+  .map(x=>Number(x.value))
+  .filter(Number.isFinite);
+
+  if(!a.length)
+    return toast('Enter semester GPAs');
+
+  if(a.some(x=>x<0||x>10))
+    return toast('GPA must be between 0 and 10');
+
+  $('cgpaResult').textContent =
+    'Average CGPA: '+
+    (
+      a.reduce((x,y)=>x+y,0)/a.length
+    ).toFixed(2);
+
+}
+
+
+function attendance(){
+
+  let a=+$('attended').value;
+  let t=+$('total').value;
+  let target=+$('target').value||75;
+
+  if(!(t>0)||a<0||a>t)
+    return toast('Enter valid classes');
+
+  let p=a/t*100;
+
+  let need=Math.max(
+    0,
+    Math.ceil(
+      (target*t/100-a)/
+      (1-target/100)
+    )
+  );
+
+  $('attendanceResult').innerHTML=`
+
+  Current:
+  <b>${p.toFixed(2)}%</b>
+
+  <br>
+
+  ${
+    p>=target
+    ?'You are above your target.'
+    :'Attend at least '+
+      need+
+      ' more classes to reach '+
+      target+
+      '%.'
+  }
+
+  `;
+
+}
+
+
+let timer=1500;
+let timerInt;
+
+function renderTimer(){
+
+  let m=Math.floor(timer/60);
+  let s=timer%60;
+
+  $('timer').textContent =
+    `${String(m).padStart(2,'0')}:`+
+    `${String(s).padStart(2,'0')}`;
+
+}
+
+function timerStart(){
+
+  if(timerInt)return;
+
+  timerInt=setInterval(()=>{
+
+    if(timer>0){
+
+      timer--;
+
+      renderTimer();
+
+    }else{
+
+      clearInterval(timerInt);
+
+      timerInt=null;
+
+      toast('Pomodoro complete!');
+
+    }
+
+  },1000);
+
+}
+
+function timerPause(){
+
+  clearInterval(timerInt);
+
+  timerInt=null;
+
+}
+
+function timerReset(){
+
+  timerPause();
+
+  timer=1500;
+
+  renderTimer();
+
+}
+
+
+function countdown(){
+
+  let d=new Date($('examDate').value);
+
+  if(!d.getTime())
+    return toast('Select exam date');
+
+  let n=Math.ceil(
+    (d-new Date())/86400000
+  );
+
+  $('countResult').textContent =
+    n<0
+    ?'Exam date has passed.'
+    :n+' days remaining.';
+
+}
+
+
+/* ================= RESUME ================= */
+
+let resumePhotoData='';
+
+$('resumePhoto').addEventListener(
+  'change',
+  function(e){
+
+    const file=e.target.files[0];
+
+    if(!file)return;
+
+    const reader=new FileReader();
+
+    reader.onload=ev=>{
+      resumePhotoData=ev.target.result;
+    };
+
+    reader.readAsDataURL(file);
+
+  }
+);
+
+
+function esc(v){
+
+  return String(v??'')
+  .replace(
+    /[&<>"']/g,
+    c=>({
+      '&':'&amp;',
+      '<':'&lt;',
+      '>':'&gt;',
+      '"':'&quot;',
+      "'":'&#39;'
+    }[c])
+  );
+
+}
+
+
+function sectionHTML(title,text){
+
+  if(!text.trim())return '';
+
+  return `
+    <h2>${title}</h2>
+    <p style="white-space:pre-line">
+    ${esc(text)}
+    </p>
+  `;
+
+}
+
+
+function previewResume(){
+
+  const n=esc(
+    $('rName').value||'Your Name'
+  );
+
+  const role=esc(
+    $('rRole').value||'Professional'
+  );
+
+  const email=esc($('rEmail').value);
+  const phone=esc($('rPhone').value);
+  const location=esc($('rLocation').value);
+
+  const linkedin=esc($('rLinkedin').value);
+  const github=esc($('rGithub').value);
+  const portfolio=esc($('rPortfolio').value);
+
+  const template=$('resumeTemplate').value;
+
+  let templateClass=
+    template==='classic'
+    ?'classicResume'
+    :template==='minimal'
+    ?'minimalResume'
+    :'modernResume';
+
+  $('modalContent').innerHTML=`
+
+  <div id="resumePreview"
+       class="resume ${templateClass}">
+
+  <div class="resumeHeader">
+
+  <div>
+
+  <h1>${n}</h1>
+
+  <h3 style="color:#635bff;margin-top:5px">
+  ${role}
+  </h3>
+
+  <p style="margin-top:10px">
+  ${[
+    email,
+    phone,
+    location
+  ].filter(Boolean).join(' · ')}
+  </p>
+
+  <p>
+  ${[
+    linkedin,
+    github,
+    portfolio
+  ].filter(Boolean).join(' · ')}
+  </p>
+
+  </div>
+
+  ${
+    resumePhotoData
+    ?`
+    <img
+      class="resumePhoto"
+      src="${resumePhotoData}">
+    `
+    :''
+  }
+
+  </div>
+
+
+  ${sectionHTML(
+    'Professional Summary',
+    $('rSummary').value
+  )}
+
+  ${sectionHTML(
+    'Technical Skills',
+    $('rSkills').value
+  )}
+
+  ${sectionHTML(
+    'Soft Skills',
+    $('rSoftSkills').value
+  )}
+
+  ${sectionHTML(
+    'Education',
+    $('rEducation').value
+  )}
+
+  ${sectionHTML(
+    'Experience',
+    $('rExperience').value
+  )}
+
+  ${sectionHTML(
+    'Projects',
+    $('rProjects').value
+  )}
+
+  ${sectionHTML(
+    'Certifications',
+    $('rCertifications').value
+  )}
+
+  ${sectionHTML(
+    'Achievements',
+    $('rAchievements').value
+  )}
+
+  ${sectionHTML(
+    'Languages',
+    $('rLanguages').value
+  )}
+
+  ${sectionHTML(
+    'Interests',
+    $('rInterests').value
+  )}
+
+  </div>
+
+  <div class="actions"
+       style="margin-top:20px">
+
+  <button
+    class="btn primary"
+    onclick="printResume()">
+    🖨 Print / Save PDF
+  </button>
+
+  <button
+    class="btn secondary"
+    onclick="saveResumeData()">
+    💾 Save Resume
+  </button>
+
+  </div>
+
+  `;
+
+  $('modal').classList.add('open');
+
+}
+
+
+function printResume(){
+
+  const content =
+    $('resumePreview')?.outerHTML||'';
+
+  const w=window.open(
+    '',
+    '_blank',
+    'width=900,height=1000'
+  );
+
+  if(!w)
+    return toast(
+      'Allow pop-ups to print'
+    );
+
+  w.document.write(`
+  <html>
+
+  <head>
+
+  <title>Nexora Resume</title>
+
+  <style>
+
+  body{
+    font-family:Arial;
+    padding:40px;
+    color:#111;
+    line-height:1.6
+  }
+
+  .resume{
+    max-width:800px;
+    margin:auto
+  }
+
+  h1{
+    font-size:34px
+  }
+
+  h2{
+    margin-top:25px;
+    border-bottom:2px solid #635bff;
+    padding-bottom:5px
+  }
+
+  .resumePhoto{
+    width:100px;
+    height:120px;
+    object-fit:cover
+  }
+
+  </style>
+
+  </head>
+
+  <body>
+
+  ${content}
+
+  </body>
+
+  </html>
+  `);
+
+  w.document.close();
+
+  w.focus();
+
+  setTimeout(()=>{
+    w.print();
+  },300);
+
+}
+
+
+function saveResumeData(){
+
+  const data={};
+
+  document
+  .querySelectorAll(
+    '#career input[id^="r"],#career textarea[id^="r"]'
+  )
+  .forEach(el=>{
+    data[el.id]=el.value;
+  });
+
+  set(
+    'resumeData',
+    data
+  );
+
+  toast('Resume saved locally');
+
+}
+
+
+function loadResumeData(){
+
+  const data=get(
+    'resumeData',
+    {}
+  );
+
+  Object.entries(data)
+  .forEach(([id,value])=>{
+    if($(id))
+      $(id).value=value;
+  });
+
+}
+
+
+/* ================= JOB TRACKER ================= */
+
+function addJob(){
+
+  let c=$('company').value.trim();
+  let r=$('jobRole').value.trim();
+  let location=$('jobLocation').value.trim();
+  let link=$('jobLink').value.trim();
+  let s=$('jobStatus').value;
+
+  if(!c||!r)
+    return toast(
+      'Enter company and role'
+    );
+
+  let a=get('jobs',[]);
+
+  a.push({
+    c,r,location,link,s,
+    date:new Date().toLocaleDateString()
+  });
+
+  set('jobs',a);
+
+  $('company').value='';
+  $('jobRole').value='';
+  $('jobLocation').value='';
+  $('jobLink').value='';
+
+  renderJobs();
+  toast('Application added');
+
+}
+
+
+function renderJobs(){
+
+  let a=get('jobs',[]);
+
+  $('jobTotal').textContent=a.length;
+
+  $('jobInterview').textContent=
+    a.filter(j=>
+      ['Interview','HR Round']
+      .includes(j.s)
+    ).length;
+
+  $('jobOffer').textContent=
+    a.filter(j=>
+      ['Offer','Joined']
+      .includes(j.s)
+    ).length;
+
+  $('jobs').innerHTML =
+    a.length
+
+    ?a.map((j,i)=>`
+
+    <div class="check">
+
+    <div style="flex:1">
+
+    <b>${esc(j.r)}</b>
+    · ${esc(j.c)}
+
+    <br>
+
+    <small class="muted">
+
+    ${esc(j.location||'Location not added')}
+    ·
+    ${esc(j.s)}
+    ·
+    ${esc(j.date)}
+
+    </small>
+
+    ${
+      j.link
+      ?`
+      <br>
+      <a
+        href="${esc(j.link)}"
+        target="_blank"
+        rel="noopener">
+        Job Link
+      </a>
+      `
+      :''
+    }
+
+    </div>
+
+    <button
+      class="btn danger"
+      onclick="deleteJob(${i})">
+      ×
+    </button>
+
+    </div>
+
+    `).join('')
+
+    :'<p class="muted">No applications yet.</p>';
+
+}
+
+
+function deleteJob(i){
+
+  let a=get('jobs',[]);
+
+  a.splice(i,1);
+
+  set('jobs',a);
+
+  renderJobs();
+
+  updateStats();
+
+}
+
+
+/* ================= INTERVIEW ================= */
+
+const roles=[
+
+'Data Analyst',
+'Data Scientist',
+'Python Developer',
+'Java Developer',
+'JavaScript Developer',
+'React Developer',
+'Frontend Developer',
+'Backend Developer',
+'Full Stack Developer',
+'Software Engineer',
+'Android Developer',
+'Web Developer',
+'DevOps Engineer',
+'Cloud Engineer',
+'Cybersecurity Analyst',
+'QA Engineer',
+'Automation Tester',
+'SQL Developer',
+'Database Developer',
+'Business Analyst',
+'Product Manager',
+'UI/UX Designer',
+'Machine Learning Engineer',
+'AI Engineer',
+'Network Engineer'
+
+];
+
+
+$('interviewRole').innerHTML =
+  roles.map(r=>
+    `<option>${r}</option>`
+  ).join('');
+
+
+const commonHR=[
+
+'Tell me about yourself.',
+'Why should we hire you?',
+'Why do you want to join our company?',
+'What are your strengths?',
+'What is your biggest weakness?',
+'Where do you see yourself in five years?',
+'Why did you choose this career?',
+'Tell me about your biggest achievement.',
+'Tell me about a failure and what you learned.',
+'How do you handle pressure?',
+'How do you prioritize tasks?',
+'How do you handle criticism?',
+'Describe your ideal work environment.',
+'What motivates you?',
+'How do you handle conflict?',
+'Describe yourself in three words.',
+'What are your salary expectations?',
+'Are you comfortable working in a team?',
+'Are you willing to relocate?',
+'How do you learn new technologies?'
+
+];
+
+
+const roleTopics={
+
+'Data Analyst':[
+'SQL joins',
+'GROUP BY and HAVING',
+'window functions',
+'data cleaning',
+'missing values',
+'outlier detection',
+'Excel pivot tables',
+'Power BI dashboards',
+'data visualization',
+'A/B testing'
+],
+
+'Data Scientist':[
+'Python',
+'statistics',
+'probability',
+'linear regression',
+'logistic regression',
+'decision trees',
+'random forests',
+'clustering',
+'feature engineering',
+'model evaluation'
+],
+
+'Python Developer':[
+'Python data types',
+'list vs tuple',
+'dictionaries',
+'decorators',
+'generators',
+'OOP',
+'exceptions',
+'virtual environments',
+'REST APIs',
+'async programming'
+],
+
+'Java Developer':[
+'OOP',
+'JVM',
+'JDK vs JRE',
+'collections',
+'HashMap',
+'threads',
+'exceptions',
+'streams',
+'Spring Boot',
+'REST APIs'
+],
+
+'JavaScript Developer':[
+'closures',
+'promises',
+'async/await',
+'event loop',
+'DOM',
+'event bubbling',
+'prototypes',
+'modules',
+'localStorage',
+'fetch API'
+],
+
+'React Developer':[
+'components',
+'props',
+'state',
+'useState',
+'useEffect',
+'useMemo',
+'useCallback',
+'Context API',
+'React Router',
+'performance optimization'
+],
+
+'Frontend Developer':[
+'HTML semantics',
+'CSS box model',
+'Flexbox',
+'Grid',
+'responsive design',
+'accessibility',
+'JavaScript DOM',
+'event delegation',
+'browser storage',
+'performance'
+],
+
+'Backend Developer':[
+'REST APIs',
+'authentication',
+'authorization',
+'databases',
+'caching',
+'Redis',
+'API security',
+'rate limiting',
+'logging',
+'scaling'
+],
+
+'Full Stack Developer':[
+'frontend architecture',
+'backend architecture',
+'REST APIs',
+'authentication',
+'SQL',
+'NoSQL',
+'deployment',
+'caching',
+'security',
+'CI/CD'
+],
+
+'Software Engineer':[
+'data structures',
+'algorithms',
+'OOP',
+'design patterns',
+'Git',
+'testing',
+'debugging',
+'API design',
+'system design',
+'code review'
+],
+
+'Android Developer':[
+'Android lifecycle',
+'Activities',
+'Fragments',
+'Intents',
+'RecyclerView',
+'ViewModel',
+'Room',
+'Coroutines',
+'permissions',
+'Play Store deployment'
+],
+
+'Web Developer':[
+'HTML',
+'CSS',
+'JavaScript',
+'HTTP',
+'REST',
+'responsive design',
+'accessibility',
+'browser APIs',
+'SEO',
+'performance'
+],
+
+'DevOps Engineer':[
+'Linux',
+'Git',
+'Docker',
+'Kubernetes',
+'CI/CD',
+'AWS',
+'infrastructure',
+'monitoring',
+'logging',
+'deployment'
+],
+
+'Cloud Engineer':[
+'cloud computing',
+'AWS',
+'Azure',
+'GCP',
+'IAM',
+'VPC',
+'load balancing',
+'auto scaling',
+'storage',
+'monitoring'
+],
+
+'Cybersecurity Analyst':[
+'CIA triad',
+'network security',
+'phishing',
+'malware',
+'firewalls',
+'SIEM',
+'authentication',
+'encryption',
+'vulnerability management',
+'incident response'
+],
+
+'QA Engineer':[
+'test cases',
+'test plans',
+'bug lifecycle',
+'regression testing',
+'smoke testing',
+'integration testing',
+'API testing',
+'SQL testing',
+'Agile',
+'defect reporting'
+],
+
+'Automation Tester':[
+'Selenium',
+'Playwright',
+'locators',
+'Page Object Model',
+'API automation',
+'test frameworks',
+'CI/CD',
+'wait strategies',
+'parallel testing',
+'reporting'
+],
+
+'SQL Developer':[
+'SELECT',
+'JOIN',
+'GROUP BY',
+'HAVING',
+'subqueries',
+'indexes',
+'views',
+'stored procedures',
+'transactions',
+'query optimization'
+],
+
+'Database Developer':[
+'relational databases',
+'normalization',
+'indexes',
+'transactions',
+'ACID',
+'stored procedures',
+'triggers',
+'query optimization',
+'backup',
+'replication'
+],
+
+'Business Analyst':[
+'requirements gathering',
+'user stories',
+'stakeholders',
+'BRD',
+'FRD',
+'process mapping',
+'SWOT',
+'KPIs',
+'acceptance criteria',
+'Agile'
+],
+
+'Product Manager':[
+'product strategy',
+'roadmaps',
+'user research',
+'prioritization',
+'KPIs',
+'A/B testing',
+'stakeholder management',
+'product discovery',
+'metrics',
+'launch planning'
+],
+
+'UI/UX Designer':[
+'user research',
+'wireframes',
+'prototypes',
+'design systems',
+'typography',
+'color theory',
+'usability',
+'accessibility',
+'Figma',
+'usability testing'
+],
+
+'Machine Learning Engineer':[
+'ML pipelines',
+'feature engineering',
+'model deployment',
+'model monitoring',
+'regression',
+'classification',
+'clustering',
+'data preprocessing',
+'model evaluation',
+'MLOps'
+],
+
+'AI Engineer':[
+'LLMs',
+'prompt engineering',
+'embeddings',
+'vector databases',
+'RAG',
+'fine tuning',
+'transformers',
+'AI evaluation',
+'model deployment',
+'AI safety'
+],
+
+'Network Engineer':[
+'OSI model',
+'TCP/IP',
+'DNS',
+'DHCP',
+'routing',
+'switching',
+'VLAN',
+'firewalls',
+'VPN',
+'network troubleshooting'
+]
+
+};
+
+
+function makeInterviewQuestions(role){
+
+  const topics=
+    roleTopics[role]||
+    roleTopics['Software Engineer'];
+
+  const questions=[
+    ...commonHR
+  ];
+
+  topics.forEach(topic=>{
+
+    questions.push(
+      `What is ${topic} and why is it important?`
+    );
+
+    questions.push(
+      `Explain ${topic} with a practical example.`
+    );
+
+    questions.push(
+      `What are common mistakes when using ${topic}?`
+    );
+
+    questions.push(
+      `How would you troubleshoot a problem involving ${topic}?`
+    );
+
+    questions.push(
+      `How would you use ${topic} in a real project?`
+    );
+
+  });
+
+
+  const scenario=[
+
+  'You receive a task with unclear requirements. What would you do?',
+
+  'A production issue appears before release. How would you respond?',
+
+  'A teammate disagrees with your approach. What would you do?',
+
+  'You have three urgent tasks. How would you prioritize them?',
+
+  'Your solution works but is too slow. How would you improve it?',
+
+  'A customer reports a bug you cannot reproduce. What would you do?',
+
+  'You discover a mistake after deployment. What would you do?',
+
+  'Your manager gives you an unrealistic deadline. How would you handle it?',
+
+  'You need to learn a new technology quickly. What is your approach?',
+
+  'You inherit an unfamiliar codebase. What would you do first?'
+
+  ];
+
+  questions.push(
+    ...scenario,
+    ...scenario,
+    ...scenario
+  );
+
+  while(questions.length<100){
+
+    const topic=
+      topics[
+        questions.length%topics.length
+      ];
+
+    questions.push(
+      `Give a detailed real-world example of using ${topic}.`
+    );
+
+  }
+
+  return questions.slice(0,100);
+
+}
+
+
+let interviewState={
+  questions:[],
+  index:0
+};
+
+
+function startInterview(){
+
+  const role=$('interviewRole').value;
+
+  const category=
+    $('questionCategory').value;
+
+  let questions=
+    makeInterviewQuestions(role);
+
+  if(category==='hr')
+    questions=questions.slice(0,20);
+
+  if(category==='technical')
+    questions=questions.slice(20,80);
+
+  if(category==='scenario')
+    questions=questions.slice(80,100);
+
+  interviewState={
+    questions,
+    index:0
+  };
+
+  renderInterview();
+
+}
+
+
+function renderInterview(){
+
+  const q=
+    interviewState.questions[
+      interviewState.index
+    ];
+
+  if(!q){
+
+    $('interviewBox').innerHTML=`
+
+    <div class="result">
+    Practice completed 🎉
+    </div>
+
+    `;
+
+    return;
+
+  }
+
+  $('interviewBox').innerHTML=`
+
+  <div class="interviewQuestion">
+
+  <div class="questionNumber">
+  QUESTION
+  ${interviewState.index+1}
+  /
+  ${interviewState.questions.length}
+  </div>
+
+  <div class="questionText">
+  ${esc(q)}
+  </div>
+
+  <div
+    id="answerBox"
+    class="questionAnswer hidden">
+
+  Think about the answer first.
+  Give a structured answer with
+  a practical example.
+
+  </div>
+
+  <div
+    class="actions"
+    style="margin-top:18px">
+
+  <button
+    class="btn secondary"
+    onclick="showInterviewAnswer()">
+    Show Tip
+  </button>
+
+  <button
+    class="btn secondary"
+    onclick="previousQuestion()">
+    ← Previous
+  </button>
+
+  <button
+    class="btn primary"
+    onclick="nextQuestion()">
+    Next →
+  </button>
+
+  <button
+    class="btn secondary"
+    onclick="randomQuestion()">
+    🎲 Random
+  </button>
+
+  </div>
+
+  </div>
+
+  `;
+
+}
+
+
+function showInterviewAnswer(){
+
+  $('answerBox')
+  .classList
+  .toggle('hidden');
+
+}
+
+
+function nextQuestion(){
+
+  if(
+    interviewState.index<
+    interviewState.questions.length-1
+  ){
+
+    interviewState.index++;
+
+    renderInterview();
+
+  }
+
+}
+
+
+function previousQuestion(){
+
+  if(interviewState.index>0){
+
+    interviewState.index--;
+
+    renderInterview();
+
+  }
+
+}
+
+
+function randomQuestion(){
+
+  interviewState.index=
+    Math.floor(
+      Math.random()*
+      interviewState.questions.length
+    );
+
+  renderInterview();
+
+}
+
+
+/* ================= SALARY ================= */
+
+function salaryCalc(){
+
+  const ctc=+$('salary').value;
+
+  if(!(ctc>0))
+    return toast('Enter annual CTC');
+
+  const basicPercent=
+    +$('basicPercent').value||40;
+
+  const hraPercent=
+    +$('hraPercent').value||50;
+
+  const bonus=
+    +$('bonus').value||0;
+
+  const pfPercent=
+    +$('pfPercent').value||12;
+
+  const pt=
+    +$('professionalTax').value||0;
+
+  const other=
+    +$('otherDeduction').value||0;
+
+  const annualBasic=
+    ctc*basicPercent/100;
+
+  const annualHRA=
+    annualBasic*hraPercent/100;
+
+  const annualFixed=
+    Math.max(0,ctc-bonus);
+
+  const monthlyGross=
+    annualFixed/12;
+
+  const monthlyBasic=
+    annualBasic/12;
+
+  const monthlyHRA=
+    annualHRA/12;
+
+  const monthlyPF=
+    monthlyBasic*pfPercent/100;
+
+  const monthlyDeductions=
+    monthlyPF+pt+other;
+
+  const monthlyTakeHome=
+    Math.max(
+      0,
+      monthlyGross-monthlyDeductions
+    );
+
+  $('salaryResult').innerHTML=`
+
+  <div class="grid2">
+
+  <div class="statCard">
+
+  <b>
+  ₹${monthlyGross.toLocaleString('en-IN',{
+    maximumFractionDigits:0
+  })}
+  </b>
+
+  <div class="muted">
+  Monthly Gross
+  </div>
+
+  </div>
+
+
+  <div class="statCard">
+
+  <b>
+  ₹${monthlyTakeHome.toLocaleString('en-IN',{
+    maximumFractionDigits:0
+  })}
+  </b>
+
+  <div class="muted">
+  Estimated Take-home
+  </div>
+
+  </div>
+
+
+  <div class="statCard">
+
+  <b>
+  ₹${monthlyBasic.toLocaleString('en-IN',{
+    maximumFractionDigits:0
+  })}
+  </b>
+
+  <div class="muted">
+  Monthly Basic
+  </div>
+
+  </div>
+
+
+  <div class="statCard">
+
+  <b>
+  ₹${monthlyHRA.toLocaleString('en-IN',{
+    maximumFractionDigits:0
+  })}
+  </b>
+
+  <div class="muted">
+  Monthly HRA
+  </div>
+
+  </div>
+
+  </div>
+
+  <hr style="
+  border:0;
+  border-top:1px solid var(--line);
+  margin:18px 0">
+
+  <b>Monthly Deductions</b>
+
+  <br>
+
+  PF:
+  ₹${monthlyPF.toFixed(0)}
+
+  <br>
+
+  Professional Tax:
+  ₹${pt.toFixed(0)}
+
+  <br>
+
+  Other:
+  ₹${other.toFixed(0)}
+
+  `;
+
+}
+
+
+/* ================= DEVELOPER ================= */
+
+function formatJSON(){
+
+  try{
+
+    $('jsonOutput').textContent=
+      JSON.stringify(
+        JSON.parse(
+          $('jsonInput').value
+        ),
+        null,
+        2
+      );
+
+  }catch{
+
+    $('jsonOutput').textContent=
+      'Invalid JSON';
+
+  }
+
+}
+
+
+function base64(mode){
+
+  try{
+
+    const x=$('baseInput').value;
+
+    if(mode==='encode'){
+
+      const bytes=
+        new TextEncoder().encode(x);
+
+      let binary='';
+
+      bytes.forEach(
+        b=>binary+=String.fromCharCode(b)
+      );
+
+      $('baseResult').textContent=
+        btoa(binary);
+
+    }else{
+
+      const binary=
+        atob(x.trim());
+
+      const bytes=
+        Uint8Array.from(
+          binary,
+          c=>c.charCodeAt(0)
+        );
+
+      $('baseResult').textContent=
+        new TextDecoder().decode(bytes);
+
+    }
+
+  }catch{
+
+    $('baseResult').textContent=
+      'Invalid Base64';
+
+  }
+
+}
+
+
+function password(){
+
+  let n=Math.min(
+    64,
+    Math.max(
+      6,
+      +$('passLen').value||16
+    )
+  );
+
+  const chars=
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZ'+
+    'abcdefghijklmnopqrstuvwxyz'+
+    '0123456789!@#$%^&*()_+';
+
+  const r=
+    new Uint32Array(n);
+
+  crypto.getRandomValues(r);
+
+  let p='';
+
+  for(let i=0;i<n;i++){
+
+    p+=chars[
+      r[i]%chars.length
+    ];
+
+  }
+
+  $('passResult').value=p;
+
+}
+
+
+/* =========================================================
+   ADVANCED TEXT FORMATTER
+========================================================= */
+
+function editorCmd(command,value=null){
+
+  $('textEditor').focus();
+
+  document.execCommand(
+    command,
+    false,
+    value
+  );
+
+  updateEditorStats();
+
+}
+
+
+function formatBlock(value){
+
+  if(!value)return;
+
+  $('textEditor').focus();
+
+  document.execCommand(
+    'formatBlock',
+    false,
+    value
+  );
+
+  updateEditorStats();
+
+}
+
+
+function changeFontSize(value){
+
+  $('textEditor').focus();
+
+  document.execCommand(
+    'fontSize',
+    false,
+    value
+  );
+
+  updateEditorStats();
+
+}
+
+
+function editorForeColor(color){
+
+  $('textEditor').focus();
+
+  document.execCommand(
+    'foreColor',
+    false,
+    color
+  );
+
+}
+
+
+function editorBackColor(color){
+
+  $('textEditor').focus();
+
+  document.execCommand(
+    'hiliteColor',
+    false,
+    color
+  );
+
+}
+
+
+function addLink(){
+
+  const url=
+    prompt(
+      'Enter URL',
+      'https://'
+    );
+
+  if(!url)return;
+
+  document.execCommand(
+    'createLink',
+    false,
+    url
+  );
+
+}
+
+
+function insertQuote(){
+
+  $('textEditor').focus();
+
+  document.execCommand(
+    'formatBlock',
+    false,
+    'BLOCKQUOTE'
+  );
+
+}
+
+
+function insertCode(){
+
+  const selection=
+    window.getSelection();
+
+  const text=
+    selection.toString();
+
+  if(!text){
+
+    toast(
+      'Select text first'
+    );
+
+    return;
+
+  }
+
+  document.execCommand(
+    'insertHTML',
+    false,
+    '<pre><code>'+
+    esc(text)+
+    '</code></pre>'
+  );
+
+}
+
+
+function getEditorText(){
+
+  return $('textEditor')
+    .innerText
+    .replace(/\r/g,'');
+
+}
+
+
+function updateEditorStats(){
+
+  const x=
+    getEditorText();
+
+  const words=
+    x.trim()
+    ?x.trim().split(/\s+/).length
+    :0;
+
+  const chars=
+    x.length;
+
+  const noSpace=
+    x.replace(/\s/g,'').length;
+
+  const lines=
+    x
+    ?x.split('\n').length
+    :0;
+
+  const reading=
+    words
+    ?Math.max(
+      1,
+      Math.ceil(words/200)
+    )
+    :0;
+
+  $('textWords').textContent=
+    words;
+
+  $('textChars').textContent=
+    chars;
+
+  $('textCharsNoSpace').textContent=
+    noSpace;
+
+  $('textLines').textContent=
+    lines;
+
+  $('readingTime').textContent=
+    reading+' min';
+
+}
+
+
+$('textEditor')
+.addEventListener(
+  'input',
+  updateEditorStats
+);
+
+
+function textTransform(mode){
+
+  const editor=$('textEditor');
+
+  const text=
+    editor.innerText;
+
+  let x=text;
+
+  if(mode==='upper')
+    x=x.toUpperCase();
+
+  if(mode==='lower')
+    x=x.toLowerCase();
+
+  if(mode==='title'){
+
+    x=x
+    .toLowerCase()
+    .replace(
+      /\b\w/g,
+      c=>c.toUpperCase()
+    );
+
+  }
+
+  if(mode==='sentence'){
+
+    x=x
+    .toLowerCase()
+    .replace(
+      /(^\s*\w|[.!?]\s+\w)/g,
+      c=>c.toUpperCase()
+    );
+
+  }
+
+  editor.innerText=x;
+
+  updateEditorStats();
+
+}
+
+
+function cleanText(){
+
+  let x=
+    getEditorText()
+    .split('\n')
+    .map(line=>
+      line.replace(
+        /[ \t]+/g,
+        ' '
+      ).trim()
+    )
+    .join('\n');
+
+  $('textEditor').innerText=x;
+
+  updateEditorStats();
+
+}
+
+
+function removeDuplicateLines(){
+
+  const lines=
+    getEditorText()
+    .split('\n');
+
+  const result=[
+    ...new Set(
+      lines.map(x=>x.trim())
+    )
+  ];
+
+  $('textEditor').innerText=
+    result.join('\n');
+
+  updateEditorStats();
+
+}
+
+
+function sortTextLines(){
+
+  const lines=
+    getEditorText()
+    .split('\n');
+
+  lines.sort(
+    (a,b)=>
+      a.localeCompare(b)
+  );
+
+  $('textEditor').innerText=
+    lines.join('\n');
+
+  updateEditorStats();
+
+}
+
+
+function removeBlankLines(){
+
+  const lines=
+    getEditorText()
+    .split('\n')
+    .filter(x=>x.trim());
+
+  $('textEditor').innerText=
+    lines.join('\n');
+
+  updateEditorStats();
+
+}
+
+
+function findReplaceText(){
+
+  const find=
+    $('findText').value;
+
+  const replace=
+    $('replaceText').value;
+
+  if(!find)
+    return toast('Enter text to find');
+
+  const editor=
+    $('textEditor');
+
+  const text=
+    editor.innerText;
+
+  editor.innerText=
+    text.split(find).join(replace);
+
+  updateEditorStats();
+
+  toast('Replacement completed');
+
+}
+
+
+function highlightFind(){
+
+  const find=
+    $('findText').value;
+
+  if(!find)
+    return toast('Enter text to find');
+
+  const editor=
+    $('textEditor');
+
+  const text=
+    editor.innerText;
+
+  const safeFind=
+    esc(find);
+
+  const safeText=
+    esc(text);
+
+  const html=
+    safeText.replace(
+      new RegExp(
+        safeFind.replace(
+          /[.*+?^${}()|[\]\\]/g,
+          '\\$&'
+        ),
+        'gi'
+      ),
+      match=>
+        `<mark>${match}</mark>`
+    );
+
+  editor.innerHTML=html;
+
+  updateEditorStats();
+
+}
+
+
+function copyFormattedText(){
+
+  const html=
+    $('textEditor').innerHTML;
+
+  const text=
+    $('textEditor').innerText;
+
+  if(
+    navigator.clipboard &&
+    window.ClipboardItem
+  ){
+
+    const blob=
+      new Blob(
+        [html],
+        {type:'text/html'}
+      );
+
+    const plain=
+      new Blob(
+        [text],
+        {type:'text/plain'}
+      );
+
+    const item=
+      new ClipboardItem({
+        'text/html':blob,
+        'text/plain':plain
+      });
+
+    navigator.clipboard.write([
+      item
+    ]);
+
+  }else{
+
+    navigator.clipboard.writeText(text);
+
+  }
+
+  toast('Formatted content copied');
+
+}
+
+
+function downloadFile(
+  content,
+  filename,
+  type
+){
+
+  const blob=
+    new Blob(
+      [content],
+      {type}
+    );
+
+  const url=
+    URL.createObjectURL(blob);
+
+  const a=
+    document.createElement('a');
+
+  a.href=url;
+
+  a.download=filename;
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+function downloadTextTXT(){
+
+  downloadFile(
+    getEditorText(),
+    'nexora-document.txt',
+    'text/plain'
+  );
+
+}
+
+
+function downloadFormattedHTML(){
+
+  const html=`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>Nexora Document</title>
+
+<style>
+
+body{
+font-family:Arial,sans-serif;
+max-width:900px;
+margin:40px auto;
+padding:20px;
+line-height:1.7;
+}
+
+blockquote{
+border-left:4px solid #635bff;
+padding:10px 15px;
+background:#f3f4ff;
+}
+
+pre{
+background:#111827;
+color:#fff;
+padding:15px;
+border-radius:8px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${$('textEditor').innerHTML}
+
+</body>
+
+</html>
+
+`;
+
+  downloadFile(
+    html,
+    'nexora-document.html',
+    'text/html'
+  );
+
+}
+
+
+function previewFormattedHTML(){
+
+  $('modalContent').innerHTML=`
+
+  <h2>Document Preview</h2>
+
+  <div
+    class="previewBox"
+    style="
+      margin-top:15px;
+      background:#fff;
+      color:#111;
+      min-height:500px;
+      overflow:auto
+    "
+  >
+
+  ${$('textEditor').innerHTML}
+
+  </div>
+
+  <div
+    class="actions"
+    style="margin-top:15px">
+
+  <button
+    class="btn primary"
+    onclick="printFormattedDocument()">
+    🖨 Print
+  </button>
+
+  <button
+    class="btn secondary"
+    onclick="closeModal()">
+    Close
+  </button>
+
+  </div>
+
+  `;
+
+  $('modal').classList.add('open');
+
+}
+
+
+function printFormattedDocument(){
+
+  const content=
+    $('textEditor').innerHTML;
+
+  const w=
+    window.open(
+      '',
+      '_blank',
+      'width=900,height=900'
+    );
+
+  if(!w)
+    return toast(
+      'Allow pop-ups to print'
+    );
+
+  w.document.write(`
+
+  <!DOCTYPE html>
+
+  <html>
+
+  <head>
+
+  <title>Nexora Document</title>
+
+  <style>
+
+  body{
+    font-family:Arial;
+    max-width:850px;
+    margin:40px auto;
+    line-height:1.7;
+  }
+
+  blockquote{
+    border-left:4px solid #635bff;
+    padding:10px 15px;
+  }
+
+  pre{
+    background:#111827;
+    color:#fff;
+    padding:15px;
+  }
+
+  </style>
+
+  </head>
+
+  <body>
+
+  ${content}
+
+  </body>
+
+  </html>
+
+  `);
+
+  w.document.close();
+
+  w.focus();
+
+  setTimeout(()=>{
+    w.print();
+  },300);
+
+}
+
+
+function clearEditor(){
+
+  if(
+    !confirm(
+      'Clear complete document?'
+    )
+  )return;
+
+  $('textEditor').innerHTML='';
+
+  updateEditorStats();
+
+}
+
+
+/* =========================================================
+   ID CARD GENERATOR
+========================================================= */
+/* =========================================================
+   NEXORA ULTRA PRO MAX — ID CARD ENGINE
+========================================================= */
+
+let nxPhotoData = "";
+let nxLogoData = "";
+
+let nxCurrentSide = "front";
+let nxZoomLevel = 1;
+
+
+/* =========================================================
+   TEMPLATES
+========================================================= */
+
+const nxIDTemplates = {
+
+    student:{
+        org:"Nexora University",
+        type:"STUDENT ID CARD",
+        role:"MCA Data Science",
+        dept:"Computer Science",
+        primary:"#635bff",
+        secondary:"#8b5cf6",
+        accent:"#f59e0b"
+    },
+
+    employee:{
+        org:"Nexora Technologies",
+        type:"EMPLOYEE ID CARD",
+        role:"Software Engineer",
+        dept:"Technology",
+        primary:"#2563eb",
+        secondary:"#06b6d4",
+        accent:"#22c55e"
+    },
+
+    school:{
+        org:"Nexora Public School",
+        type:"SCHOOL ID CARD",
+        role:"Student",
+        dept:"Academic",
+        primary:"#0f766e",
+        secondary:"#14b8a6",
+        accent:"#f59e0b"
+    },
+
+    visitor:{
+        org:"Nexora Campus",
+        type:"VISITOR PASS",
+        role:"Visitor",
+        dept:"Guest",
+        primary:"#ea580c",
+        secondary:"#f97316",
+        accent:"#fde047"
+    },
+
+    library:{
+        org:"Nexora Central Library",
+        type:"LIBRARY CARD",
+        role:"Library Member",
+        dept:"Library",
+        primary:"#7c3aed",
+        secondary:"#a855f7",
+        accent:"#fbbf24"
+    },
+
+    membership:{
+        org:"Nexora Premium Club",
+        type:"MEMBERSHIP CARD",
+        role:"Premium Member",
+        dept:"Membership",
+        primary:"#111827",
+        secondary:"#374151",
+        accent:"#f59e0b"
+    },
+
+    event:{
+        org:"Nexora Events",
+        type:"EVENT PASS",
+        role:"Participant",
+        dept:"Conference",
+        primary:"#db2777",
+        secondary:"#9333ea",
+        accent:"#facc15"
+    },
+
+    custom:{
+        org:"Your Organization",
+        type:"CUSTOM ID CARD",
+        role:"Member",
+        dept:"Department",
+        primary:"#635bff",
+        secondary:"#8b5cf6",
+        accent:"#f59e0b"
+    }
+
+};
+
+
+/* =========================================================
+   HELPER
+========================================================= */
+
+function nx$(id){
+    return document.getElementById(id);
+}
+
+
+function nxVal(id){
+    const el=nx$(id);
+    return el ? el.value : "";
+}
+
+
+function nxEscape(value){
+
+    return String(value ?? "")
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+function nxToast(message){
+
+    if(typeof toast==="function"){
+        toast(message);
+        return;
+    }
+
+    alert(message);
+
+}
+
+
+/* =========================================================
+   TEMPLATE
+========================================================= */
+
+function nxIdTemplate(type,button){
+
+    const t=nxIDTemplates[type];
+
+    if(!t)return;
+
+    document
+        .querySelectorAll(".idTemplateBtn")
+        .forEach(btn=>{
+            btn.classList.remove("active");
+        });
+
+    if(button)
+        button.classList.add("active");
+
+
+    nx$("nxIdOrg").value=t.org;
+    nx$("nxIdType").value=t.type;
+    nx$("nxIdRole").value=t.role;
+    nx$("nxIdDepartment").value=t.dept;
+
+    nx$("nxIdPrimary").value=t.primary;
+    nx$("nxIdSecondary").value=t.secondary;
+    nx$("nxIdAccent").value=t.accent;
+
+    nxUpdateID();
+
+    nxToast(
+        t.type+" template applied"
+    );
+
+}
+
+
+/* =========================================================
+   PHOTO
+========================================================= */
+
+function nxLoadPhoto(event){
+
+    const file=event.target.files?.[0];
+
+    if(!file)return;
+
+    if(!file.type.startsWith("image/")){
+        nxToast("Please select an image");
+        return;
+    }
+
+    const reader=new FileReader();
+
+    reader.onload=function(e){
+
+        nxPhotoData=e.target.result;
+
+        nx$("nxPreviewPhoto").src=
+            nxPhotoData;
+
+        nxUpdateID();
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* =========================================================
+   LOGO
+========================================================= */
+
+function nxLoadLogo(event){
+
+    const file=event.target.files?.[0];
+
+    if(!file)return;
+
+    const reader=new FileReader();
+
+    reader.onload=function(e){
+
+        nxLogoData=e.target.result;
+
+        const logo=nx$("nxIdLogo");
+
+        logo.src=nxLogoData;
+
+        logo.style.display="block";
+
+    };
+
+    reader.readAsDataURL(file);
+
+}
+
+
+/* =========================================================
+   QR
+========================================================= */
+
+function nxQRURL(){
+
+    const value=nxVal("nxIdQR").trim();
+
+    if(!value)return "";
+
+    return (
+        "https://api.qrserver.com/v1/create-qr-code/" +
+        "?size=300x300&margin=5&data=" +
+        encodeURIComponent(value)
+    );
+
+}
+
+
+function nxUpdateQR(){
+
+    const url=nxQRURL();
+
+    const frontQR=nx$("nxFrontQR");
+    const backQR=nx$("nxBackQR");
+
+    if(!url){
+
+        frontQR.style.display="none";
+        backQR.style.display="none";
+
+        return;
+
+    }
+
+    frontQR.src=url;
+    backQR.src=url;
+
+    if(nx$("nxShowQR").checked){
+
+        frontQR.style.display="block";
+        backQR.style.display="block";
+
+    }else{
+
+        frontQR.style.display="none";
+        backQR.style.display="none";
+
+    }
+
+}
+
+
+/* =========================================================
+   QR POSITION
+========================================================= */
+
+function nxApplyQRPosition(){
+
+    const qr=nx$("nxFrontQR");
+
+    qr.style.top="";
+    qr.style.bottom="";
+    qr.style.left="";
+    qr.style.right="";
+
+    const position=nxVal(
+        "nxIdQRPosition"
+    );
+
+    if(position==="bottom-right"){
+        qr.style.right="26px";
+        qr.style.bottom="52px";
+    }
+
+    if(position==="bottom-left"){
+        qr.style.left="26px";
+        qr.style.bottom="52px";
+    }
+
+    if(position==="top-right"){
+        qr.style.right="26px";
+        qr.style.top="135px";
+    }
+
+    if(position==="top-left"){
+        qr.style.left="26px";
+        qr.style.top="135px";
+    }
+
+}
+
+
+/* =========================================================
+   UPDATE CARD
+========================================================= */
+
+function nxUpdateID(){
+
+    const primary=nxVal("nxIdPrimary");
+    const secondary=nxVal("nxIdSecondary");
+    const background=nxVal("nxIdBackground");
+    const text=nxVal("nxIdText");
+    const border=nxVal("nxIdBorder");
+    const accent=nxVal("nxIdAccent");
+
+    const radius=nxVal("nxIdRadius");
+
+    const pattern=nxVal("nxIdPattern");
+
+    const orientation=
+        nxVal("nxIdOrientation");
+
+    const shadow=
+        nxVal("nxIdShadow");
+
+
+    const front=nx$("nxFrontCard");
+    const back=nx$("nxBackCard");
+
+
+    /* COLORS */
+
+    front.style.background=background;
+    back.style.background=background;
+
+    front.style.color=text;
+    back.style.color=text;
+
+    front.style.borderColor=border;
+    back.style.borderColor=border;
+
+
+    /* RADIUS */
+
+    front.style.borderRadius=
+        radius+"px";
+
+    back.style.borderRadius=
+        radius+"px";
+
+
+    /* ORIENTATION */
+
+    if(orientation==="vertical"){
+
+        front.classList.add("vertical");
+        back.classList.add("vertical");
+
+    }else{
+
+        front.classList.remove("vertical");
+        back.classList.remove("vertical");
+
+    }
+
+
+    /* SHADOW */
+
+    if(shadow==="strong"){
+
+        front.style.boxShadow=
+            "0 25px 70px rgba(0,0,0,.25)";
+
+        back.style.boxShadow=
+            "0 25px 70px rgba(0,0,0,.25)";
+
+    }
+
+    if(shadow==="medium"){
+
+        front.style.boxShadow=
+            "0 12px 35px rgba(0,0,0,.16)";
+
+        back.style.boxShadow=
+            "0 12px 35px rgba(0,0,0,.16)";
+
+    }
+
+    if(shadow==="none"){
+
+        front.style.boxShadow="none";
+        back.style.boxShadow="none";
+
+    }
+
+
+    /* HEADER */
+
+    nx$("nxIdHeader").style.background=
+        `linear-gradient(
+            135deg,
+            ${primary},
+            ${secondary}
+        )`;
+
+
+    /* PATTERN */
+
+    nx$("nxFrontPattern").className=
+        "nxPattern "+pattern;
+
+    nx$("nxBackPattern").className=
+        "nxPattern "+pattern;
+
+
+    nx$("nxFrontPattern").style.color=
+        primary;
+
+    nx$("nxBackPattern").style.color=
+        primary;
+
+
+    /* TEXT */
+
+    nx$("nxPreviewOrg").textContent=
+        nxVal("nxIdOrg");
+
+    nx$("nxPreviewType").textContent=
+        nxVal("nxIdType");
+
+    nx$("nxPreviewName").textContent=
+        nxVal("nxIdName");
+
+    nx$("nxPreviewRole").textContent=
+        nxVal("nxIdRole");
+
+    nx$("nxPreviewID").textContent=
+        nxVal("nxIdNumber");
+
+    nx$("nxFooterID").textContent=
+        nxVal("nxIdNumber");
+
+    nx$("nxPreviewDept").textContent=
+        nxVal("nxIdDepartment");
+
+    nx$("nxPreviewPhone").textContent=
+        nxVal("nxIdPhone");
+
+    nx$("nxPreviewBlood").textContent=
+        nxVal("nxIdBlood");
+
+    nx$("nxPreviewEmail").textContent=
+        nxVal("nxIdEmail");
+
+    nx$("nxPreviewDOB").textContent=
+        nxVal("nxIdDOB") || "—";
+
+
+    /* TEXT COLOR */
+
+    nx$("nxPreviewName").style.color=
+        text;
+
+    nx$("nxPreviewRole").style.color=
+        text;
+
+
+    /* ACCENT */
+
+    nx$("nxPhotoBadge").style.background=
+        accent;
+
+    nx$("nxStamp").style.color=
+        accent;
+
+    nx$("nxBackStamp").style.color=
+        accent;
+
+
+    /* PHOTO */
+
+    if(nxPhotoData){
+
+        nx$("nxPreviewPhoto").src=
+            nxPhotoData;
+
+    }
+
+
+    /* EMAIL */
+
+    nx$("nxEmailItem").style.display=
+        nx$("nxShowEmail").checked
+        ? ""
+        : "none";
+
+
+    /* DEPARTMENT */
+
+    nx$("nxPreviewDept")
+        .parentElement
+        .style.display=
+        nx$("nxShowDepartment").checked
+        ? ""
+        : "none";
+
+
+    /* PHOTO BADGE */
+
+    nx$("nxPhotoBadge").style.display=
+        nx$("nxShowPhotoBadge").checked
+        ? "block"
+        : "none";
+
+
+    /* WATERMARK */
+
+    nx$("nxWatermark").style.display=
+        nx$("nxShowWatermark").checked
+        ? "block"
+        : "none";
+
+
+    /* STAMP */
+
+    nx$("nxStamp").style.display=
+        nx$("nxShowStamp").checked
+        ? "grid"
+        : "none";
+
+    nx$("nxBackStamp").style.display=
+        nx$("nxShowStamp").checked
+        ? "grid"
+        : "none";
+
+
+    /* VALIDITY */
+
+    const from=nxVal("nxIdFrom");
+    const until=nxVal("nxIdUntil");
+
+    let validity="Current Session";
+
+    if(from && until){
+
+        validity=
+            nxFormatDate(from)+
+            " — "+
+            nxFormatDate(until);
+
+    }else if(from){
+
+        validity=
+            "From "+
+            nxFormatDate(from);
+
+    }else if(until){
+
+        validity=
+            "Until "+
+            nxFormatDate(until);
+
+    }
+
+    nx$("nxPreviewValidity").textContent=
+        validity;
+
+
+    /* BACK SIDE */
+
+    nx$("nxBackAddress").textContent=
+        nxVal("nxIdAddress");
+
+    nx$("nxBackEmergency").textContent=
+        nxVal("nxIdEmergency");
+
+    nx$("nxBackEmail").textContent=
+        nxVal("nxIdEmail");
+
+    nx$("nxBackID").textContent=
+        nxVal("nxIdNumber");
+
+
+    /* QR */
+
+    nxUpdateQR();
+
+    nxApplyQRPosition();
+
+
+    /* ORIENTATION */
+
+    nxUpdateBackDimensions();
+
+}
+
+
+/* =========================================================
+   DATE
+========================================================= */
+
+function nxFormatDate(value){
+
+    if(!value)return "";
+
+    const d=new Date(value);
+
+    if(Number.isNaN(d.getTime()))
+        return value;
+
+    return d.toLocaleDateString(
+        "en-IN",
+        {
+            day:"2-digit",
+            month:"short",
+            year:"numeric"
+        }
+    );
+
+}
+
+
+/* =========================================================
+   BACK DIMENSIONS
+========================================================= */
+
+function nxUpdateBackDimensions(){
+
+    const vertical=
+        nxVal("nxIdOrientation")==="vertical";
+
+    const back=nx$("nxBackCard");
+
+    if(vertical){
+
+        back.style.width="440px";
+        back.style.height="700px";
+
+    }else{
+
+        back.style.width="700px";
+        back.style.height="440px";
+
+    }
+
+}
+
+
+/* =========================================================
+   FRONT / BACK
+========================================================= */
+
+function nxShowSide(side,button){
+
+    nxCurrentSide=side;
+
+    document
+        .querySelectorAll(".idSideBtn")
+        .forEach(btn=>{
+            btn.classList.remove("active");
+        });
+
+    if(button)
+        button.classList.add("active");
+
+
+    if(side==="front"){
+
+        nx$("nxFrontCard").style.display=
+            "block";
+
+        nx$("nxBackCard").style.display=
+            "none";
+
+    }else{
+
+        nx$("nxFrontCard").style.display=
+            "none";
+
+        nx$("nxBackCard").style.display=
+            "block";
+
+    }
+
+}
+
+
+/* =========================================================
+   ZOOM
+========================================================= */
+
+function nxZoom(change){
+
+    if(change===0){
+
+        nxZoomLevel=1;
+
+    }else{
+
+        nxZoomLevel+=change;
+
+        nxZoomLevel=
+            Math.max(
+                .5,
+                Math.min(1.6,nxZoomLevel)
+            );
+
+    }
+
+    nx$("nxCardScale").style.transform=
+        `scale(${nxZoomLevel})`;
+
+    nx$("nxZoomValue").textContent=
+        Math.round(nxZoomLevel*100)+"%";
+
+}
+
+
+/* =========================================================
+   SAVE DESIGN
+========================================================= */
+
+function nxSaveDesign(){
+
+    const data={};
+
+    document
+        .querySelectorAll(
+            "#idcard input,"+
+            "#idcard select,"+
+            "#idcard textarea"
+        )
+        .forEach(el=>{
+
+            if(el.type==="file")
+                return;
+
+            if(el.type==="checkbox"){
+
+                data[el.id]=el.checked;
+
+            }else{
+
+                data[el.id]=el.value;
+
+            }
+
+        });
+
+
+    data.photo=nxPhotoData;
+    data.logo=nxLogoData;
+    data.side=nxCurrentSide;
+
+    localStorage.setItem(
+        "nexoraUltraID",
+        JSON.stringify(data)
+    );
+
+    nxToast(
+        "✨ ID card design saved successfully"
+    );
+
+}
+
+
+/* =========================================================
+   LOAD
+========================================================= */
+
+function nxLoadSaved(){
+
+    const raw=
+        localStorage.getItem(
+            "nexoraUltraID"
+        );
+
+    if(!raw){
+
+        nxToast("No saved design found");
+        return;
+
+    }
+
+    try{
+
+        const data=JSON.parse(raw);
+
+
+        Object.entries(data)
+            .forEach(([id,value])=>{
+
+                const el=nx$(id);
+
+                if(!el)return;
+
+                if(id==="photo" || id==="logo" || id==="side")
+                    return;
+
+                if(el.type==="checkbox"){
+
+                    el.checked=Boolean(value);
+
+                }else{
+
+                    el.value=value;
+
+                }
+
+            });
+
+
+        nxPhotoData=data.photo || "";
+        nxLogoData=data.logo || "";
+
+
+        if(nxPhotoData){
+
+            nx$("nxPreviewPhoto").src=
+                nxPhotoData;
+
+        }
+
+
+        if(nxLogoData){
+
+            nx$("nxIdLogo").src=
+                nxLogoData;
+
+            nx$("nxIdLogo").style.display=
+                "block";
+
+        }
+
+
+        nxUpdateID();
+
+
+        if(data.side){
+
+            nxShowSide(
+                data.side,
+                data.side==="front"
+                ?nx$("nxFrontBtn")
+                :nx$("nxBackBtn")
+            );
+
+        }
+
+
+        nxToast(
+            "📂 Saved design loaded"
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        nxToast(
+            "Saved design could not be loaded"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+function nxResetID(){
+
+    if(
+        !confirm(
+            "Reset complete ID card design?"
+        )
+    )return;
+
+    localStorage.removeItem(
+        "nexoraUltraID"
+    );
+
+    location.reload();
+
+}
+
+
+/* =========================================================
+   WAIT FOR IMAGES
+========================================================= */
+
+function nxWaitForImage(img){
+
+    return new Promise(resolve=>{
+
+        if(
+            img.complete &&
+            img.naturalWidth>0
+        ){
+
+            resolve();
+            return;
+
+        }
+
+        img.onload=resolve;
+        img.onerror=resolve;
+
+    });
+
+}
+
+
+/* =========================================================
+   CREATE EXPORT HTML
+========================================================= */
+
+function nxExportCardHTML(){
+
+    const source=
+        nxCurrentSide==="front"
+        ?nx$("nxFrontCard")
+        :nx$("nxBackCard");
+
+
+    const clone=
+        source.cloneNode(true);
+
+
+    clone.style.transform="none";
+    clone.style.margin="0";
+
+
+    const css=[];
+
+    document
+        .querySelectorAll("style")
+        .forEach(style=>{
+            css.push(style.innerHTML);
+        });
+
+
+    const html=`
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>
+${nxEscape(nxVal("nxIdName"))} - ID Card
+</title>
+
+<style>
+
+${css.join("\n")}
+
+body{
+    margin:0;
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#f1f5f9;
+}
+
+</style>
+
+</head>
+
+<body>
+
+${clone.outerHTML}
+
+</body>
+
+</html>
+
+`;
+
+    return html;
+
+}
+
+
+/* =========================================================
+   DOWNLOAD HTML
+========================================================= */
+
+function nxDownloadHTML(){
+
+    const html=
+        nxExportCardHTML();
+
+    const blob=
+        new Blob(
+            [html],
+            {type:"text/html"}
+        );
+
+    const url=
+        URL.createObjectURL(blob);
+
+    const a=
+        document.createElement("a");
+
+    a.href=url;
+
+    a.download=
+        "nexora-id-card.html";
+
+    document.body.appendChild(a);
+
+    a.click();
+
+    a.remove();
+
+    URL.revokeObjectURL(url);
+
+    nxToast(
+        "🌐 ID card HTML downloaded"
+    );
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+function nxPrintCard(){
+
+    const html=
+        nxExportCardHTML();
+
+    const win=
+        window.open(
+            "",
+            "_blank",
+            "width=1000,height=800"
+        );
+
+    if(!win){
+
+        nxToast(
+            "Please allow pop-ups"
+        );
+
+        return;
+
+    }
+
+    win.document.open();
+
+    win.document.write(html);
+
+    win.document.close();
+
+    setTimeout(()=>{
+
+        win.focus();
+
+        win.print();
+
+    },700);
+
+}
+
+
+/* =========================================================
+   PNG EXPORT
+========================================================= */
+
+async function nxDownloadPNG(){
+
+    /*
+       Uses html2canvas when available.
+    */
+
+    if(typeof html2canvas==="undefined"){
+
+        nxToast(
+            "PNG engine not loaded. Use Print/PDF or HTML export."
+        );
+
+        return;
+
+    }
+
+
+    const source=
+        nxCurrentSide==="front"
+        ?nx$("nxFrontCard")
+        :nx$("nxBackCard");
+
+
+    const images=
+        source.querySelectorAll("img");
+
+
+    for(const img of images){
+
+        await nxWaitForImage(img);
+
+    }
+
+
+    nxToast(
+        "⏳ Creating high-resolution PNG..."
+    );
+
+
+    try{
+
+        const canvas=
+            await html2canvas(
+                source,
+                {
+                    scale:3,
+                    useCORS:true,
+                    backgroundColor:null,
+                    logging:false
+                }
+            );
+
+
+        const link=
+            document.createElement("a");
+
+
+        link.download=
+            "nexora-id-card-"+nxCurrentSide+".png";
+
+
+        link.href=
+            canvas.toDataURL(
+                "image/png",
+                1
+            );
+
+
+        link.click();
+
+
+        nxToast(
+            "✅ High-resolution PNG downloaded"
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+        nxToast(
+            "PNG export failed. Try Print/PDF."
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   INIT
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function(){
+
+        nxUpdateID();
+
+        nxLoadSaved();
+
+    }
+);
+/* ================= PHOTO MAKER ================= */
+/* =========================================================
+   NEXORA PHOTO STUDIO PRO MAX ENGINE
+========================================================= */
+
+let photoImage = null;
+let photoSheetCanvas = null;
+
+let photoRotation = 0;
+let photoFlipX = 1;
+let photoFlipY = 1;
+
+let canvasZoomLevel = 100;
+
+let photoHistory = [];
+let photoHistoryIndex = -1;
+
+
+/* =========================
+   PRESETS
+========================= */
+
+const photoPresets = {
+
+  india:{
+    w:35,
+    h:45,
+    unit:'mm'
+  },
+
+  visa:{
+    w:35,
+    h:45,
+    unit:'mm'
+  },
+
+  us:{
+    w:2,
+    h:2,
+    unit:'inch'
+  },
+
+  uk:{
+    w:35,
+    h:45,
+    unit:'mm'
+  },
+
+  student:{
+    w:25,
+    h:35,
+    unit:'mm'
+  },
+
+  employee:{
+    w:35,
+    h:45,
+    unit:'mm'
+  },
+
+  aadhaar:{
+    w:35,
+    h:45,
+    unit:'mm'
+  },
+
+  custom:{
+    w:35,
+    h:45,
+    unit:'mm'
+  }
+
+};
+
+
+/* =========================
+   IMAGE LOAD
+========================= */
+
+function loadPhoto(event){
+
+  const file = event.target.files[0];
+
+  if(!file) return;
+
+  if(!file.type.startsWith('image/')){
+    return toast('Please select an image');
+  }
+
+  const reader = new FileReader();
+
+  reader.onload = e => {
+
+    const img = new Image();
+
+    img.onload = () => {
+
+      photoImage = img;
+
+      photoRotation = 0;
+      photoFlipX = 1;
+      photoFlipY = 1;
+
+      $('photoZoom').value = 100;
+      $('photoX').value = 0;
+      $('photoY').value = 0;
+
+      photoStatus('Photo loaded successfully');
+
+      drawPhoto();
+
+      savePhotoHistory();
+
+    };
+
+    img.src = e.target.result;
+
+  };
+
+  reader.readAsDataURL(file);
+
+}
+
+
+/* =========================
+   PRESET
+========================= */
+
+function applyPhotoPreset(){
+
+  const type = $('photoPreset').value;
+
+  const p = photoPresets[type];
+
+  if(!p) return;
+
+  $('photoWidth').value = p.w;
+  $('photoHeight').value = p.h;
+  $('photoUnit').value = p.unit;
+
+  updatePhotoEditor();
+
+}
+
+
+/* =========================
+   QUICK SIZE
+========================= */
+
+function quickPhotoSize(w,h,unit){
+
+  $('photoWidth').value = w;
+  $('photoHeight').value = h;
+  $('photoUnit').value = unit;
+
+  $('photoPreset').value = 'custom';
+
+  updatePhotoEditor();
+
+}
+
+
+/* =========================
+   TOOL SWITCH
+========================= */
+
+function photoTool(tool,button){
+
+  document
+    .querySelectorAll('.photoTool')
+    .forEach(x => x.classList.remove('active'));
+
+  if(button)
+    button.classList.add('active');
+
+  document
+    .querySelectorAll('.photoPanel')
+    .forEach(panel => {
+
+      panel.classList.add('hidden');
+
+      if(panel.dataset.panel === tool){
+        panel.classList.remove('hidden');
+      }
+
+    });
+
+}
+
+
+/* =========================
+   SIZE → PIXEL
+========================= */
+
+function getPhotoPixelSize(){
+
+  const w = parseFloat($('photoWidth').value) || 35;
+  const h = parseFloat($('photoHeight').value) || 45;
+  const unit = $('photoUnit').value;
+
+  let pxW;
+  let pxH;
+
+  if(unit === 'mm'){
+
+    pxW = Math.round(w / 25.4 * 300);
+    pxH = Math.round(h / 25.4 * 300);
+
+  }else if(unit === 'inch'){
+
+    pxW = Math.round(w * 300);
+    pxH = Math.round(h * 300);
+
+  }else{
+
+    pxW = Math.round(w);
+    pxH = Math.round(h);
+
+  }
+
+  return {
+    width:pxW,
+    height:pxH
+  };
+
+}
+
+
+/* =========================
+   UPDATE EDITOR
+========================= */
+
+function updatePhotoEditor(){
+
+  const size = getPhotoPixelSize();
+
+  $('photoDimension').textContent =
+    `${$('photoWidth').value} × ${$('photoHeight').value} ${$('photoUnit').value}`;
+
+  const canvas = $('photoCanvas');
+
+  const previewRatio =
+    size.width / size.height;
+
+  const previewHeight = 472;
+
+  const previewWidth =
+    Math.round(previewHeight * previewRatio);
+
+  canvas.width = size.width;
+  canvas.height = size.height;
+
+  canvas.style.width =
+    Math.min(previewWidth,600) + 'px';
+
+  canvas.style.height =
+    Math.min(previewHeight,600) + 'px';
+
+  drawPhoto();
+
+}
+
+
+/* =========================
+   DRAW PHOTO
+========================= */
+
+function drawPhoto(){
+
+  const canvas = $('photoCanvas');
+
+  const ctx = canvas.getContext('2d');
+
+  ctx.clearRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  const bg =
+    $('photoBg').value || '#ffffff';
+
+  ctx.fillStyle = bg;
+
+  ctx.fillRect(
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  if(!photoImage){
+
+    drawEmptyPhotoCanvas(ctx);
+
+    return;
+
+  }
+
+
+  const zoom =
+    parseFloat($('photoZoom').value || 100) / 100;
+
+  const posX =
+    parseFloat($('photoX').value || 0);
+
+  const posY =
+    parseFloat($('photoY').value || 0);
+
+
+  ctx.save();
+
+  ctx.translate(
+    canvas.width/2,
+    canvas.height/2
+  );
+
+  ctx.rotate(
+    photoRotation *
+    Math.PI / 180
+  );
+
+  ctx.scale(
+    photoFlipX,
+    photoFlipY
+  );
+
+
+  let imageRatio =
+    photoImage.width /
+    photoImage.height;
+
+  let canvasRatio =
+    canvas.width /
+    canvas.height;
+
+
+  let drawW;
+  let drawH;
+
+
+  if($('photoFit').value === 'contain'){
+
+    if(imageRatio > canvasRatio){
+
+      drawW =
+        canvas.width * zoom;
+
+      drawH =
+        drawW / imageRatio;
+
+    }else{
+
+      drawH =
+        canvas.height * zoom;
+
+      drawW =
+        drawH * imageRatio;
+
+    }
+
+  }else{
+
+    if(imageRatio > canvasRatio){
+
+      drawH =
+        canvas.height * zoom;
+
+      drawW =
+        drawH * imageRatio;
+
+    }else{
+
+      drawW =
+        canvas.width * zoom;
+
+      drawH =
+        drawW / imageRatio;
+
+    }
+
+  }
+
+
+  const moveX =
+    posX / 100 *
+    canvas.width;
+
+  const moveY =
+    posY / 100 *
+    canvas.height;
+
+
+  ctx.filter = getPhotoFilter();
+
+  ctx.drawImage(
+    photoImage,
+    -drawW/2 + moveX,
+    -drawH/2 + moveY,
+    drawW,
+    drawH
+  );
+
+  ctx.restore();
+
+
+  drawPhotoOverlay();
+
+  drawPhotoBorder();
+
+  updateZoomLabel();
+
+}
+
+
+/* =========================
+   EMPTY CANVAS
+========================= */
+
+function drawEmptyPhotoCanvas(ctx){
+
+  ctx.save();
+
+  ctx.fillStyle='#f8fafc';
+
+  ctx.fillRect(
+    0,
+    0,
+    ctx.canvas.width,
+    ctx.canvas.height
+  );
+
+  ctx.fillStyle='#94a3b8';
+
+  ctx.textAlign='center';
+
+  ctx.font='bold 18px Arial';
+
+  ctx.fillText(
+    'Upload a photo',
+    ctx.canvas.width/2,
+    ctx.canvas.height/2
+  );
+
+  ctx.font='13px Arial';
+
+  ctx.fillText(
+    'Your passport photo preview will appear here',
+    ctx.canvas.width/2,
+    ctx.canvas.height/2 + 28
+  );
+
+  ctx.restore();
+
+}
+
+
+/* =========================
+   FILTER
+========================= */
+
+function getPhotoFilter(){
+
+  const brightness =
+    $('photoBrightness')?.value || 100;
+
+  const contrast =
+    $('photoContrast')?.value || 100;
+
+  const saturation =
+    $('photoSaturation')?.value || 100;
+
+  const blur =
+    $('photoBlur')?.value || 0;
+
+  return `
+    brightness(${brightness}%)
+    contrast(${contrast}%)
+    saturate(${saturation}%)
+    blur(${blur}px)
+  `;
+
+}
+
+
+/* =========================
+   FILTER PRESETS
+========================= */
+
+function photoFilter(type){
+
+  if(type === 'normal'){
+
+    $('photoBrightness').value=100;
+    $('photoContrast').value=100;
+    $('photoSaturation').value=100;
+
+  }
+
+  if(type === 'gray'){
+
+    $('photoBrightness').value=105;
+    $('photoContrast').value=110;
+    $('photoSaturation').value=0;
+
+  }
+
+  if(type === 'soft'){
+
+    $('photoBrightness').value=105;
+    $('photoContrast').value=95;
+    $('photoSaturation').value=90;
+
+  }
+
+  if(type === 'vivid'){
+
+    $('photoBrightness').value=105;
+    $('photoContrast').value=115;
+    $('photoSaturation').value=135;
+
+  }
+
+  drawPhoto();
+
+  savePhotoHistory();
+
+}
+
+
+/* =========================
+   BACKGROUND
+========================= */
+
+function setPhotoBackground(color){
+
+  $('photoBg').value = color;
+
+  drawPhoto();
+
+  savePhotoHistory();
+
+}
+
+
+/* =========================
+   ROTATE
+========================= */
+
+function rotatePhoto(deg){
+
+  photoRotation += deg;
+
+  if(photoRotation >= 360)
+    photoRotation -= 360;
+
+  if(photoRotation <= -360)
+    photoRotation += 360;
+
+  drawPhoto();
+
+  savePhotoHistory();
+
+}
+
+
+/* =========================
+   FLIP
+========================= */
+
+function flipPhoto(axis){
+
+  if(axis === 'x')
+    photoFlipX *= -1;
+
+  if(axis === 'y')
+    photoFlipY *= -1;
+
+  drawPhoto();
+
+  savePhotoHistory();
+
+}
+
+
+/* =========================
+   CENTER
+========================= */
+
+function centerPhoto(){
+
+  $('photoX').value=0;
+  $('photoY').value=0;
+  $('photoZoom').value=100;
+
+  drawPhoto();
+
+  savePhotoHistory();
+
+}
+
+
+/* =========================
+   BORDER
+========================= */
+
+function drawPhotoBorder(){
+
+  const canvas = $('photoCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const width =
+    parseInt($('photoBorder').value || 0);
+
+  if(width <= 0) return;
+
+  ctx.save();
+
+  ctx.strokeStyle =
+    $('photoBorderColor').value;
+
+  ctx.lineWidth = width;
+
+  ctx.strokeRect(
+    width/2,
+    width/2,
+    canvas.width-width,
+    canvas.height-width
+  );
+
+  ctx.restore();
+
+}
+
+
+/* =========================
+   OVERLAY
+========================= */
+
+function drawPhotoOverlay(){
+
+  const canvas = $('photoCanvas');
+
+  const ctx = canvas.getContext('2d');
+
+  ctx.save();
+
+  ctx.globalAlpha=.08;
+
+  ctx.strokeStyle='#000';
+
+  ctx.lineWidth=1;
+
+  const grid =
+    $('photoGrid')?.checked;
+
+  if(grid){
+
+    const step=canvas.width/10;
+
+    for(let x=0;x<canvas.width;x+=step){
+
+      ctx.beginPath();
+
+      ctx.moveTo(x,0);
+      ctx.lineTo(x,canvas.height);
+
+      ctx.stroke();
+
+    }
+
+    const stepY=canvas.height/10;
+
+    for(let y=0;y<canvas.height;y+=stepY){
+
+      ctx.beginPath();
+
+      ctx.moveTo(0,y);
+      ctx.lineTo(canvas.width,y);
+
+      ctx.stroke();
+
+    }
+
+  }
+
+  ctx.restore();
+
+}
+
+
+/* =========================
+   CANVAS ZOOM
+========================= */
+
+function photoZoomCanvas(direction){
+
+  canvasZoomLevel += direction * 10;
+
+  canvasZoomLevel =
+    Math.max(
+      50,
+      Math.min(
+        200,
+        canvasZoomLevel
+      )
+    );
+
+  $('photoCanvas').style.transform =
+    `scale(${canvasZoomLevel/100})`;
+
+  $('canvasZoom').textContent =
+    canvasZoomLevel+'%';
+
+}
+
+
+/* =========================
+   FULLSCREEN
+========================= */
+
+function togglePhotoFullscreen(){
+
+  const workspace =
+    document.querySelector('.photoWorkspace');
+
+  if(!document.fullscreenElement){
+
+    workspace.requestFullscreen?.();
+
+  }else{
+
+    document.exitFullscreen?.();
+
+  }
+
+}
+
+
+/* =========================
+   STATUS
+========================= */
+
+function photoStatus(text){
+
+  if($('photoStatus'))
+    $('photoStatus').textContent=text;
+
+}
+
+
+/* =========================
+   ZOOM LABEL
+========================= */
+
+function updateZoomLabel(){
+
+  const value =
+    $('photoZoom').value;
+
+  $('photoZoomValue').textContent =
+    value+'%';
+
+}
+
+
+/* =========================
+   HIGH QUALITY PHOTO
+========================= */
+
+function createExportCanvas(){
+
+  if(!photoImage){
+
+    toast('Upload a photo first');
+
+    return null;
+
+  }
+
+  const size =
+    getPhotoPixelSize();
+
+  const scale =
+    parseInt(
+      $('photoQuality')?.value || 1
+    );
+
+  const canvas =
+    document.createElement('canvas');
+
+  canvas.width =
+    size.width * scale;
+
+  canvas.height =
+    size.height * scale;
+
+  const ctx =
+    canvas.getContext('2d');
+
+  const oldCanvas =
+    $('photoCanvas');
+
+  const temp =
+    $('photoCanvas');
+
+  const oldWidth =
+    temp.width;
+
+  const oldHeight =
+    temp.height;
+
+  temp.width =
+    canvas.width;
+
+  temp.height =
+    canvas.height;
+
+  drawPhoto();
+
+  ctx.drawImage(
+    temp,
+    0,
+    0,
+    canvas.width,
+    canvas.height
+  );
+
+  temp.width=oldWidth;
+  temp.height=oldHeight;
+
+  drawPhoto();
+
+  return canvas;
+
+}
+
+
+/* =========================
+   DOWNLOAD PNG
+========================= */
+
+function downloadPhoto(){
+
+  if(!photoImage)
+    return toast('Upload a photo first');
+
+  const canvas =
+    createExportCanvas();
+
+  if(!canvas) return;
+
+  const a =
+    document.createElement('a');
+
+  a.href =
+    canvas.toDataURL('image/png');
+
+  a.download =
+    'nexora-passport-photo.png';
+
+  a.click();
+
+  toast('PNG downloaded');
+
+}
+
+
+/* =========================
+   DOWNLOAD JPG
+========================= */
+
+function downloadPhotoJPG(){
+
+  if(!photoImage)
+    return toast('Upload a photo first');
+
+  const canvas =
+    createExportCanvas();
+
+  if(!canvas) return;
+
+  const a =
+    document.createElement('a');
+
+  a.href =
+    canvas.toDataURL(
+      'image/jpeg',
+      .95
+    );
+
+  a.download =
+    'nexora-passport-photo.jpg';
+
+  a.click();
+
+  toast('JPG downloaded');
+
+}
+
+
+/* =========================
+   PAPER SIZE
+========================= */
+
+function getPaperSize(){
+
+  const paper =
+    $('photoPaper').value;
+
+  const sizes = {
+
+    a4:{
+      width:2480,
+      height:3508
+    },
+
+    a5:{
+      width:1748,
+      height:2480
+    },
+
+    letter:{
+      width:2550,
+      height:3300
+    },
+
+    legal:{
+      width:2550,
+      height:4200
+    }
+
+  };
+
+  return sizes[paper] || sizes.a4;
+
+}
+
+
+/* =========================
+   PRINT SHEET
+========================= */
+
+function createPassportSheet(){
+
+  if(!photoImage)
+    return toast(
+      'Upload a photo first'
+    );
+
+  const sheetSize =
+    getPaperSize();
+
+  const copies =
+    parseInt(
+      $('photoCopies').value
+    );
+
+  const gap =
+    parseInt(
+      $('photoGap').value
+    );
+
+  const photo =
+    createExportCanvas();
+
+  if(!photo) return;
+
+
+  const sheet =
+    document.createElement('canvas');
+
+  sheet.width =
+    sheetSize.width;
+
+  sheet.height =
+    sheetSize.height;
+
+
+  const ctx =
+    sheet.getContext('2d');
+
+
+  /* WHITE PAPER */
+
+  ctx.fillStyle='#ffffff';
+
+  ctx.fillRect(
+    0,
+    0,
+    sheet.width,
+    sheet.height
+  );
+
+
+  const margin=80;
+
+  const availableWidth =
+    sheet.width -
+    margin*2;
+
+  const availableHeight =
+    sheet.height -
+    margin*2;
+
+
+  const ratio =
+    photo.width /
+    photo.height;
+
+
+  let photoWidth =
+    Math.floor(
+      (availableWidth - gap*3)/4
+    );
+
+  let photoHeight =
+    Math.floor(
+      photoWidth / ratio
+    );
+
+
+  if(photoHeight > availableHeight){
+
+    photoHeight =
+      Math.floor(
+        availableHeight / 4
+      );
+
+    photoWidth =
+      Math.floor(
+        photoHeight * ratio
+      );
+
+  }
+
+
+  const columns =
+    Math.max(
+      1,
+      Math.floor(
+        availableWidth /
+        (photoWidth+gap)
+      )
+    );
+
+
+  const rows =
+    Math.ceil(
+      copies/columns
+    );
+
+
+  const totalHeight =
+    rows*photoHeight +
+    (rows-1)*gap;
+
+
+  let startY =
+    Math.max(
+      margin,
+      (sheet.height-totalHeight)/2
+    );
+
+
+  for(
+    let i=0;
+    i<copies;
+    i++
+  ){
+
+    const col =
+      i%columns;
+
+    const row =
+      Math.floor(i/columns);
+
+
+    const totalWidth =
+      columns*photoWidth +
+      (columns-1)*gap;
+
+
+    const startX =
+      (sheet.width-totalWidth)/2;
+
+
+    const x =
+      startX +
+      col*(photoWidth+gap);
+
+
+    const y =
+      startY +
+      row*(photoHeight+gap);
+
+
+    ctx.drawImage(
+      photo,
+      x,
+      y,
+      photoWidth,
+      photoHeight
+    );
+
+
+    if(
+      $('photoCutLines')?.checked
+    ){
+
+      ctx.save();
+
+      ctx.strokeStyle='#999';
+
+      ctx.lineWidth=2;
+
+      ctx.setLineDash([8,8]);
+
+      ctx.strokeRect(
+        x,
+        y,
+        photoWidth,
+        photoHeight
+      );
+
+      ctx.restore();
+
+    }
+
+  }
+
+
+  photoSheetCanvas =
+    sheet;
+
+
+  const container =
+    $('passportSheet');
+
+  container.innerHTML='';
+
+
+  const preview =
+    document.createElement('img');
+
+  preview.src =
+    sheet.toDataURL(
+      'image/jpeg',
+      .95
+    );
+
+  preview.style.width='100%';
+
+  preview.style.maxWidth='900px';
+
+  preview.style.display='block';
+
+  preview.style.margin='auto';
+
+
+  container.appendChild(preview);
+
+
+  photoStatus(
+    'Print sheet generated'
+  );
+
+  toast(
+    `${copies} photo sheet created`
+  );
+
+}
+
+
+/* =========================
+   DOWNLOAD SHEET
+========================= */
+
+function downloadPhotoSheet(){
+
+  if(!photoSheetCanvas){
+
+    createPassportSheet();
+
+    if(!photoSheetCanvas)
+      return;
+
+  }
+
+  const a =
+    document.createElement('a');
+
+  a.href =
+    photoSheetCanvas.toDataURL(
+      'image/jpeg',
+      .95
+    );
+
+  a.download =
+    'nexora-passport-photo-sheet.jpg';
+
+  a.click();
+
+  toast('Print sheet downloaded');
+
+}
+
+
+/* =========================
+   PRINT
+========================= */
+
+function printPhotoSheet(){
+
+  if(!photoSheetCanvas){
+
+    createPassportSheet();
+
+    if(!photoSheetCanvas)
+      return;
+
+  }
+
+  const image =
+    photoSheetCanvas.toDataURL(
+      'image/png'
+    );
+
+
+  const win =
+    window.open(
+      '',
+      '_blank',
+      'width=900,height=900'
+    );
+
+
+  if(!win)
+    return toast(
+      'Allow pop-ups to print'
+    );
+
+
+  win.document.write(`
+
+    <!DOCTYPE html>
+
+    <html>
+
+    <head>
+
+      <title>Nexora Photo Sheet</title>
+
+      <style>
+
+        @page{
+          size:A4;
+          margin:0;
+        }
+
+        html,
+        body{
+          margin:0;
+          padding:0;
+          background:white;
+        }
+
+        img{
+          display:block;
+          width:100%;
+          height:auto;
+        }
+
+      </style>
+
+    </head>
+
+    <body>
+
+      <img src="${image}">
+
+    </body>
+
+    </html>
+
+  `);
+
+
+  win.document.close();
+
+  setTimeout(
+    () => win.print(),
+    500
+  );
+
+}
+
+
+/* =========================
+   SAVE
+========================= */
+
+function photoSave(){
+
+  const data = {
+
+    width:$('photoWidth').value,
+    height:$('photoHeight').value,
+    unit:$('photoUnit').value,
+
+    bg:$('photoBg').value,
+
+    border:$('photoBorder').value,
+    borderColor:$('photoBorderColor').value,
+
+    zoom:$('photoZoom').value,
+    x:$('photoX').value,
+    y:$('photoY').value,
+
+    brightness:$('photoBrightness').value,
+    contrast:$('photoContrast').value,
+    saturation:$('photoSaturation').value,
+    blur:$('photoBlur').value,
+
+    rotation:photoRotation,
+    flipX:photoFlipX,
+    flipY:photoFlipY
+
+  };
+
+
+  localStorage.setItem(
+    'nexoraPhotoStudio',
+    JSON.stringify(data)
+  );
+
+
+  toast(
+    'Photo design saved locally'
+  );
+
+}
+
+
+/* =========================
+   LOAD SAVE
+========================= */
+
+function photoLoad(){
+
+  const raw =
+    localStorage.getItem(
+      'nexoraPhotoStudio'
+    );
+
+  if(!raw) return;
+
+  try{
+
+    const data =
+      JSON.parse(raw);
+
+
+    if(data.width)
+      $('photoWidth').value=data.width;
+
+    if(data.height)
+      $('photoHeight').value=data.height;
+
+    if(data.unit)
+      $('photoUnit').value=data.unit;
+
+    if(data.bg)
+      $('photoBg').value=data.bg;
+
+    if(data.border)
+      $('photoBorder').value=data.border;
+
+    if(data.borderColor)
+      $('photoBorderColor').value=data.borderColor;
+
+    if(data.zoom)
+      $('photoZoom').value=data.zoom;
+
+    if(data.x)
+      $('photoX').value=data.x;
+
+    if(data.y)
+      $('photoY').value=data.y;
+
+    if(data.brightness)
+      $('photoBrightness').value=data.brightness;
+
+    if(data.contrast)
+      $('photoContrast').value=data.contrast;
+
+    if(data.saturation)
+      $('photoSaturation').value=data.saturation;
+
+    if(data.blur)
+      $('photoBlur').value=data.blur;
+
+    photoRotation =
+      data.rotation || 0;
+
+    photoFlipX =
+      data.flipX || 1;
+
+    photoFlipY =
+      data.flipY || 1;
+
+
+    updatePhotoEditor();
+
+  }catch(e){
+
+    console.warn(
+      'Could not load photo design'
+    );
+
+  }
+
+}
+
+
+/* =========================
+   RESET
+========================= */
+
+function photoReset(){
+
+  if(
+    !confirm(
+      'Reset Photo Studio settings?'
+    )
+  ) return;
+
+
+  $('photoWidth').value=35;
+  $('photoHeight').value=45;
+  $('photoUnit').value='mm';
+
+  $('photoBg').value='#ffffff';
+
+  $('photoBorder').value=2;
+  $('photoBorderColor').value='#ffffff';
+
+  $('photoZoom').value=100;
+  $('photoX').value=0;
+  $('photoY').value=0;
+
+  $('photoBrightness').value=100;
+  $('photoContrast').value=100;
+  $('photoSaturation').value=100;
+  $('photoBlur').value=0;
+
+  photoRotation=0;
+  photoFlipX=1;
+  photoFlipY=1;
+
+  photoSheetCanvas=null;
+
+  drawPhoto();
+
+  toast(
+    'Photo Studio reset'
+  );
+
+}
+
+
+/* =========================
+   UNDO / REDO
+========================= */
+
+function getPhotoState(){
+
+  return {
+
+    width:$('photoWidth').value,
+    height:$('photoHeight').value,
+    unit:$('photoUnit').value,
+
+    bg:$('photoBg').value,
+
+    zoom:$('photoZoom').value,
+    x:$('photoX').value,
+    y:$('photoY').value,
+
+    brightness:$('photoBrightness').value,
+    contrast:$('photoContrast').value,
+    saturation:$('photoSaturation').value,
+    blur:$('photoBlur').value,
+
+    rotation:photoRotation,
+    flipX:photoFlipX,
+    flipY:photoFlipY
+
+  };
+
+}
+
+
+function restorePhotoState(s){
+
+  $('photoWidth').value=s.width;
+  $('photoHeight').value=s.height;
+  $('photoUnit').value=s.unit;
+
+  $('photoBg').value=s.bg;
+
+  $('photoZoom').value=s.zoom;
+  $('photoX').value=s.x;
+  $('photoY').value=s.y;
+
+  $('photoBrightness').value=s.brightness;
+  $('photoContrast').value=s.contrast;
+  $('photoSaturation').value=s.saturation;
+  $('photoBlur').value=s.blur;
+
+  photoRotation=s.rotation;
+  photoFlipX=s.flipX;
+  photoFlipY=s.flipY;
+
+  updatePhotoEditor();
+
+}
+
+
+function savePhotoHistory(){
+
+  const state =
+    getPhotoState();
+
+  photoHistory =
+    photoHistory.slice(
+      0,
+      photoHistoryIndex+1
+    );
+
+  photoHistory.push(state);
+
+  if(photoHistory.length>30)
+    photoHistory.shift();
+
+  photoHistoryIndex =
+    photoHistory.length-1;
+
+}
+
+
+function photoUndo(){
+
+  if(
+    photoHistoryIndex <= 0
+  ){
+
+    return toast(
+      'Nothing to undo'
+    );
+
+  }
+
+  photoHistoryIndex--;
+
+  restorePhotoState(
+    photoHistory[
+      photoHistoryIndex
+    ]
+  );
+
+}
+
+
+function photoRedo(){
+
+  if(
+    photoHistoryIndex >=
+    photoHistory.length-1
+  ){
+
+    return toast(
+      'Nothing to redo'
+    );
+
+  }
+
+  photoHistoryIndex++;
+
+  restorePhotoState(
+    photoHistory[
+      photoHistoryIndex
+    ]
+  );
+
+}
+
+
+/* =========================
+   BACKGROUND COLOR LIVE
+========================= */
+
+if($('photoBg')){
+
+  $('photoBg')
+    .addEventListener(
+      'input',
+      drawPhoto
+    );
+
+}
+
+
+/* =========================
+   INITIALIZE
+========================= */
+
+document.addEventListener(
+  'DOMContentLoaded',
+  () => {
+
+    if($('photoWidth')){
+
+      updatePhotoEditor();
+
+      photoLoad();
+
+      savePhotoHistory();
+
+    }
+
+  }
+);
+
+
+/* ================= UTILITIES ================= */
+
+function ageCalc(){
+
+  const value=
+    $('dob').value;
+
+  if(!value)
+    return toast(
+      'Select date of birth'
+    );
+
+  const dob=
+    new Date(value);
+
+  const now=
+    new Date();
+
+  let years=
+    now.getFullYear()-
+    dob.getFullYear();
+
+  let months=
+    now.getMonth()-
+    dob.getMonth();
+
+  let days=
+    now.getDate()-
+    dob.getDate();
+
+  if(days<0){
+
+    months--;
+
+    days+=
+      new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        0
+      ).getDate();
+
+  }
+
+  if(months<0){
+
+    years--;
+
+    months+=12;
+
+  }
+
+  $('ageResult').innerHTML=
+    `<b>
+    ${years} years,
+    ${months} months,
+    ${days} days
+    </b>`;
+
+}
+
+
+function gstCalc(){
+
+  const amount=
+    +$('gstAmount').value;
+
+  const rate=
+    +$('gstRate').value;
+
+  if(!(amount>=0))
+    return toast(
+      'Enter amount'
+    );
+
+  const gst=
+    amount*rate/100;
+
+  $('gstResult').innerHTML=`
+
+  GST:
+  ₹${gst.toFixed(2)}
+
+  <br>
+
+  Total:
+  <b>
+  ₹${(amount+gst).toFixed(2)}
+  </b>
+
+  `;
+
+}
+
+
+function unitConvert(){
+
+  const v=
+    +$('unitValue').value;
+
+  const type=
+    $('unitType').value;
+
+  if(!Number.isFinite(v))
+    return toast(
+      'Enter value'
+    );
+
+  const map={
+
+    'km-mi':v*0.621371,
+    'mi-km':v*1.609344,
+    'kg-lb':v*2.2046226218,
+    'lb-kg':v*0.45359237,
+    'm-ft':v*3.280839895,
+    'ft-m':v*0.3048,
+    'c-f':(v*9/5)+32,
+    'f-c':(v-32)*5/9,
+    'l-gal':v*0.2641720524,
+    'gal-l':v*3.785411784
+
+  };
+
+  $('unitResult').textContent=
+    map[type].toFixed(4);
+
+}
+
+
+function caseConvert(mode){
+
+  let x=
+    $('caseInput').value;
+
+  if(mode==='upper')
+    x=x.toUpperCase();
+
+  if(mode==='lower')
+    x=x.toLowerCase();
+
+  if(mode==='title'){
+
+    x=x
+    .toLowerCase()
+    .replace(
+      /\b\w/g,
+      c=>c.toUpperCase()
+    );
+
+  }
+
+  $('caseInput').value=x;
+
+}
+
+
+/* ================= QR ================= */
+
+function generateQR(){
+
+  const text=
+    $('qrText').value.trim();
+
+  if(!text)
+    return toast(
+      'Enter text or URL'
+    );
+
+  const encoded=
+    encodeURIComponent(text);
+
+  $('qrResult').innerHTML=`
+
+  <img
+    alt="QR Code"
+    style="
+      width:220px;
+      height:220px;
+      border-radius:10px;
+      background:#fff;
+    "
+    src="
+    https://api.qrserver.com/v1/create-qr-code/
+    ?size=220x220
+    &data=${encoded}
+    "
+  >
+
+  `;
+
+}
+
+
+/* ================= NUMBER WORDS ================= */
+
+function numberToWords(num){
+
+  num=Math.floor(num);
+
+  if(num===0)
+    return 'Zero';
+
+  const ones=[
+
+    '',
+    'One',
+    'Two',
+    'Three',
+    'Four',
+    'Five',
+    'Six',
+    'Seven',
+    'Eight',
+    'Nine',
+    'Ten',
+    'Eleven',
+    'Twelve',
+    'Thirteen',
+    'Fourteen',
+    'Fifteen',
+    'Sixteen',
+    'Seventeen',
+    'Eighteen',
+    'Nineteen'
+
+  ];
+
+  const tens=[
+
+    '',
+    '',
+    'Twenty',
+    'Thirty',
+    'Forty',
+    'Fifty',
+    'Sixty',
+    'Seventy',
+    'Eighty',
+    'Ninety'
+
+  ];
+
+  function under100(n){
+
+    if(n<20)
+      return ones[n];
+
+    return tens[
+      Math.floor(n/10)
+    ]+
+    (
+      n%10
+      ?' '+ones[n%10]
+      :''
+    );
+
+  }
+
+  function under1000(n){
+
+    if(n<100)
+      return under100(n);
+
+    return ones[
+      Math.floor(n/100)
+    ]+
+    ' Hundred'+
+    (
+      n%100
+      ?' '+under100(n%100)
+      :''
+    );
+
+  }
+
+  if(num<1000)
+    return under1000(num);
+
+  if(num<1000000){
+
+    return under1000(
+      Math.floor(num/1000)
+    )+
+    ' Thousand'+
+    (
+      num%1000
+      ?' '+under1000(num%1000)
+      :''
+    );
+
+  }
+
+  if(num<1000000000){
+
+    return under1000(
+      Math.floor(num/1000000)
+    )+
+    ' Million'+
+    (
+      num%1000000
+      ?' '+numberToWords(num%1000000)
+      :''
+    );
+
+  }
+
+  return 'Number too large';
+
+}
+
+
+function numberToWordsUI(){
+
+  const n=
+    +$('numberWords').value;
+
+  if(!Number.isFinite(n))
+    return toast(
+      'Enter number'
+    );
+
+  $('numberWordsResult').textContent=
+    numberToWords(n);
+
+}
+
+
+/* ================= STOPWATCH ================= */
+
+let swSeconds=0;
+let swInt=null;
+
+
+function renderStopwatch(){
+
+  const h=
+    Math.floor(
+      swSeconds/3600
+    );
+
+  const m=
+    Math.floor(
+      (swSeconds%3600)/60
+    );
+
+  const s=
+    swSeconds%60;
+
+  $('stopwatch').textContent=
+    `${String(h).padStart(2,'0')}:`+
+    `${String(m).padStart(2,'0')}:`+
+    `${String(s).padStart(2,'0')}`;
+
+}
+
+
+function stopwatchStart(){
+
+  if(swInt)return;
+
+  swInt=
+    setInterval(()=>{
+
+      swSeconds++;
+
+      renderStopwatch();
+
+    },1000);
+
+}
+
+
+function stopwatchPause(){
+
+  clearInterval(swInt);
+
+  swInt=null;
+
+}
+
+
+function stopwatchReset(){
+
+  stopwatchPause();
+
+  swSeconds=0;
+
+  renderStopwatch();
+
+}
+
+
+/* ================= TASKS ================= */
+
+function addTask(){
+
+  let x=
+    $('taskInput')
+    .value
+    .trim();
+
+  if(!x)return;
+
+  let a=
+    get('tasks',[]);
+
+  a.push({
+    text:x,
+    done:false
+  });
+
+  set('tasks',a);
+
+  $('taskInput').value='';
+
+  renderTasks();
+
+  updateStats();
+
+}
+
+
+function renderTasks(){
+
+  let a=
+    get('tasks',[]);
+
+  $('taskList').innerHTML=
+    a.length
+
+    ?a.map((x,i)=>`
+
+    <div class="check ${x.done?'done':''}">
+
+    <input
+      type="checkbox"
+      ${x.done?'checked':''}
+      onchange="toggleTask(${i})">
+
+    <span style="flex:1">
+      ${esc(x.text)}
+    </span>
+
+    <button
+      class="btn danger"
+      onclick="deleteTask(${i})">
+      Delete
+    </button>
+
+    </div>
+
+    `).join('')
+
+    :'<p class="muted">No tasks yet.</p>';
+
+}
+
+
+function toggleTask(i){
+
+  let a=
+    get('tasks',[]);
+
+  a[i].done=
+    !a[i].done;
+
+  set('tasks',a);
+
+  renderTasks();
+
+  updateStats();
+
+}
+
+
+function deleteTask(i){
+
+  let a=
+    get('tasks',[]);
+
+  a.splice(i,1);
+
+  set('tasks',a);
+
+  renderTasks();
+
+  updateStats();
+
+}
+
+
+/* ================= NOTES ================= */
+
+function saveNote(){
+
+  let t=
+    $('noteTitle')
+    .value
+    .trim();
+
+  let x=
+    $('noteText')
+    .value
+    .trim();
+
+  if(!t||!x)
+    return toast(
+      'Enter title and note'
+    );
+
+  let a=
+    get('notes',[]);
+
+  a.unshift({
+    t,
+    x,
+    date:new Date()
+      .toLocaleString()
+  });
+
+  set('notes',a);
+
+  $('noteTitle').value='';
+  $('noteText').value='';
+
+  renderNotes();
+
+  updateStats();
+
+}
+
+
+function renderNotes(){
+
+  let a=
+    get('notes',[]);
+
+  $('noteList').innerHTML=
+
+    a.map((n,i)=>`
+
+    <div class="card">
+
+    <h3>
+    ${esc(n.t)}
+    </h3>
+
+    <p class="muted">
+    ${esc(n.date)}
+    </p>
+
+    <p style="
+      margin-top:10px;
+      white-space:pre-wrap">
+      ${esc(n.x)}
+    </p>
+
+    <button
+      class="btn danger"
+      style="margin-top:12px"
+      onclick="deleteNote(${i})">
+      Delete
+    </button>
+
+    </div>
+
+    `).join('')
+
+    ||
+    '<p class="muted">No notes yet.</p>';
+
+}
+
+
+function deleteNote(i){
+
+  let a=
+    get('notes',[]);
+
+  a.splice(i,1);
+
+  set('notes',a);
+
+  renderNotes();
+
+  updateStats();
+
+}
+
+
+/* ================= DESIGNER ================= */
+
+function designerHTML(){
+
+  const title=
+    $('designTitle').value;
+
+  const heading=
+    $('designHeading').value;
+
+  const text=
+    $('designText').value;
+
+  const button=
+    $('designButton').value;
+
+  const bg=
+    $('designBg').value;
+
+  const primary=
+    $('designPrimary').value;
+
+  const textColor=
+    $('designTextColor').value;
+
+  const radius=
+    $('designRadius').value;
+
+  return `
+
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+content="width=device-width,initial-scale=1">
+
+<title>${esc(title)}</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:${bg};
+color:${textColor};
+}
+
+.hero{
+min-height:100vh;
+display:grid;
+place-items:center;
+text-align:center;
+padding:30px;
+}
+
+.box{
+max-width:750px;
+}
+
+button{
+background:${primary};
+color:#fff;
+border:0;
+padding:14px 22px;
+border-radius:${radius}px;
+font-weight:bold;
+cursor:pointer;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<section class="hero">
+
+<div class="box">
+
+<h1>${esc(heading)}</h1>
+
+<p>${esc(text)}</p>
+
+<button>${esc(button)}</button>
+
+</div>
+
+</section>
+
+</body>
+
+</html>
+
+`;
+
+}
+
+
+function updateDesigner(){
+
+  const title=
+    esc($('designTitle').value);
+
+  const heading=
+    esc($('designHeading').value);
+
+  const text=
+    esc($('designText').value);
+
+  const button=
+    esc($('designButton').value);
+
+  const bg=
+    $('designBg').value;
+
+  const primary=
+    $('designPrimary').value;
+
+  const color=
+    $('designTextColor').value;
+
+  const radius=
+    $('designRadius').value;
+
+  $('designPreview').style.background=
+    bg;
+
+  $('designPreview').style.color=
+    color;
+
+  $('designPreview').innerHTML=`
+
+  <div class="designBlock">
+
+  <small style="opacity:.6">
+  ${title}
+  </small>
+
+  </div>
+
+  <div style="
+    max-width:650px;
+    margin:80px auto;
+    text-align:center;
+  ">
+
+  <h1>${heading}</h1>
+
+  <p>${text}</p>
+
+  <button
+    class="designButton"
+    style="
+      background:${primary};
+      border-radius:${radius}px;
+    "
+  >
+    ${button}
+  </button>
+
+  </div>
+
+  `;
+
+  $('generatedHTML').textContent=
+    designerHTML();
+
+}
+
+
+function copyDesignerHTML(){
+
+  navigator.clipboard
+    .writeText(
+      designerHTML()
+    );
+
+  toast('HTML copied');
+
+}
+
+
+function downloadDesignerHTML(){
+
+  downloadFile(
+    designerHTML(),
+    'nexora-page.html',
+    'text/html'
+  );
+
+}
+
+
+/* ================= MODAL ================= */
+
+function closeModal(){
+
+  $('modal')
+  .classList
+  .remove('open');
+
+}
+
+
+$('modal')
+.addEventListener(
+  'click',
+  e=>{
+
+    if(
+      e.target===
+      $('modal')
+    ){
+      closeModal();
+    }
+
+  }
+);
+
+
+document.addEventListener(
+  'keydown',
+  e=>{
+
+    if(e.key==='Escape')
+      closeModal();
+
+  }
+);
+
+
+/* ================= STATS ================= */
+
+function updateStats(){
+
+  $('taskStat').textContent=
+    get('tasks',[])
+    .filter(x=>!x.done)
+    .length;
+
+  $('noteStat').textContent=
+    get('notes',[])
+    .length;
+
+  $('jobStat').textContent=
+    get('jobs',[])
+    .length;
+
+  $('jobTotal').textContent=
+    get('jobs',[])
+    .length;
+
+  $('jobInterview').textContent=
+    get('jobs',[])
+    .filter(j=>
+      ['Interview','HR Round']
+      .includes(j.s)
+    ).length;
+
+  $('jobOffer').textContent=
+    get('jobs',[])
+    .filter(j=>
+      ['Offer','Joined']
+      .includes(j.s)
+    ).length;
+
+}
+
+
+/* ================= SETTINGS ================= */
+
+function loadSettings(){
+
+  const compact=
+    localStorage.compact==='1';
+
+  $('compact').checked=
+    compact;
+
+  document.body
+    .classList
+    .toggle(
+      'compact',
+      compact
+    );
+
+  $('notifications').checked=
+    localStorage.notifications!=='0';
+
+}
+
+
+$('compact')
+.addEventListener(
+  'change',
+  e=>{
+
+    localStorage.compact=
+      e.target.checked
+      ?'1'
+      :'0';
+
+    document.body
+      .classList
+      .toggle(
+        'compact',
+        e.target.checked
+      );
+
+  }
+);
+
+
+$('notifications')
+.addEventListener(
+  'change',
+  e=>{
+
+    localStorage.notifications=
+      e.target.checked
+      ?'1'
+      :'0';
+
+  }
+);
+
+
+function clearData(){
+
+  if(
+    !confirm(
+      'Clear all Nexora local data?'
+    )
+  )return;
+
+  [
+    'tasks',
+    'notes',
+    'jobs',
+    'resumeData',
+    'idCardDesign'
+  ]
+  .forEach(
+    x=>localStorage.removeItem(x)
+  );
+
+  renderTasks();
+  renderNotes();
+  renderJobs();
+  updateStats();
+
+  toast(
+    'Local data cleared'
+  );
+
+}
+
+
+/* ================= INIT ================= */
+
+renderTasks();
+
+renderNotes();
+
+renderJobs();
+
+updateStats();
+
+renderTimer();
+
+renderStopwatch();
+
+loadSettings();
+
+loadResumeData();
+
+loadIDCard();
+
+updateIDCard();
+
+updateDesigner();
+
+updateEditorStats();
+
+</script>
+
+</body>
+</html>
