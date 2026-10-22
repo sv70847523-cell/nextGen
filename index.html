@@ -10753,38 +10753,34 @@ function caseConvert(mode){
 
 /* ================= QR ================= */
 
-function generateQR(){
+function generateQR() {
+  const qrTextInput = document.getElementById('qrText');
+  const qrResultElement = document.getElementById('qrResult');
 
-  const text=
-    $('qrText').value.trim();
+  if (!qrTextInput.value.trim()) {
+    // Display an error message
+    alert('Please enter text or URL');
+    return;
+  }
 
-  if(!text)
-    return toast(
-      'Enter text or URL'
-    );
+  const encodedText = encodeURIComponent(qrTextInput.value.trim());
+  const qrCodeSrc = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodedText}`;
 
-  const encoded=
-    encodeURIComponent(text);
+  try {
+    const imgElement = document.createElement('img');
+    imgElement.src = qrCodeSrc;
+    imgElement.alt = 'QR Code';
+    imgElement.style.width = '220px';
+    imgElement.style.height = '220px';
+    imgElement.style.borderRadius = '10px';
+    imgElement.style.background = '#fff';
 
-  $('qrResult').innerHTML=`
-
-  <img
-    alt="QR Code"
-    style="
-      width:220px;
-      height:220px;
-      border-radius:10px;
-      background:#fff;
-    "
-    src="
-    https://api.qrserver.com/v1/create-qr-code/
-    ?size=220x220
-    &data=${encoded}
-    "
-  >
-
-  `;
-
+    qrResultElement.innerHTML = '';
+    qrResultElement.appendChild(imgElement);
+  } catch (error) {
+    // Display an error message if the image fails to load
+    alert('Failed to load QR code');
+  }
 }
 
 

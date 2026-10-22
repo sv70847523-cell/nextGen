@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>JARVIS - Personal AI Assistant</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+:root{
+    --cyan:#35ddff;
+    --blue:#079ed4;
+    --green:#5effa5;
+    --bg:#02060b;
+    --panel:rgba(5,16,27,.88);
+    --border:rgba(53,221,255,.22);
+    --muted:#7895a7;
+}
+
+body{
+    min-height:100vh;
+    font-family:Arial,Helvetica,sans-serif;
+    color:white;
+    background:
+        radial-gradient(circle at 50% 20%,#123c59 0%,#071725 28%,#02060b 68%,#010204 100%);
+    overflow-x:hidden;
+}
+
+/* BACKGROUND */
+
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    background-image:
+        linear-gradient(rgba(53,221,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(53,221,255,.035) 1px,transparent 1px);
+    background-size:40px 40px;
+}
+
+/* MAIN */
+
+.container{
+    width:min(1000px,94%);
+    margin:auto;
+    padding:25px 0 35px;
+}
+
+/* HEADER */
+
+header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding-bottom:18px;
+    border-bottom:1px solid var(--border);
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:12px;
+}
+
+.logo-circle{
+    width:48px;
+    height:48px;
+    border:2px solid var(--cyan);
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--cyan);
+    font-size:23px;
+    font-weight:bold;
+    box-shadow:0 0 25px rgba(53,221,255,.55);
+    animation:logoPulse 2s infinite;
+}
+
+.logo h1{
+    letter-spacing:6px;
+    font-size:22px;
+}
+
+.logo p{
+    color:var(--muted);
+    font-size:9px;
+    letter-spacing:2px;
+    margin-top:3px;
+}
+
+.online{
+    color:var(--green);
+    font-size:11px;
+    letter-spacing:1px;
+}
+
+.online span{
+    display:inline-block;
+    width:8px;
+    height:8px;
+    background:var(--green);
+    border-radius:50%;
+    margin-right:5px;
+    box-shadow:0 0 12px var(--green);
+}
+
+/* HERO */
+
+.hero{
+    text-align:center;
+    padding:55px 0 30px;
+}
+
+/* CORE */
+
+.core-area{
+    width:320px;
+    height:320px;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+}
+
+.core{
+    width:200px;
+    height:200px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+
+    background:
+        radial-gradient(
+            circle,
+            #f2fdff 0%,
+            #63eaff 8%,
+            #13c8f2 18%,
+            #0879aa 35%,
+            #07334c 57%,
+            transparent 73%
+        );
+
+    box-shadow:
+        0 0 25px #0bc8ff,
+        0 0 70px rgba(0,190,255,.45),
+        0 0 140px rgba(0,150,255,.18);
+
+    animation:corePulse 2s infinite;
+}
+
+.core::before{
+    content:"";
+    position:absolute;
+    width:145px;
+    height:145px;
+    border-radius:50%;
+    border:1px solid rgba(255,255,255,.55);
+    animation:rotate 7s linear infinite;
+}
+
+.core::after{
+    content:"";
+    position:absolute;
+    width:250px;
+    height:250px;
+    border-radius:50%;
+    border:1px dashed rgba(53,221,255,.8);
+    animation:rotateReverse 10s linear infinite;
+}
+
+.core-area::before{
+    content:"";
+    position:absolute;
+    width:290px;
+    height:290px;
+    border-radius:50%;
+    border:1px solid rgba(53,221,255,.28);
+    animation:rotate 15s linear infinite;
+}
+
+.core-area::after{
+    content:"";
+    position:absolute;
+    width:315px;
+    height:315px;
+    border-radius:50%;
+    border:1px solid rgba(53,221,255,.12);
+}
+
+.j{
+    z-index:2;
+    font-size:60px;
+    font-weight:bold;
+    text-shadow:
+        0 0 10px white,
+        0 0 30px var(--cyan);
+}
+
+/* STATUS */
+
+h2{
+    margin-top:35px;
+    font-size:27px;
+}
+
+.status{
+    color:var(--muted);
+    font-size:13px;
+    margin-top:8px;
+}
+
+/* MICROPHONE */
+
+.mic{
+    width:78px;
+    height:78px;
+    margin-top:24px;
+    border-radius:50%;
+    border:2px solid var(--cyan);
+    background:#06151f;
+    color:white;
+    font-size:30px;
+    cursor:pointer;
+    box-shadow:0 0 25px rgba(53,221,255,.3);
+    transition:.2s;
+}
+
+.mic:hover{
+    transform:scale(1.08);
+    box-shadow:0 0 45px rgba(53,221,255,.65);
+}
+
+.mic.listening{
+    animation:listening .8s infinite;
+}
+
+/* INPUT */
+
+.input-area{
+    max-width:720px;
+    margin:27px auto 0;
+    display:flex;
+    gap:10px;
+}
+
+input{
+    flex:1;
+    padding:15px;
+    border-radius:11px;
+    border:1px solid var(--border);
+    background:#06121d;
+    color:white;
+    outline:none;
+    font-size:14px;
+}
+
+input:focus{
+    border-color:var(--cyan);
+    box-shadow:0 0 15px rgba(53,221,255,.12);
+}
+
+.send{
+    padding:0 25px;
+    border:0;
+    border-radius:11px;
+    background:linear-gradient(135deg,#08afe8,#087baa);
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* CONTROL PANEL */
+
+.control-panel{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-top:25px;
+}
+
+.control{
+    padding:15px;
+    border:1px solid var(--border);
+    border-radius:12px;
+    background:var(--panel);
+    color:#9db7c6;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.control:hover{
+    color:var(--cyan);
+    border-color:var(--cyan);
+    transform:translateY(-2px);
+}
+
+.control .icon{
+    display:block;
+    font-size:22px;
+    margin-bottom:7px;
+}
+
+.control small{
+    font-size:10px;
+}
+
+/* CHAT */
+
+.chat{
+    margin-top:25px;
+    border:1px solid var(--border);
+    border-radius:16px;
+    background:var(--panel);
+    overflow:hidden;
+    backdrop-filter:blur(15px);
+}
+
+.chat-header{
+    display:flex;
+    justify-content:space-between;
+    padding:14px 17px;
+    border-bottom:1px solid var(--border);
+    color:#7899aa;
+    font-size:10px;
+    letter-spacing:2px;
+}
+
+.clear{
+    border:0;
+    background:transparent;
+    color:#648292;
+    cursor:pointer;
+}
+
+.clear:hover{
+    color:var(--cyan);
+}
+
+.messages{
+    height:270px;
+    overflow-y:auto;
+    padding:18px;
+}
+
+.message{
+    display:flex;
+    gap:10px;
+    margin-bottom:15px;
+    animation:messageIn .25s ease;
+}
+
+.message.user{
+    justify-content:flex-end;
+}
+
+.avatar{
+    width:31px;
+    height:31px;
+    flex-shrink:0;
+    border-radius:8px;
+    background:#0b2d40;
+    color:var(--cyan);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-weight:bold;
+}
+
+.user .avatar{
+    order:2;
+    color:white;
+    background:#15516c;
+}
+
+.bubble{
+    max-width:75%;
+    padding:11px 14px;
+    border-radius:11px;
+    background:#091c2a;
+    color:#d9e8ee;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.user .bubble{
+    background:#10445d;
+    color:white;
+}
+
+/* QUICK */
+
+.quick-title{
+    text-align:center;
+    color:#527081;
+    font-size:9px;
+    letter-spacing:2px;
+    margin-top:25px;
+}
+
+.quick{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:12px;
+}
+
+.quick button{
+    padding:9px 14px;
+    border-radius:20px;
+    border:1px solid var(--border);
+    background:#06131d;
+    color:#91afbc;
+    cursor:pointer;
+}
+
+.quick button:hover{
+    color:var(--cyan);
+    border-color:var(--cyan);
+}
+
+footer{
+    text-align:center;
+    margin-top:25px;
+    color:#3e5967;
+    font-size:9px;
+    letter-spacing:1px;
+}
+
+/* ANIMATIONS */
+
+@keyframes corePulse{
+    50%{transform:scale(1.05)}
+}
+
+@keyframes rotate{
+    from{transform:rotate(0)}
+    to{transform:rotate(360deg)}
+}
+
+@keyframes rotateReverse{
+    from{transform:rotate(360deg)}
+    to{transform:rotate(0)}
+}
+
+@keyframes listening{
+    50%{
+        transform:scale(1.12);
+        box-shadow:
+            0 0 35px var(--cyan),
+            0 0 70px rgba(53,221,255,.5);
+    }
+}
+
+@keyframes logoPulse{
+    50%{
+        box-shadow:0 0 35px rgba(53,221,255,.8);
+    }
+}
+
+@keyframes messageIn{
+    from{
+        opacity:0;
+        transform:translateY(7px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* MOBILE */
+
+@media(max-width:650px){
+
+    .control-panel{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .input-area{
+        flex-direction:column;
+    }
+
+    .send{
+        padding:13px;
+    }
+
+    .core-area{
+        transform:scale(.85);
+        margin-top:-20px;
+        margin-bottom:-20px;
+    }
+
+    h2{
+        font-size:22px;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+<header>
+
+    <div class="logo">
+
+        <div class="logo-circle">
+            J
+        </div>
+
+        <div>
+            <h1>JARVIS</h1>
+            <p>PERSONAL DESKTOP ASSISTANT</p>
+        </div>
+
+    </div>
+
+    <div class="online">
+        <span></span> ONLINE
+    </div>
+
+</header>
+
+
+<section class="hero">
+
+    <div class="core-area">
+
+        <div class="core">
+            <div class="j">J</div>
+        </div>
+
+    </div>
+
+
+    <h2 id="status">
+        Ready for your command
+    </h2>
+
+    <p class="status">
+        Speak or type a command
+    </p>
+
+
+    <button
+        class="mic"
+        id="mic"
+        title="Voice command">
+        🎙️
+    </button>
+
+
+    <div class="input-area">
+
+        <input
+            id="input"
+            type="text"
+            placeholder="Type: open Google, what is the time..."
+            autocomplete="off"
+        >
+
+        <button
+            class="send"
+            id="send">
+            SEND
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- CONTROL PANEL -->
+
+<div class="control-panel">
+
+    <button class="control"
+            onclick="command('show my drives')">
+        <span class="icon">💾</span>
+        <small>SHOW DRIVES</small>
+    </button>
+
+    <button class="control"
+            onclick="selectFolder()">
+        <span class="icon">📁</span>
+        <small>SELECT FOLDER</small>
+    </button>
+
+    <button class="control"
+            onclick="command('open file explorer')">
+        <span class="icon">🗂️</span>
+        <small>FILE EXPLORER</small>
+    </button>
+
+    <button class="control"
+            onclick="command('open google')">
+        <span class="icon">🌐</span>
+        <small>GOOGLE</small>
+    </button>
+
+    <button class="control"
+            onclick="command('open youtube')">
+        <span class="icon">▶️</span>
+        <small>YOUTUBE</small>
+    </button>
+
+    <button class="control"
+            onclick="command('open github')">
+        <span class="icon">💻</span>
+        <small>GITHUB</small>
+    </button>
+
+</div>
+
+
+<!-- CHAT -->
+
+<section class="chat">
+
+    <div class="chat-header">
+
+        <span>JARVIS CONVERSATION</span>
+
+        <button
+            class="clear"
+            onclick="clearChat()">
+            CLEAR
+        </button>
+
+    </div>
+
+
+    <div
+        id="messages"
+        class="messages">
+
+        <div class="message">
+
+            <div class="avatar">J</div>
+
+            <div class="bubble">
+                Hello! I am Jarvis. Your browser-based personal assistant is ready.
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- QUICK COMMANDS -->
+
+<div class="quick-title">
+    QUICK COMMANDS
+</div>
+
+<div class="quick">
+
+    <button onclick="command('what is the time')">
+        🕒 Time
+    </button>
+
+    <button onclick="command('what is the date')">
+        📅 Date
+    </button>
+
+    <button onclick="command('open google')">
+        🌐 Google
+    </button>
+
+    <button onclick="command('open youtube')">
+        ▶ YouTube
+    </button>
+
+    <button onclick="command('open github')">
+        💻 GitHub
+    </button>
+
+    <button onclick="command('help')">
+        ❓ Help
+    </button>
+
+</div>
+
+
+<footer>
+    JARVIS • HTML + CSS + JAVASCRIPT
+</footer>
+
+</div>
+
+
+<script>
+
+/* ===============================
+   ELEMENTS
+================================ */
+
+const input =
+    document.getElementById("input");
+
+const messages =
+    document.getElementById("messages");
+
+const statusText =
+    document.getElementById("status");
+
+const mic =
+    document.getElementById("mic");
+
+const send =
+    document.getElementById("send");
+
+
+/* ===============================
+   ADD MESSAGE
+================================ */
+
+function addMessage(text,type){
+
+    const message =
+        document.createElement("div");
+
+    message.className =
+        "message " +
+        (type === "user" ? "user" : "");
+
+
+    const avatar =
+        document.createElement("div");
+
+    avatar.className = "avatar";
+
+    avatar.textContent =
+        type === "user" ? "U" : "J";
+
+
+    const bubble =
+        document.createElement("div");
+
+    bubble.className = "bubble";
+
+    bubble.textContent = text;
+
+
+    message.appendChild(avatar);
+
+    message.appendChild(bubble);
+
+    messages.appendChild(message);
+
+    messages.scrollTop =
+        messages.scrollHeight;
+}
+
+
+/* ===============================
+   TEXT TO SPEECH
+================================ */
+
+function speak(text){
+
+    if(!("speechSynthesis" in window)){
+        return;
+    }
+
+    speechSynthesis.cancel();
+
+    const voice =
+        new SpeechSynthesisUtterance(text);
+
+    voice.rate = 1;
+    voice.pitch = 1;
+    voice.volume = 1;
+
+    speechSynthesis.speak(voice);
+}
+
+
+/* ===============================
+   OPEN WEBSITE
+================================ */
+
+function openSite(url){
+
+    window.open(
+        url,
+        "_blank",
+        "noopener,noreferrer"
+    );
+}
+
+
+/* ===============================
+   COMMAND ENGINE
+================================ */
+
+function command(text){
+
+    text = text.trim();
+
+    if(!text){
+        return;
+    }
+
+
+    const cmd =
+        text.toLowerCase();
+
+
+    addMessage(text,"user");
+
+    input.value = "";
+
+    statusText.textContent =
+        "Processing...";
+
+
+    let reply = "";
+
+
+    /* GREETING */
+
+    if(
+        cmd.includes("hello") ||
+        cmd.includes("hi") ||
+        cmd.includes("hey")
+    ){
+
+        reply =
+            "Hello! I am Jarvis. How can I help you?";
+
+    }
+
+
+    /* TIME */
+
+    else if(cmd.includes("time")){
+
+        reply =
+            "The current time is " +
+            new Date().toLocaleTimeString(
+                "en-IN"
+            );
+
+    }
+
+
+    /* DATE */
+
+    else if(
+        cmd.includes("date") ||
+        cmd.includes("today")
+    ){
+
+        reply =
+            "Today's date is " +
+            new Date().toLocaleDateString(
+                "en-IN",
+                {
+                    weekday:"long",
+                    day:"numeric",
+                    month:"long",
+                    year:"numeric"
+                }
+            );
+
+    }
+
+
+    /* GOOGLE */
+
+    else if(
+        cmd.includes("open google")
+    ){
+
+        reply =
+            "Opening Google.";
+
+        setTimeout(()=>{
+            openSite(
+                "https://www.google.com"
+            );
+        },500);
+
+    }
+
+
+    /* YOUTUBE */
+
+    else if(
+        cmd.includes("open youtube")
+    ){
+
+        reply =
+            "Opening YouTube.";
+
+        setTimeout(()=>{
+            openSite(
+                "https://www.youtube.com"
+            );
+        },500);
+
+    }
+
+
+    /* GITHUB */
+
+    else if(
+        cmd.includes("open github")
+    ){
+
+        reply =
+            "Opening GitHub.";
+
+        setTimeout(()=>{
+            openSite(
+                "https://github.com"
+            );
+        },500);
+
+    }
+
+
+    /* FILE EXPLORER */
+
+    else if(
+        cmd.includes("file explorer")
+    ){
+
+        reply =
+            "A browser cannot directly launch Windows File Explorer. Use the Select Folder button to choose a folder.";
+
+    }
+
+
+    /* SHOW DRIVES */
+
+    else if(
+        cmd.includes("show my drives") ||
+        cmd.includes("show drives")
+    ){
+
+        reply =
+            "A normal web page cannot automatically read all Windows drives. You can select a folder using the Select Folder button.";
+
+    }
+
+
+    /* SEARCH */
+
+    else if(
+        cmd.startsWith("search ")
+    ){
+
+        const query =
+            text.substring(7).trim();
+
+
+        reply =
+            "Searching Google for " +
+            query;
+
+
+        setTimeout(()=>{
+
+            openSite(
+                "https://www.google.com/search?q=" +
+                encodeURIComponent(query)
+            );
+
+        },500);
+
+    }
+
+
+    /* WHO */
+
+    else if(
+        cmd.includes("who are you")
+    ){
+
+        reply =
+            "I am Jarvis, your personal browser-based assistant.";
+
+    }
+
+
+    /* HELP */
+
+    else if(cmd.includes("help")){
+
+        reply =
+            "Try: open Google, open YouTube, open GitHub, search Python tutorial, what is the time, what is the date, or select a folder.";
+
+    }
+
+
+    /* UNKNOWN */
+
+    else{
+
+        reply =
+            "I heard: " +
+            text +
+            ". I don't have that command yet.";
+
+    }
+
+
+    setTimeout(()=>{
+
+        addMessage(reply,"jarvis");
+
+        speak(reply);
+
+        statusText.textContent =
+            "Ready for your command";
+
+    },400);
+
+}
+
+
+/* ===============================
+   SEND
+================================ */
+
+send.addEventListener(
+    "click",
+    ()=>{
+        command(input.value);
+    }
+);
+
+
+/* ===============================
+   ENTER
+================================ */
+
+input.addEventListener(
+    "keydown",
+    event => {
+
+        if(event.key === "Enter"){
+            event.preventDefault();
+            command(input.value);
+        }
+
+    }
+);
+
+
+/* ===============================
+   CLEAR CHAT
+================================ */
+
+function clearChat(){
+
+    messages.innerHTML = "";
+
+    addMessage(
+        "Chat cleared. Ready for your command.",
+        "jarvis"
+    );
+
+}
+
+
+/* ===============================
+   SELECT FOLDER
+================================ */
+
+async function selectFolder(){
+
+    if(!window.showDirectoryPicker){
+
+        const msg =
+            "Your browser does not support folder selection. Use the latest Chrome or Edge.";
+
+        addMessage(msg,"jarvis");
+
+        speak(msg);
+
+        return;
+    }
+
+
+    try{
+
+        const directory =
+            await window.showDirectoryPicker();
+
+
+        let count = 0;
+
+
+        for await(
+            const entry of directory.values()
+        ){
+
+            count++;
+        }
+
+
+        const reply =
+            "Folder selected: " +
+            directory.name +
+            ". I can see " +
+            count +
+            " item(s) inside it.";
+
+
+        addMessage(
+            reply,
+            "jarvis"
+        );
+
+        speak(reply);
+
+    }
+
+    catch(error){
+
+        addMessage(
+            "Folder selection was cancelled.",
+            "jarvis"
+        );
+
+    }
+
+}
+
+
+/* ===============================
+   SPEECH RECOGNITION
+================================ */
+
+const SpeechRecognition =
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+
+if(SpeechRecognition){
+
+    const recognition =
+        new SpeechRecognition();
+
+
+    recognition.lang =
+        "en-IN";
+
+
+    recognition.continuous =
+        false;
+
+
+    recognition.interimResults =
+        false;
+
+
+    recognition.onstart =
+        function(){
+
+            mic.classList.add(
+                "listening"
+            );
+
+            statusText.textContent =
+                "Listening...";
+
+        };
+
+
+    recognition.onresult =
+        function(event){
+
+            const text =
+                event.results[0][0]
+                .transcript;
+
+            command(text);
+
+        };
+
+
+    recognition.onend =
+        function(){
+
+            mic.classList.remove(
+                "listening"
+            );
+
+            if(
+                statusText.textContent ===
+                "Listening..."
+            ){
+
+                statusText.textContent =
+                    "Ready for your command";
+
+            }
+
+        };
+
+
+    recognition.onerror =
+        function(event){
+
+            mic.classList.remove(
+                "listening"
+            );
+
+            if(
+                event.error ===
+                "not-allowed"
+            ){
+
+                statusText.textContent =
+                    "Microphone permission denied.";
+
+            }
+
+            else{
+
+                statusText.textContent =
+                    "Could not understand. Try again.";
+
+            }
+
+        };
+
+
+    mic.onclick =
+        function(){
+
+            try{
+                recognition.start();
+            }
+            catch(error){
+                console.log(error);
+            }
+
+        };
+
+}
+
+else{
+
+    mic.disabled = true;
+
+    statusText.textContent =
+        "Voice recognition is not supported.";
+
+}
+
+
+/* ===============================
+   START
+================================ */
+
+window.addEventListener(
+    "load",
+    ()=>{
+        input.focus();
+    }
+);
+
+</script>
+
+</body>
+</html>
